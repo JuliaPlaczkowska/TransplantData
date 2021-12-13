@@ -20,7 +20,7 @@ public class Patient {
             double age,
             String bloodABO,
             String presenceOfCMV) {
-        this.number = number;
+        this.number = (number  == null)? 0 : number;
         this.age = age;
         this.bloodABO = bloodABO;
         this.presenceOfCMV = presenceOfCMV;

@@ -25,6 +25,7 @@ public class Transplant {
     private double CD34perKg;
     private double CD3perKg;
 
+    //TODO
     //private User user;
 
 
@@ -51,7 +52,6 @@ public class Transplant {
     }
 
     public Transplant() {
-
     }
 
     public void setId(Long id) {
@@ -62,21 +62,21 @@ public class Transplant {
         return id;
     }
 
-//    public Donor getDonor() {
-//        return donor;
-//    }
-//
-//    public void setDonor(Donor donor) {
-//        this.donor = donor;
-//    }
-//
-//    public Recipient getRecipient() {
-//        return recipient;
-//    }
-//
-//    public void setRecipient(Recipient recipient) {
-//        this.recipient = recipient;
-//    }
+    public Donor getDonor() {
+        return donor;
+    }
+
+    public void setDonor(Donor donor) {
+        this.donor = donor;
+    }
+
+    public Recipient getRecipient() {
+        return recipient;
+    }
+
+    public void setRecipient(Recipient recipient) {
+        this.recipient = recipient;
+    }
 
     public int getMatchHLA() {
         return matchHLA;
