@@ -1,4 +1,4 @@
-package com.edu.transplantdataapi.service;
+package com.edu.transplantdataapi.entity;
 
 
 import javax.persistence.*;
@@ -25,8 +25,8 @@ public class Transplant {
     private double CD34perKg;
     private double CD3perKg;
 
-    //TODO
-    //private User user;
+    @ManyToOne
+    private User user;
 
 
     public Transplant(Donor donor,
@@ -38,7 +38,8 @@ public class Transplant {
                       String group1HLA,
                       boolean postRelapse,
                       double CD34perKg,
-                      double CD3perKg) {
+                      double CD3perKg,
+                      User user) {
         this.donor = donor;
         this.recipient = recipient;
         this.matchHLA = matchHLA;
@@ -49,6 +50,7 @@ public class Transplant {
         this.postRelapse = postRelapse;
         this.CD34perKg = CD34perKg;
         this.CD3perKg = CD3perKg;
+        this.user = user;
     }
 
     public Transplant() {
@@ -86,7 +88,7 @@ public class Transplant {
         this.matchHLA = matchHLA;
     }
 
-    public boolean isMismatchHLA() {
+    public boolean getMismatchHLA() {
         return mismatchHLA;
     }
 
@@ -118,7 +120,7 @@ public class Transplant {
         this.group1HLA = group1HLA;
     }
 
-    public boolean isPostRelapse() {
+    public boolean getPostRelapse() {
         return postRelapse;
     }
 
@@ -141,4 +143,22 @@ public class Transplant {
     public void setCD3perKg(double CD3perKg) {
         this.CD3perKg = CD3perKg;
     }
+
+    public boolean isMismatchHLA() {
+        return mismatchHLA;
+    }
+
+    public boolean isPostRelapse() {
+        return postRelapse;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+
 }

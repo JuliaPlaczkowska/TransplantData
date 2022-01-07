@@ -1,26 +1,27 @@
-package com.edu.transplantdataapi.service;
+package com.edu.transplantdataapi.datatransferobject;
 
-import javax.persistence.*;
+import com.edu.transplantdataapi.entity.Donor;
+import com.edu.transplantdataapi.entity.Patient;
 
-@Entity
-public class Donor{
+public class DonorDto {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Basic(optional = false)
-    private Long id;
 
-    @OneToOne
     private Patient patient;
 
     private String stemCellSource;
 
-    public Donor(Patient patient, String stemCellSource) {
+    public DonorDto(Patient patient, String stemCellSource) {
         this.patient = patient;
         this.stemCellSource = stemCellSource;
     }
 
-    public Donor() {
+    public DonorDto(Donor donor) {
+        this.patient = donor.getPatient();
+        this.stemCellSource = stemCellSource;
+
+    }
+
+    public DonorDto() {
 
     }
 
@@ -40,13 +41,4 @@ public class Donor{
         this.stemCellSource = stemCellSource;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-
-    }
+}

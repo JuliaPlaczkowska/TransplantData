@@ -1,6 +1,6 @@
 package com.edu.transplantdataapi.controller;
 
-import com.edu.transplantdataapi.service.Patient;
+import com.edu.transplantdataapi.entity.Patient;
 import com.edu.transplantdataapi.service.PatientManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -9,6 +9,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping
+@CrossOrigin
 public class PatientApi {
 
     private PatientManager patients;

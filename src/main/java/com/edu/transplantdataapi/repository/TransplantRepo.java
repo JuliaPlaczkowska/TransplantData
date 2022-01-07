@@ -1,6 +1,6 @@
 package com.edu.transplantdataapi.repository;
 
-import com.edu.transplantdataapi.service.Transplant;
+import com.edu.transplantdataapi.entity.Transplant;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.stereotype.Repository;
 

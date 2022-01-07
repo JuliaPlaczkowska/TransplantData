@@ -1,4 +1,7 @@
-package com.edu.transplantdataapi.service;
+package com.edu.transplantdataapi.entity;
+
+import com.edu.transplantdataapi.entity.analysis.AnalysisResult;
+import com.edu.transplantdataapi.entity.prediction.Prediction;
 
 import javax.persistence.*;
 
@@ -12,8 +15,14 @@ public class SurvivalResult {
     @OneToOne
     private Transplant transplant;
 
-    private double ancRecovery;
-    private double pltRecovery;
+    @ManyToOne
+    private AnalysisResult analysisResult;
+
+    @ManyToOne
+    private Prediction prediction;
+
+    private int ancRecovery;
+    private int pltRecovery;
     private boolean acuteGvHD_II_III_IV;
     private boolean acuteGvHD_III_IV;
     private double time_to_acuteGvHD_III_IV;
@@ -23,8 +32,8 @@ public class SurvivalResult {
     private boolean survivalStatus;
 
     public SurvivalResult(Transplant transplant,
-                          double ancRecovery,
-                          double pltRecovery,
+                          int ancRecovery,
+                          int pltRecovery,
                           boolean acuteGvHD_II_III_IV,
                           boolean acuteGvHD_III_IV,
                           double time_to_acuteGvHD_III_IV,
@@ -64,19 +73,19 @@ public class SurvivalResult {
         this.transplant = transplant;
     }
 
-    public double getAncRecovery() {
+    public int getAncRecovery() {
         return ancRecovery;
     }
 
-    public void setAncRecovery(double ancRecovery) {
+    public void setAncRecovery(int ancRecovery) {
         this.ancRecovery = ancRecovery;
     }
 
-    public double getPltRecovery() {
+    public int getPltRecovery() {
         return pltRecovery;
     }
 
-    public void setPltRecovery(double pltRecovery) {
+    public void setPltRecovery(int pltRecovery) {
         this.pltRecovery = pltRecovery;
     }
 
@@ -136,6 +145,19 @@ public class SurvivalResult {
         this.survivalStatus = survivalStatus;
     }
 
+    public AnalysisResult getAnalysisResult() {
+        return analysisResult;
+    }
 
+    public void setAnalysisResult(AnalysisResult analysisResult) {
+        this.analysisResult = analysisResult;
+    }
 
+    public Prediction getPrediction() {
+        return prediction;
+    }
+
+    public void setPrediction(Prediction prediction) {
+        this.prediction = prediction;
+    }
 }

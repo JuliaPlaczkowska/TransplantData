@@ -4,9 +4,10 @@ plugins {
     id 'java'
 }
 
+targetCompatibility = JavaVersion.VERSION_14
 group = 'com.edu'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = '11'
+sourceCompatibility = "14"
 
 repositories {
     mavenCentral()
@@ -15,12 +16,39 @@ repositories {
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+
+
     implementation group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.4'
+    implementation group: 'org.modelmapper', name: 'modelmapper', version: '2.4.5'
+    implementation 'org.projectlombok:lombok:1.18.18'
 
     runtimeOnly 'com.h2database:h2'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
-}
 
+    compileOnly 'org.projectlombok:lombok:1.18.22'
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+    testCompileOnly 'org.projectlombok:lombok:1.18.22'
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
+
+    // https://mvnrepository.com/artifact/javax.validation/validation-api
+    implementation group: 'javax.validation', name: 'validation-api', version: '2.0.0.Final'
+
+// https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
+    implementation group: 'io.jsonwebtoken', name: 'jjwt', version: '0.9.0'
+
+    // https://mvnrepository.com/artifact/com.auth0/java-jwt
+    implementation group: 'com.auth0', name: 'java-jwt', version: '3.18.1'
+
+// https://mvnrepository.com/artifact/org.apache.commons/commons-math3
+    implementation group: 'org.apache.commons', name: 'commons-math3', version: '3.0'
+
+// https://mvnrepository.com/artifact/nz.ac.waikato.cms.weka/weka-stable
+    implementation 'nz.ac.waikato.cms.weka:weka-stable:3.8.0'
+
+
+}
 
 
 test {

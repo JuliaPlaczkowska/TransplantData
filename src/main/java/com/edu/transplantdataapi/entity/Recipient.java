@@ -1,4 +1,4 @@
-package com.edu.transplantdataapi.service;
+package com.edu.transplantdataapi.entity;
 
 import javax.persistence.*;
 
