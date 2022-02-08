@@ -8,8 +8,8 @@ public enum Factor {
     groupHla,
     postRelapse,
     risk_group,
-    CD34perKg,
-    CD3perKg;
+    cd34perKg,
+    cd3perKg;
 
 
     @Override

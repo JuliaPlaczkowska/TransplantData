@@ -1,14 +1,11 @@
 package com.edu.transplantdataapi.datatransferobject.analysis;
 
-import com.edu.transplantdataapi.controller.AnalysisApi;
 import com.edu.transplantdataapi.entity.SurvivalResult;
 import com.edu.transplantdataapi.enums.ClassFactor;
 import com.edu.transplantdataapi.enums.Factor;
 import lombok.Data;
-
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -32,36 +29,30 @@ public class HistogramDatasetDto {
     }
 
     private ArrayList<String> generateFactorLabels(Factor factor) {
-        switch (factor) {
-            case matchHla:
-                return new ArrayList<>(Arrays.asList("10", "9", "8", "7"));
-
-            case mismatchHla:
-            case postRelapse:
-                return new ArrayList<>(Arrays.asList("true", "false"));
-            case antigen:
-                return new ArrayList<>(Arrays.asList("0", "1", "2", "3"));
-            case allele:
-                return new ArrayList<>(Arrays.asList("0", "1", "2", "3", "4"));
-            case groupHla:
-                return new ArrayList<>(Arrays.asList(
-                        "matched",
-                        "mismatched",
-                        "one_antigen",
-                        "one_allel",
-                        "DRB1_cell",
-                        "two_diffs",
-                        "three_diffs"
-                ));
-            case risk_group:
-                return new ArrayList<>(Arrays.asList("low", "high"));
-            case CD34perKg:
-                //
-            case CD3perKg:
-                //
-            default:
-                return new ArrayList<>();
-        }
+        return switch (factor) {
+            case matchHla -> new ArrayList<>(Arrays.asList("10", "9", "8", "7"));
+            case mismatchHla, postRelapse -> new ArrayList<>(Arrays.asList("true", "false"));
+            case antigen -> new ArrayList<>(Arrays.asList("0", "1", "2", "3"));
+            case allele -> new ArrayList<>(Arrays.asList("0", "1", "2", "3", "4"));
+            case groupHla -> new ArrayList<>(Arrays.asList(
+                    "matched",
+                    "mismatched",
+                    "one_antigen",
+                    "one_allel",
+                    "DRB1_cell",
+                    "two_diffs",
+                    "three_diffs"
+            ));
+            case risk_group -> new ArrayList<>(Arrays.asList("low", "high"));
+            case cd34perKg, cd3perKg -> new ArrayList<>(Arrays.asList(
+                    "<5,0",
+                    "5,0+",
+                    "10+",
+                    "15+",
+                    "20+",
+                    "25+"
+            ));
+        };
     }
 
     private ArrayList<HistogramDatasets> generateDatasets(
@@ -74,8 +65,6 @@ public class HistogramDatasetDto {
             byFactorList.add(survivalResultList.stream()
                     .filter(sr ->
                             String.valueOf(
-
-
                                     switch (factor) {
                                         case matchHla -> sr.getTransplant().getMatchHLA();
                                         case mismatchHla -> sr.getTransplant().getMismatchHLA();
@@ -84,9 +73,8 @@ public class HistogramDatasetDto {
                                         case groupHla -> sr.getTransplant().getGroup1HLA();
                                         case postRelapse -> sr.getTransplant().getPostRelapse();
                                         case risk_group -> sr.getTransplant().getRecipient().getRiskGroup();
-                                        case CD34perKg -> sr.getTransplant().getCD34perKg();
-                                        case CD3perKg -> sr.getTransplant().getCD3perKg();
-                                        default -> new ArrayList<>();
+                                        case cd34perKg -> sr.getTransplant().getCD34perKg();
+                                        case cd3perKg -> sr.getTransplant().getCD3perKg();
                                     }
                             )
                                     .equals(label)

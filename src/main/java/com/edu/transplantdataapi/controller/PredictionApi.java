@@ -46,7 +46,7 @@ public class PredictionApi {
 
     @GetMapping("/predict")
     public PredictionResultDto predict(
-            @RequestParam TransplantPredictionDto transplantPredictionDto
+            TransplantPredictionDto transplantPredictionDto
     ) throws Exception {
 
         PredictionTree predictionTree = new PredictionTree();

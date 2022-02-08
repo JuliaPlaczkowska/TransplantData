@@ -9,6 +9,7 @@ import com.edu.transplantdataapi.security.SignupRequest;
 import com.edu.transplantdataapi.service.RoleManager;
 import com.edu.transplantdataapi.service.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,23 +38,22 @@ public class AuthApi {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<?> addUser(@RequestBody UserDto userDto ){
-
-        //TODO
-//        if (users.loadUserByUsername(userDto.getUsername()) != null) {
-//            return ResponseEntity
-//                    .status(HttpStatus.BAD_REQUEST)
-//                    .body("Error: Username is already taken!");
-//        }
-//
-//        if (users.existsByEmail(userDto.getEmail())) {
-//            return ResponseEntity
-//                    .status(HttpStatus.BAD_REQUEST)
-//                    .body("Error: Email is already in use!");
-//        }
+    public ResponseEntity<?> signUp(@RequestBody UserDto userDto) {
+        
+            if (users.existsByUsername(userDto.getUsername())) {
+                return ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body("Error: Username is already taken!");
+            }
 
 
-        User user =  convertToEntity(userDto);
+            if (users.existsByEmail(userDto.getEmail())) {
+                return ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body("Error: Email is already in use!");
+            }
+
+        User user = convertToEntity(userDto);
 
         Set<Role> rolesSet = new HashSet<>();
 
@@ -70,7 +70,7 @@ public class AuthApi {
     }
 
 
-    private User convertToEntity(UserDto userDto){
+    private User convertToEntity(UserDto userDto) {
         return new User(
                 userDto.getUsername(),
                 userDto.getEmail(),

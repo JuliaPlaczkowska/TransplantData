@@ -56,7 +56,12 @@ public class ClassificationTreeAlgorithm {
     }
 
     public void selectFeatures() throws Exception {
-
+        InfoGainAttributeEval evaluator = new InfoGainAttributeEval();
+        Ranker ranker = new Ranker();
+        AttributeSelection attSelect = new AttributeSelection();
+        attSelect.setEvaluator(evaluator);
+        attSelect.setSearch(ranker);
+        attSelect.SelectAttributes(data);
     }
 
     public void buildDecisionTree() throws Exception {

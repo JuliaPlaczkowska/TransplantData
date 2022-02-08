@@ -1,11 +1,15 @@
 package com.edu.transplantdataapi.controller;
 
+import com.edu.transplantdataapi.datatransferobject.SurvivalResultsDataGridDto;
+import com.edu.transplantdataapi.datatransferobject.prediction.TransplantPredictionDto;
 import com.edu.transplantdataapi.entity.Transplant;
 import com.edu.transplantdataapi.service.TransplantManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping
@@ -30,9 +34,15 @@ public class TransplantApi {
     }
 
     @GetMapping("api/transplant/user")
-    public Iterable<Transplant> getTransplantByUsername(
+    public Iterable<TransplantPredictionDto> getTransplantByUsername(
             @RequestParam String username) {
-        return transplants.findByUsername(username);
+
+
+        return StreamSupport.stream(
+                transplants.findByUsername(username)
+                        .spliterator(), false)
+                .map(TransplantPredictionDto::new)
+                .collect(Collectors.toList());
     }
 
 

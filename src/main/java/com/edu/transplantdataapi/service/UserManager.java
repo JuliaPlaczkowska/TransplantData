@@ -17,25 +17,25 @@ import java.util.Set;
 
 @Service
 @Slf4j
-public class UserManager implements UserDetailsService{
+public class UserManager implements UserDetailsService {
 
     private final UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserManager(UserRepo userRepo, PasswordEncoder passwordEncoder){
+    public UserManager(UserRepo userRepo, PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
         this.passwordEncoder = passwordEncoder;
     }
 
-    public Optional<User> findById(Long id){
+    public Optional<User> findById(Long id) {
         return userRepo.findById(id);
     }
 
-    public void addRole(Long id, Role role){
+    public void addRole(Long id, Role role) {
         User user = null;
         Optional<User> optional = userRepo.findById(id);
-        if(optional.isPresent()) {
+        if (optional.isPresent()) {
             user = optional.get();
             Set<Role> roles = user.getRoles();
             roles.add(role);
@@ -43,11 +43,11 @@ public class UserManager implements UserDetailsService{
         }
     }
 
-    public Iterable<User> findAll(){
+    public Iterable<User> findAll() {
         return userRepo.findAll();
     }
 
-    public User save(User user){
+    public User save(User user) {
         String encodedPassword = passwordEncoder.encode(user.getPassword());
         log.info("Encoded password: {}", encodedPassword);
         user.setPassword(encodedPassword);
@@ -55,13 +55,15 @@ public class UserManager implements UserDetailsService{
         return userRepo.save(user);
     }
 
-    public void deleteById(Long id){ userRepo.deleteById(id); }
+    public void deleteById(Long id) {
+        userRepo.deleteById(id);
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        
+
         User user = userRepo.findByUsername(username);
-        if(user == null){
+        if (user == null) {
             throw new UsernameNotFoundException("User not found in the database");
         }
         return new org.springframework.security.core.userdetails.User(
@@ -70,8 +72,12 @@ public class UserManager implements UserDetailsService{
                 user.getAuthorities());
     }
 
-    public boolean existsByEmail(String email){
+    public boolean existsByEmail(String email) {
         return userRepo.existsByEmail(email);
+    }
+
+    public boolean existsByUsername(String username) {
+        return userRepo.existsByUsername(username);
     }
 
 
