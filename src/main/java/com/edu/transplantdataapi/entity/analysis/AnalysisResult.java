@@ -1,6 +1,9 @@
 package com.edu.transplantdataapi.entity.analysis;
 
-import com.edu.transplantdataapi.entity.SurvivalResult;
+import com.edu.transplantdataapi.entity.transplantdata.SurvivalResult;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
@@ -8,6 +11,7 @@ import java.util.stream.Collectors;
 import java.util.stream.DoubleStream;
 
 @Entity
+@Getter @Setter @NoArgsConstructor
 public class AnalysisResult {
 
     @Id
@@ -23,8 +27,6 @@ public class AnalysisResult {
     @ManyToOne
     private Analysis analysis;
 
-    public AnalysisResult() {
-    }
 
     public AnalysisResult(String factor, String classFactor, List<SurvivalResult> dataset) {
         this.factor = factor;
@@ -34,38 +36,6 @@ public class AnalysisResult {
 
     public List<Double> boxedDoubleToList(double[] boxed){
         return DoubleStream.of(boxed).boxed().collect(Collectors.toList());
-
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getFactor() {
-        return factor;
-    }
-
-    public void setFactor(String factor) {
-        this.factor = factor;
-    }
-
-    public String getClassFactor() {
-        return classFactor;
-    }
-
-    public void setClassFactor(String classFactor) {
-        this.classFactor = classFactor;
-    }
-
-    public List<SurvivalResult> getDataset() {
-        return dataset;
-    }
-
-    public void setDataset(List<SurvivalResult> dataset) {
-        this.dataset = dataset;
-    }
 }

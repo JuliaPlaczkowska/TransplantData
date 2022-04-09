@@ -1,8 +1,8 @@
 package com.edu.transplantdataapi.controller;
 
 import com.edu.transplantdataapi.datatransferobject.UserDto;
-import com.edu.transplantdataapi.entity.Role;
-import com.edu.transplantdataapi.entity.User;
+import com.edu.transplantdataapi.entity.user.Role;
+import com.edu.transplantdataapi.entity.user.User;
 import com.edu.transplantdataapi.service.UserManager;
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Autowired;

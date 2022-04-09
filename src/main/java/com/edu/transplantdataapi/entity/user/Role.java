@@ -1,4 +1,4 @@
-package com.edu.transplantdataapi.entity;
+package com.edu.transplantdataapi.entity.user;
 
 import com.edu.transplantdataapi.enums.ERole;
 

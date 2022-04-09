@@ -1,5 +1,7 @@
-package com.edu.transplantdataapi.entity;
+package com.edu.transplantdataapi.entity.transplantdata;
 
+
+import com.edu.transplantdataapi.entity.user.User;
 
 import javax.persistence.*;
 

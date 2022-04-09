@@ -1,7 +1,7 @@
 package com.edu.transplantdataapi.datatransferobject;
 
-import com.edu.transplantdataapi.entity.Account;
-import com.edu.transplantdataapi.entity.Role;
+import com.edu.transplantdataapi.entity.user.Role;
+import com.edu.transplantdataapi.entity.user.User;
 
 import java.util.Set;
 
@@ -25,6 +25,15 @@ public class UserDto {
     }
 
     public UserDto() {
+    }
+
+    public User convertToUser(){
+        return new User(
+                this.getUsername(),
+                this.getEmail(),
+                this.getPassword(),
+                this.getRoles()
+        );
     }
 
 

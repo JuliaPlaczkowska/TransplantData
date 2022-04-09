@@ -1,7 +1,7 @@
 package com.edu.transplantdataapi.service;
 
 import com.edu.transplantdataapi.repository.SurvivalResultRepo;
-import com.edu.transplantdataapi.entity.SurvivalResult;
+import com.edu.transplantdataapi.entity.transplantdata.SurvivalResult;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Optional;

@@ -1,8 +1,9 @@
 package com.edu.transplantdataapi.repository;
 
-import com.edu.transplantdataapi.entity.*;
+import com.edu.transplantdataapi.entity.transplantdata.*;
+import com.edu.transplantdataapi.entity.user.Role;
+import com.edu.transplantdataapi.entity.user.User;
 import com.edu.transplantdataapi.enums.ERole;
-import com.edu.transplantdataapi.service.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -116,6 +117,7 @@ public class DbMockData {
 
         Donor donor = new Donor(
                 patientDonor,
+//                (params[23] == null)? "":params[23]
                 params[23]
         );
 

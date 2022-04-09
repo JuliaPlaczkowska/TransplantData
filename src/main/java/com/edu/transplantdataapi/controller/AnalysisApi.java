@@ -3,7 +3,7 @@ package com.edu.transplantdataapi.controller;
 
 import com.edu.transplantdataapi.datatransferobject.analysis.ChiSquareTestDto;
 import com.edu.transplantdataapi.datatransferobject.analysis.HistogramDatasetDto;
-import com.edu.transplantdataapi.entity.SurvivalResult;
+import com.edu.transplantdataapi.entity.transplantdata.SurvivalResult;
 import com.edu.transplantdataapi.entity.analysis.ChiSquare;
 import com.edu.transplantdataapi.service.SurvivalResultManager;
 import org.springframework.beans.factory.annotation.Autowired;

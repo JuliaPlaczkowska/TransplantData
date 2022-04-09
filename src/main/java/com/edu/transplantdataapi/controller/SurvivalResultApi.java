@@ -1,7 +1,7 @@
 package com.edu.transplantdataapi.controller;
 
 import com.edu.transplantdataapi.datatransferobject.SurvivalResultsDataGridDto;
-import com.edu.transplantdataapi.entity.SurvivalResult;
+import com.edu.transplantdataapi.entity.transplantdata.SurvivalResult;
 import com.edu.transplantdataapi.service.SurvivalResultManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

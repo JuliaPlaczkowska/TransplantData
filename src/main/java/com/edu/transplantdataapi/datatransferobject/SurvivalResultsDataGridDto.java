@@ -1,9 +1,9 @@
 package com.edu.transplantdataapi.datatransferobject;
 
-import com.edu.transplantdataapi.entity.Donor;
-import com.edu.transplantdataapi.entity.Recipient;
-import com.edu.transplantdataapi.entity.SurvivalResult;
-import com.edu.transplantdataapi.entity.Transplant;
+import com.edu.transplantdataapi.entity.transplantdata.Donor;
+import com.edu.transplantdataapi.entity.transplantdata.Recipient;
+import com.edu.transplantdataapi.entity.transplantdata.SurvivalResult;
+import com.edu.transplantdataapi.entity.transplantdata.Transplant;
 import lombok.Data;
 @Data
 public class SurvivalResultsDataGridDto {

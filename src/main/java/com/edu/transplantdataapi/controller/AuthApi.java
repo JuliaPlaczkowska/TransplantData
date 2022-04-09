@@ -2,10 +2,9 @@ package com.edu.transplantdataapi.controller;
 
 
 import com.edu.transplantdataapi.datatransferobject.UserDto;
-import com.edu.transplantdataapi.entity.Role;
-import com.edu.transplantdataapi.entity.User;
+import com.edu.transplantdataapi.entity.user.Role;
+import com.edu.transplantdataapi.entity.user.User;
 import com.edu.transplantdataapi.enums.ERole;
-import com.edu.transplantdataapi.security.SignupRequest;
 import com.edu.transplantdataapi.service.RoleManager;
 import com.edu.transplantdataapi.service.UserManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +38,7 @@ public class AuthApi {
 
     @PostMapping("/signup")
     public ResponseEntity<?> signUp(@RequestBody UserDto userDto) {
-        
+
             if (users.existsByUsername(userDto.getUsername())) {
                 return ResponseEntity
                         .status(HttpStatus.BAD_REQUEST)

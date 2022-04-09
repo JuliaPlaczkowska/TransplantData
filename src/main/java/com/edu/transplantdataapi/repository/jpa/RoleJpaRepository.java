@@ -1,7 +1,7 @@
 package com.edu.transplantdataapi.repository.jpa;
 
 
-import com.edu.transplantdataapi.entity.Role;
+import com.edu.transplantdataapi.entity.user.Role;
 import com.edu.transplantdataapi.enums.ERole;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

@@ -1,7 +1,7 @@
 package com.edu.transplantdataapi.service;
 
 import com.edu.transplantdataapi.repository.AccountRepo;
-import com.edu.transplantdataapi.entity.Account;
+import com.edu.transplantdataapi.entity.user.Account;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Optional;
@@ -27,5 +27,4 @@ public class AccountManager {
         return accountRepo.save(account);
     }
 
-    public void deleteById(Long id){ accountRepo.deleteById(id); }
 }

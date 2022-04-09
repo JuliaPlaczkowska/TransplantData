@@ -1,15 +1,20 @@
 package com.edu.transplantdataapi.entity.analysis;
 
 import com.edu.transplantdataapi.datatransferobject.analysis.HistogramDatasetDto;
-import com.edu.transplantdataapi.entity.SurvivalResult;
+import com.edu.transplantdataapi.entity.transplantdata.SurvivalResult;
 import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
 
 import javax.persistence.ElementCollection;
 import java.util.ArrayList;
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
 public class ChiSquare extends AnalysisResult {
 
     @ElementCollection
@@ -21,21 +26,6 @@ public class ChiSquare extends AnalysisResult {
 
     private double pValue;
     private boolean rejected;
-
-    public ChiSquare() {
-    }
-
-    public ChiSquare(String factor,
-                     String classFactor,
-                     List<SurvivalResult> dataset,
-                     List<Double> expected,
-                     List<Long> observed,
-                     double significance) {
-        super(factor, classFactor, dataset);
-        this.expected = expected;
-        this.observed = observed;
-        this.significance = significance;
-    }
 
     public ChiSquare(String factor,
                      String classFactor,

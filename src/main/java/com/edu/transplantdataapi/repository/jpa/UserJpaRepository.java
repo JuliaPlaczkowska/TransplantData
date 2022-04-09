@@ -1,7 +1,7 @@
 package com.edu.transplantdataapi.repository.jpa;
 
 
-import com.edu.transplantdataapi.entity.User;
+import com.edu.transplantdataapi.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package com.edu.transplantdataapi.entity;
+package com.edu.transplantdataapi.entity.transplantdata;
 
 import com.edu.transplantdataapi.entity.analysis.AnalysisResult;
 import com.edu.transplantdataapi.entity.prediction.Prediction;

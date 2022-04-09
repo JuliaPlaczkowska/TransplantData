@@ -1,9 +1,16 @@
 package com.edu.transplantdataapi.entity.analysis;
 
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public class Analysis {
 
     @Id
@@ -15,36 +22,8 @@ public class Analysis {
     @OneToMany(mappedBy = "analysis", cascade = CascadeType.ALL)
     private List<AnalysisResult> results;
 
-    public Analysis() {
-    }
-
     public Analysis(int number, List<AnalysisResult> results) {
         this.number = number;
         this.results = results;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-
-    public Long getId() {
-        return id;
-    }
-
-    public List<AnalysisResult> getResults() {
-        return results;
-    }
-
-    public void setResults(List<AnalysisResult> results) {
-        this.results = results;
-    }
-
-    public int getNumber() {
-        return number;
-    }
-
-    public void setNumber(int number) {
-        this.number = number;
     }
 }

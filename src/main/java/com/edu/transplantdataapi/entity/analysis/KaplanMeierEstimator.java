@@ -1,6 +1,9 @@
 package com.edu.transplantdataapi.entity.analysis;
 
-import com.edu.transplantdataapi.entity.SurvivalResult;
+import com.edu.transplantdataapi.entity.transplantdata.SurvivalResult;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
@@ -8,6 +11,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
+@Setter
+@NoArgsConstructor
 public class KaplanMeierEstimator extends AnalysisResult {
 
     @ElementCollection
@@ -21,9 +27,6 @@ public class KaplanMeierEstimator extends AnalysisResult {
 
     @ElementCollection
     private List<Double> st;
-
-    public KaplanMeierEstimator() {
-    }
 
     public KaplanMeierEstimator(String factor, String classFactor, ArrayList<SurvivalResult> dataset, List<Double> ti, List<Double> di, List<Double> ni, List<Double> st) {
         super(factor, classFactor, dataset);
@@ -41,35 +44,4 @@ public class KaplanMeierEstimator extends AnalysisResult {
         this.st = boxedDoubleToList(st);
     }
 
-    public List<Double> getTi() {
-        return ti;
-    }
-
-    public void setTi(List<Double> ti) {
-        this.ti = ti;
-    }
-
-    public List<Double> getDi() {
-        return di;
-    }
-
-    public void setDi(List<Double> di) {
-        this.di = di;
-    }
-
-    public List<Double> getNi() {
-        return ni;
-    }
-
-    public void setNi(List<Double> ni) {
-        this.ni = ni;
-    }
-
-    public List<Double> getSt() {
-        return st;
-    }
-
-    public void setSt(List<Double> st) {
-        this.st = st;
-    }
 }

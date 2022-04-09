@@ -1,6 +1,6 @@
 package com.edu.transplantdataapi.datatransferobject.analysis;
 
-import com.edu.transplantdataapi.entity.SurvivalResult;
+import com.edu.transplantdataapi.entity.transplantdata.SurvivalResult;
 import com.edu.transplantdataapi.enums.ClassFactor;
 import com.edu.transplantdataapi.enums.Factor;
 import lombok.Data;

@@ -1,7 +1,7 @@
 package com.edu.transplantdataapi.controller;
 
 import com.edu.transplantdataapi.datatransferobject.DonorDto;
-import com.edu.transplantdataapi.entity.Donor;
+import com.edu.transplantdataapi.entity.transplantdata.Donor;
 import com.edu.transplantdataapi.service.DonorManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -58,12 +58,10 @@ public class DonorApi {
     }
 
     private DonorDto donorToDto(Donor donor) {
-        return new DonorDto(
-                donor.getPatient(),
-                donor.getStemCellSource());
+        return new DonorDto(donor);
     }
 
     private Donor convertToEntity(DonorDto DonorDto){
-        return new Donor(DonorDto.getPatient(), DonorDto.getStemCellSource());
+        return new Donor(DonorDto.getPatient().convertToPatient(), DonorDto.getStemCellSource());
     }
 }

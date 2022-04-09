@@ -1,4 +1,4 @@
-package com.edu.transplantdataapi.entity;
+package com.edu.transplantdataapi.entity.transplantdata;
 
 import javax.persistence.*;
 
@@ -14,6 +14,7 @@ public class Donor{
     private Patient patient;
 
     private String stemCellSource;
+
 
     public Donor(Patient patient, String stemCellSource) {
         this.patient = patient;
