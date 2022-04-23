@@ -39,11 +39,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManagerBean());
         authenticationFilter.setFilterProcessesUrl("/api/auth/signin");
         http.cors().and().csrf().disable();
-        //http.cors().disable();
+        http.headers().frameOptions().disable();
+
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
                 .antMatchers( "/api/auth/**")
+                .permitAll();
+
+        http.authorizeRequests()
+                .antMatchers( "/console/**")
                 .permitAll();
 
         http.authorizeRequests()

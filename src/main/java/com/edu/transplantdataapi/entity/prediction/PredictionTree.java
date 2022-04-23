@@ -15,7 +15,7 @@ import java.util.List;
 @Setter
 public class PredictionTree {
 
-    //może do bazy zapisywać tylkowybrane rzeczy
+    //może do bazy zapisywać tylko wybrane rzeczy
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
