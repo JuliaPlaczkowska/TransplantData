@@ -6,6 +6,7 @@ import com.edu.transplantdataapi.datatransferobject.analysis.HistogramDatasetDto
 import com.edu.transplantdataapi.entity.transplantdata.SurvivalResult;
 import com.edu.transplantdataapi.entity.analysis.ChiSquare;
 import com.edu.transplantdataapi.service.SurvivalResultManager;
+import com.edu.transplantdataapi.service.analysis.ChiSquareManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,21 +20,23 @@ import java.util.stream.StreamSupport;
 @CrossOrigin
 public class AnalysisApi {
 
-    private SurvivalResultManager survivalResults;
+    private SurvivalResultManager survivalResultsManager;
+    private ChiSquareManager chiSquareManager;
 
     @Autowired
-    public AnalysisApi(SurvivalResultManager survivalResultManager) {
-        this.survivalResults = survivalResultManager;
+    public AnalysisApi(SurvivalResultManager survivalResultManager, ChiSquareManager chiSquareManager) {
+        this.survivalResultsManager = survivalResultManager;
+        this.chiSquareManager = chiSquareManager;
     }
 
     @GetMapping("api/survivalResult/histogram")
-    public HistogramDatasetDto getSurvivalResultsForDataGrid(
+    public HistogramDatasetDto getsurvivalResultsManagerForDataGrid(
             @RequestParam String factor, String classFactor
     ) {
 
         List<SurvivalResult> survivalResultList = new ArrayList<>(
                 StreamSupport.stream(
-                        survivalResults.findAll().spliterator(), false)
+                        survivalResultsManager.findAll().spliterator(), false)
                         .collect(Collectors.toList())
         );
 
@@ -53,7 +56,7 @@ public class AnalysisApi {
 
         List<SurvivalResult> survivalResultList = new ArrayList<>(
                 StreamSupport.stream(
-                        survivalResults.findAll().spliterator(), false)
+                        survivalResultsManager.findAll().spliterator(), false)
                         .collect(Collectors.toList())
         );
 
@@ -62,6 +65,10 @@ public class AnalysisApi {
                 classFactor,
                 survivalResultList,
                 significance);
+
+        chiSquareManager.generateObservedExpected(chiSquare);
+        chiSquareManager.calculatePValue(chiSquare);
+        chiSquareManager.calculateReject(chiSquare);
 
         return new ChiSquareTestDto(
                 chiSquare.getPValue(),
