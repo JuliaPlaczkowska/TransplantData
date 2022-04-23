@@ -1,19 +1,21 @@
 package com.edu.transplantdataapi.entity.analysis;
 
 import com.edu.transplantdataapi.entity.transplantdata.SurvivalResult;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.DoubleStream;
 
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class KaplanMeierEstimator extends AnalysisResult {
 
     @ElementCollection
@@ -44,4 +46,7 @@ public class KaplanMeierEstimator extends AnalysisResult {
         this.st = boxedDoubleToList(st);
     }
 
+    public List<Double> boxedDoubleToList(double[] boxed){
+        return DoubleStream.of(boxed).boxed().collect(Collectors.toList());
+    }
 }

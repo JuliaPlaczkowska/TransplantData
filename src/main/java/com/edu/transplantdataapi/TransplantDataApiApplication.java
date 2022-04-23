@@ -15,16 +15,6 @@ public class TransplantDataApiApplication {
         SpringApplication.run(TransplantDataApiApplication.class, args);
     }
 
-//    @Bean
-//    public WebMvcConfigurer corsConfigurer() {
-//        return new WebMvcConfigurer() {
-//            @Override
-//            public void addCorsMappings(CorsRegistry registry) {
-//                registry.addMapping("/api/**").allowedOrigins("http://localhost:3000");
-//            }
-//        };
-//    }
-
     @Bean
     PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();

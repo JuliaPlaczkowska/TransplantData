@@ -1,8 +1,6 @@
 package com.edu.transplantdataapi.entity.analysis;
-
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.edu.transplantdataapi.entity.user.User;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
@@ -10,6 +8,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
 public class Analysis {
 
@@ -21,6 +20,12 @@ public class Analysis {
 
     @OneToMany(mappedBy = "analysis", cascade = CascadeType.ALL)
     private List<AnalysisResult> results;
+
+    @ManyToOne
+    @JoinTable(name = "analysis_user",
+    joinColumns = @JoinColumn(name = "analysis_id"),
+    inverseJoinColumns = @JoinColumn(name = "user_id"))
+    private User author;
 
     public Analysis(int number, List<AnalysisResult> results) {
         this.number = number;

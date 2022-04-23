@@ -2,18 +2,18 @@ package com.edu.transplantdataapi.entity.analysis;
 
 import com.edu.transplantdataapi.datatransferobject.analysis.HistogramDatasetDto;
 import com.edu.transplantdataapi.entity.transplantdata.SurvivalResult;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
 
 import javax.persistence.ElementCollection;
+import javax.persistence.Entity;
 import java.util.ArrayList;
 import java.util.List;
 
+@Entity
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
 public class ChiSquare extends AnalysisResult {
 
