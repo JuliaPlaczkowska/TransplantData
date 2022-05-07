@@ -6,7 +6,6 @@ import weka.attributeSelection.AttributeSelection;
 import weka.attributeSelection.InfoGainAttributeEval;
 import weka.attributeSelection.Ranker;
 import weka.classifiers.Evaluation;
-import weka.classifiers.evaluation.output.prediction.CSV;
 import weka.classifiers.trees.J48;
 import weka.core.Instances;
 import weka.core.Utils;
@@ -22,7 +21,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Data
 @Slf4j
@@ -31,11 +29,6 @@ public class ClassificationTreeAlgorithm {
     private Instances dataTrain;
     private Instances dataTest;
     private J48 tree = new J48();
-    ;
-
-    public ClassificationTreeAlgorithm(String arrf) throws Exception {
-        dataTrain = arrfToInstances(arrf);
-    }
 
     public ClassificationTreeAlgorithm(String arrfTrain, String arrfTest) throws Exception {
         dataTrain = arrfToInstances(arrfTrain);
@@ -47,26 +40,8 @@ public class ClassificationTreeAlgorithm {
         return source1.getDataSet();
     }
 
-    //wg 18.7.1 z WekaManual.pdf - Batch classifiers
-    public String buildDecisionTree1() throws Exception {
-        selectFeatures(dataTrain);
-
-        String[] options = new String[1];
-        options[0] = "-U"; // un-pruned tree option
-
-        tree.setOptions(options);
-        tree.confidenceFactorTipText();
-
-        tree.buildClassifier(dataTrain);
-
-        String treeAsString = tree.toString();
-        System.out.println(treeAsString);
-
-        return treeAsString;
-    }
-
     //wg 18.7.2 z WekaManual.pdf - Train/test set
-    public List<String> buildDecisionTree2() throws Exception {
+    public List<String> getTree() throws Exception {
         selectFeatures(dataTrain);
         tree.buildClassifier(dataTrain);
         Evaluation eval = new Evaluation(dataTrain);
@@ -100,12 +75,9 @@ public class ClassificationTreeAlgorithm {
     }
 
     //wg 18.7.3 z WekaManual.pdf - Classifying instances
-    public String buildDecisionTree4() throws Exception {
+    public String predict() throws Exception {
 
-        //	Instances train = ConverterUtils.DataSource.read(arrfTrain);
         dataTrain.setClassIndex(dataTrain.numAttributes() - 1);
-
-        //	Instances test = ConverterUtils.DataSource.read(arrfTest);
         dataTest.setClassIndex(dataTest.numAttributes() - 1);
 
         //	train classifier
@@ -130,6 +102,7 @@ public class ClassificationTreeAlgorithm {
             l1 = l1 + '\n';
             dane.add(l1);
         }
+
 
         return dane.toString();
     }

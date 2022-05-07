@@ -1,4 +1,4 @@
-package com.edu.transplantdataapi.datatransferobject.prediction;
+package com.edu.transplantdataapi.dto.prediction;
 
 import lombok.Data;
 

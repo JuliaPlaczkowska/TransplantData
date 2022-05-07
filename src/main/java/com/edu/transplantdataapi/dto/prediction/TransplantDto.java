@@ -1,8 +1,8 @@
-package com.edu.transplantdataapi.datatransferobject.prediction;
+package com.edu.transplantdataapi.dto.prediction;
 
-import com.edu.transplantdataapi.datatransferobject.DonorDto;
-import com.edu.transplantdataapi.datatransferobject.RecipientDto;
-import com.edu.transplantdataapi.datatransferobject.UserDto;
+import com.edu.transplantdataapi.dto.DonorDto;
+import com.edu.transplantdataapi.dto.RecipientDto;
+import com.edu.transplantdataapi.dto.UserDto;
 import com.edu.transplantdataapi.entity.transplantdata.Donor;
 import com.edu.transplantdataapi.entity.transplantdata.Recipient;
 import com.edu.transplantdataapi.entity.transplantdata.Transplant;

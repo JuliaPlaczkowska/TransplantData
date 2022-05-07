@@ -1,14 +1,7 @@
 package com.edu.transplantdataapi.controller;
 
-import com.edu.transplantdataapi.datatransferobject.DonorDto;
-import com.edu.transplantdataapi.datatransferobject.PatientDto;
-import com.edu.transplantdataapi.datatransferobject.RecipientDto;
-import com.edu.transplantdataapi.datatransferobject.prediction.PredictionResultDto;
-import com.edu.transplantdataapi.datatransferobject.prediction.PredictionTreeDto;
-import com.edu.transplantdataapi.datatransferobject.prediction.TransplantDto;
 import com.edu.transplantdataapi.service.prediction.ClassificationTreeAlgorithmManager;
 import lombok.AllArgsConstructor;
-import org.json.JSONObject;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,37 +16,21 @@ import java.util.List;
 public class PredictionApi {
 
     private ClassificationTreeAlgorithmManager classificationTreeAlgorithmManager;
-    private final String dataTrain =
-            "src/main/resources/dataset/bone-marrow.arff";
-    private final String dataTest =
-            "src/main/resources/dataset/bone-marrow-test.arff";
+
 
     @GetMapping("/tree")
-    public String tree1() {
-        return classificationTreeAlgorithmManager.tree1(
-                dataTrain
-        );
-    }
-
-    @GetMapping("/tree2")
-    public List<String> tree2() {
-        return classificationTreeAlgorithmManager.tree2(
-                dataTrain, dataTest
-        );
+    public List<String> generateClassificationTree() {
+        return classificationTreeAlgorithmManager.tree();
     }
 
     @GetMapping("/summary")
     public List<String> getEvaluationSummary() {
-        return classificationTreeAlgorithmManager.evaluationSummary(
-                dataTrain, dataTest
-        );
+        return classificationTreeAlgorithmManager.evaluationSummary();
     }
 
-    @GetMapping("/tree4")
-    public String tree4() {
-        return classificationTreeAlgorithmManager.tree4(
-                dataTrain, dataTest
-        );
+    @GetMapping("/predict")
+    public String predict() {
+        return classificationTreeAlgorithmManager.predict();
     }
 
 //    private TransplantDto parseJsonTransplant(String transplant){

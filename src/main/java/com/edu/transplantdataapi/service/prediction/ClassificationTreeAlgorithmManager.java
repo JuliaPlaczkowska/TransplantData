@@ -10,31 +10,18 @@ import java.util.List;
 public class ClassificationTreeAlgorithmManager {
 
     private ClassificationTreeAlgorithm weka;
+    private final String arrfTrain =
+            "src/main/resources/dataset/bone-marrow.arff";
+    private final String arrfTest =
+            "src/main/resources/dataset/bone-marrow-test.arff";
 
-    public String tree1(String arff1) {
-        String result;
-
-        try {
-            weka =
-                    new ClassificationTreeAlgorithm(arff1);
-            result = weka.buildDecisionTree1();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return "Blad";
-        }
-        return result;
-    }
-
-    public List<String> tree2(String arff1, String arff2) {
+    public List<String> tree() {
         List<String> result;
 
         try {
             weka =
-                    new ClassificationTreeAlgorithm(
-                            arff1, arff2
-                    );
-            result = weka.buildDecisionTree2();
+                    new ClassificationTreeAlgorithm(arrfTrain, arrfTest);
+            result = weka.getTree();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -43,15 +30,12 @@ public class ClassificationTreeAlgorithmManager {
         return result;
     }
 
-    public List<String> evaluationSummary(String arff1,
-                                   String arff2) {
+    public List<String> evaluationSummary() {
         List<String> result;
 
         try {
             weka =
-                    new ClassificationTreeAlgorithm(
-                            arff1, arff2
-                    );
+                    new ClassificationTreeAlgorithm(arrfTrain, arrfTest);
             result = weka.evaluationSummary();
 
         } catch (Exception e) {
@@ -61,15 +45,13 @@ public class ClassificationTreeAlgorithmManager {
         return result;
     }
 
-    public String tree4(String arff1, String arff2) {
+    public String predict() {
         String result;
 
         try {
             weka =
-                    new ClassificationTreeAlgorithm(
-                            arff1, arff2
-                    );
-            result = weka.buildDecisionTree4();
+                    new ClassificationTreeAlgorithm(arrfTrain, arrfTest);
+            result = weka.predict();
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -77,5 +59,4 @@ public class ClassificationTreeAlgorithmManager {
         }
         return result;
     }
-
 }

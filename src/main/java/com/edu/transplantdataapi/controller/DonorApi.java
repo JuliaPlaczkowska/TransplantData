@@ -1,6 +1,6 @@
 package com.edu.transplantdataapi.controller;
 
-import com.edu.transplantdataapi.datatransferobject.DonorDto;
+import com.edu.transplantdataapi.dto.DonorDto;
 import com.edu.transplantdataapi.entity.transplantdata.Donor;
 import com.edu.transplantdataapi.service.DonorManager;
 import org.springframework.beans.factory.annotation.Autowired;

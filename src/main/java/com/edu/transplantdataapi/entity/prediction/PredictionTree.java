@@ -1,7 +1,5 @@
 package com.edu.transplantdataapi.entity.prediction;
 
-import com.edu.transplantdataapi.datatransferobject.prediction.TransplantDto;
-import com.edu.transplantdataapi.ml.ClassificationTreeAlgorithm;
 import lombok.*;
 import weka.classifiers.trees.J48;
 

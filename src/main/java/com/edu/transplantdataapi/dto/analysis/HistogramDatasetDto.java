@@ -1,4 +1,4 @@
-package com.edu.transplantdataapi.datatransferobject.analysis;
+package com.edu.transplantdataapi.dto.analysis;
 
 import com.edu.transplantdataapi.entity.transplantdata.SurvivalResult;
 import com.edu.transplantdataapi.enums.ClassFactor;

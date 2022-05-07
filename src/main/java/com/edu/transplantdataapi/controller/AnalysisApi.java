@@ -1,8 +1,8 @@
 package com.edu.transplantdataapi.controller;
 
 
-import com.edu.transplantdataapi.datatransferobject.analysis.ChiSquareTestDto;
-import com.edu.transplantdataapi.datatransferobject.analysis.HistogramDatasetDto;
+import com.edu.transplantdataapi.dto.analysis.ChiSquareTestDto;
+import com.edu.transplantdataapi.dto.analysis.HistogramDatasetDto;
 import com.edu.transplantdataapi.entity.transplantdata.SurvivalResult;
 import com.edu.transplantdataapi.entity.analysis.ChiSquare;
 import com.edu.transplantdataapi.service.SurvivalResultManager;

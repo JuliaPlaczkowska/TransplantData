@@ -1,6 +1,6 @@
 package com.edu.transplantdataapi.controller;
 
-import com.edu.transplantdataapi.datatransferobject.prediction.TransplantDto;
+import com.edu.transplantdataapi.dto.prediction.TransplantDto;
 import com.edu.transplantdataapi.entity.transplantdata.Transplant;
 import com.edu.transplantdataapi.service.TransplantManager;
 import org.springframework.beans.factory.annotation.Autowired;

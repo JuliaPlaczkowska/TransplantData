@@ -1,10 +1,8 @@
 package com.edu.transplantdataapi.service.analysis;
 
-import com.edu.transplantdataapi.datatransferobject.analysis.HistogramDatasetDto;
+import com.edu.transplantdataapi.dto.analysis.HistogramDatasetDto;
 import com.edu.transplantdataapi.entity.analysis.ChiSquare;
-import com.edu.transplantdataapi.repository.analysis.ChiSquareRepo;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

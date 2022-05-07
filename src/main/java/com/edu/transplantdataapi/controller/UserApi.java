@@ -1,6 +1,6 @@
 package com.edu.transplantdataapi.controller;
 
-import com.edu.transplantdataapi.datatransferobject.UserDto;
+import com.edu.transplantdataapi.dto.UserDto;
 import com.edu.transplantdataapi.entity.user.Role;
 import com.edu.transplantdataapi.entity.user.User;
 import com.edu.transplantdataapi.service.UserManager;
