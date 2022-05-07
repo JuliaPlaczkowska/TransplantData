@@ -2,7 +2,9 @@ package com.edu.transplantdataapi.dto;
 
 import com.edu.transplantdataapi.entity.transplantdata.Patient;
 import com.edu.transplantdataapi.entity.transplantdata.Recipient;
+import lombok.Data;
 
+@Data
 public class RecipientDto {
 
 
@@ -36,64 +38,5 @@ public class RecipientDto {
         this.diseaseGroup = recipient.getDiseaseGroup();
         this.riskGroup = recipient.getRiskGroup();
 
-    }
-
-    public Recipient convertToRecipient(){
-        return new Recipient(
-                this.patient.convertToPatient(),
-                this.bloodRh,
-                this.bodyMass,
-                this.disease,
-                this.diseaseGroup,
-                this.riskGroup
-        );
-    }
-
-    public double getBodyMass() {
-        return bodyMass;
-    }
-
-    public void setBodyMass(double bodyMass) {
-        this.bodyMass = bodyMass;
-    }
-
-    public String getDisease() {
-        return disease;
-    }
-
-    public void setDisease(String disease) {
-        this.disease = disease;
-    }
-
-    public String getDiseaseGroup() {
-        return diseaseGroup;
-    }
-
-    public void setDiseaseGroup(String diseaseGroup) {
-        this.diseaseGroup = diseaseGroup;
-    }
-
-    public String getRiskGroup() {
-        return riskGroup;
-    }
-
-    public void setRiskGroup(String riskGroup) {
-        this.riskGroup = riskGroup;
-    }
-
-    public String getBloodRh() {
-        return bloodRh;
-    }
-
-    public void setBloodRh(String bloodRh) {
-        this.bloodRh = bloodRh;
-    }
-
-    public Patient getPatient() {
-        return patient.convertToPatient();
-    }
-
-    public void setPatient(Patient patient) {
-        this.patient = new PatientDto(patient);
     }
 }

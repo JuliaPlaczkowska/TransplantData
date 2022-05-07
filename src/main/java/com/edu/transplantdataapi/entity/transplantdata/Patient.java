@@ -1,13 +1,16 @@
 package com.edu.transplantdataapi.entity.transplantdata;
 
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
-@Entity @Data @Getter @Setter
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
+@Entity
 public class Patient {
 
     @Id
@@ -18,19 +21,4 @@ public class Patient {
     private double age;
     private String bloodABO;
     private String presenceOfCMV;
-
-    public Patient(
-            Integer number,
-            double age,
-            String bloodABO,
-            String presenceOfCMV) {
-        this.number = (number  == null)? 0 : number;
-        this.age = age;
-        this.bloodABO = bloodABO;
-        this.presenceOfCMV = presenceOfCMV;
-    }
-
-    public Patient() {
-
-    }
 }

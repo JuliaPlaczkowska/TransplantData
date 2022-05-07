@@ -3,6 +3,7 @@ package com.edu.transplantdataapi.service;
 import com.edu.transplantdataapi.dto.prediction.TransplantToPredictDto;
 import com.edu.transplantdataapi.repository.TransplantRepo;
 import com.edu.transplantdataapi.entity.transplantdata.Transplant;
+import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,15 +15,11 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @Service
+@AllArgsConstructor
 public class TransplantManager {
 
     private TransplantRepo transplantRepo;
-    private ModelMapper modelMapper = new ModelMapper();
-
-    @Autowired
-    public TransplantManager(TransplantRepo transplantRepo) {
-        this.transplantRepo = transplantRepo;
-    }
+    private ModelMapper modelMapper;
 
     public Optional<Transplant> findById(Long id) {
         return transplantRepo.findById(id);

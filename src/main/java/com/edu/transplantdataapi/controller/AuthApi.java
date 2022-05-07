@@ -7,6 +7,8 @@ import com.edu.transplantdataapi.entity.user.User;
 import com.edu.transplantdataapi.enums.ERole;
 import com.edu.transplantdataapi.service.RoleManager;
 import com.edu.transplantdataapi.service.UserManager;
+import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,22 +20,14 @@ import java.util.Set;
 @RestController
 @RequestMapping("/api/auth")
 @CrossOrigin
+@AllArgsConstructor
 public class AuthApi {
 
     private UserManager users;
     private RoleManager roles;
 
-
-    @Autowired
-    public AuthApi(UserManager users, RoleManager roles) {
-
-        this.users = users;
-        this.roles = roles;
-    }
-
     @PostMapping("/signin")
     public void signIn() {
-
     }
 
     @PostMapping("/signup")
@@ -70,11 +64,7 @@ public class AuthApi {
 
 
     private User convertToEntity(UserDto userDto) {
-        return new User(
-                userDto.getUsername(),
-                userDto.getEmail(),
-                userDto.getPassword(),
-                userDto.getRoles()
-        );
+        ModelMapper mapper = new ModelMapper();
+        return mapper.map(userDto, User.class);
     }
 }

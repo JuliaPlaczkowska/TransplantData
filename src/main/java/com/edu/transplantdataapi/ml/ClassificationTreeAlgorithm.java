@@ -1,6 +1,5 @@
 package com.edu.transplantdataapi.ml;
 
-import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import weka.attributeSelection.AttributeSelection;
 import weka.attributeSelection.InfoGainAttributeEval;
@@ -27,8 +26,8 @@ import java.util.stream.Collectors;
 public class ClassificationTreeAlgorithm {
 
     private Instances dataTrain;
-    private Instances dataTest;
-    private J48 tree = new J48();
+    private final Instances dataTest;
+    private final J48 tree = new J48();
 
     public ClassificationTreeAlgorithm(String arffTrain, String arffTest) throws Exception {
         dataTrain = arffToInstances(arffTrain);

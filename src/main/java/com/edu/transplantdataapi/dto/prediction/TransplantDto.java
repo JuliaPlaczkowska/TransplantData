@@ -6,9 +6,13 @@ import com.edu.transplantdataapi.dto.UserDto;
 import com.edu.transplantdataapi.entity.transplantdata.Donor;
 import com.edu.transplantdataapi.entity.transplantdata.Recipient;
 import com.edu.transplantdataapi.entity.transplantdata.Transplant;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
+@Builder
 public class TransplantDto {
 
     private RecipientDto recipient;
@@ -68,55 +72,13 @@ public class TransplantDto {
 
 
         this.matchHLA = transplant.getMatchHLA();
-        this.mismatchHLA = transplant.getMismatchHLA();
+        this.mismatchHLA = transplant.isMismatchHLA();
         this.antigen = transplant.getAntigen();
         this.allele = transplant.getAllele();
         this.group1HLA = transplant.getGroup1HLA();
-        this.postRelapse = transplant.getPostRelapse();
+        this.postRelapse = transplant.isPostRelapse();
         this.CD34perKg = transplant.getCD34perKg();
         this.CD3perKg = transplant.getCD3perKg();
 
     }
-
-    public Transplant convertToTransplant(UserDto user) {
-        return new Transplant(
-                this.donor.convertToDonor(),
-                this.recipient.convertToRecipient(),
-                this.matchHLA,
-                this.mismatchHLA,
-                this.antigen,
-                this.allele,
-                this.group1HLA,
-                this.postRelapse,
-                this.CD34perKg,
-                this.CD3perKg,
-                user.convertToUser()
-        );
-    }
-
-    public TransplantDto(RecipientDto recipient,
-                         DonorDto donor,
-                         int matchHLA,
-                         boolean mismatchHLA,
-                         int antigen,
-                         int allele,
-                         String group1HLA,
-                         boolean postRelapse,
-                         double CD34perKg,
-                         double CD3perKg) {
-        this.recipient = recipient;
-        this.donor = donor;
-        this.matchHLA = matchHLA;
-        this.mismatchHLA = mismatchHLA;
-        this.antigen = antigen;
-        this.allele = allele;
-        this.group1HLA = group1HLA;
-        this.postRelapse = postRelapse;
-        this.CD34perKg = CD34perKg;
-        this.CD3perKg = CD3perKg;
-    }
-
-    public TransplantDto() {
-    }
-
-  }
+}

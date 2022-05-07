@@ -24,18 +24,6 @@ public class UserDto {
         this.roles = roles;
     }
 
-    public UserDto() {
-    }
-
-    public User convertToUser(){
-        return new User(
-                this.getUsername(),
-                this.getEmail(),
-                this.getPassword(),
-                this.getRoles()
-        );
-    }
-
 
     public String getUsername() {
         return username;

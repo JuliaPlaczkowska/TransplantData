@@ -24,8 +24,4 @@ public class PatientDto {
         this.bloodABO = patient.getBloodABO();
         this.presenceOfCMV = patient.getPresenceOfCMV();
     }
-
-    public Patient convertToPatient() {
-        return new Patient(number, age, bloodABO, presenceOfCMV);
-    }
 }

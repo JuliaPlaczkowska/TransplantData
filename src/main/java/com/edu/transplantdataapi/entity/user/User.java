@@ -1,9 +1,7 @@
 package com.edu.transplantdataapi.entity.user;
 
 import com.edu.transplantdataapi.entity.analysis.Analysis;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -16,11 +14,13 @@ import java.util.*;
 
 import static javax.persistence.FetchType.EAGER;
 
-@Entity
 @Getter
 @Setter
+@AllArgsConstructor
 @NoArgsConstructor
-@Table(	name = "users",
+@Builder
+@Entity
+@Table(name = "users",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "username"),
                 @UniqueConstraint(columnNames = "email")
@@ -43,49 +43,24 @@ public class User implements UserDetails {
     @Size(max = 120)
     private String password;
 
+    @Builder.Default
     @ManyToMany(fetch = EAGER)
-    @JoinTable(	name = "user_roles",
+    @JoinTable(name = "user_roles",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
+    @Builder.Default
     @OneToMany(mappedBy = "author")
     private List<Analysis> analyses = new ArrayList<>();
 
-    public User(String username, String email, String password, Set<Role> roles) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-        this.roles = roles;
-    }
-
-    public User(String username, String email, String password) {
-        this.username = username;
-        this.email = email;
-        this.password = password;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(Set<Role> roles) {
-        this.roles = roles;
-    }
-
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        Collection<SimpleGrantedAuthority>authorities = new ArrayList<>();
+        Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
         this.roles.forEach(role ->
-        {authorities.add(new SimpleGrantedAuthority(role.getName().toString()));}
+                {
+                    authorities.add(new SimpleGrantedAuthority(role.getName().toString()));
+                }
         );
         return authorities;
     }
@@ -119,21 +94,4 @@ public class User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
 }

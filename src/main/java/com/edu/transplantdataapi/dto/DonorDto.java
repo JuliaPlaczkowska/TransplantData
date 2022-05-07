@@ -25,12 +25,6 @@ public class DonorDto {
 
     }
 
-    public Donor convertToDonor() {
-        return new Donor(
-                this.patient.convertToPatient(),
-                this.stemCellSource);
-    }
-
     public PatientDto getPatient() {
         return patient;
     }

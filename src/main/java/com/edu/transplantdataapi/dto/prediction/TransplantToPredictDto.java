@@ -1,12 +1,18 @@
 package com.edu.transplantdataapi.dto.prediction;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /*
 Transplant DTO class fo mapping into weka instance.
 Properties are the same as in bone-marrow.arrf file
  */
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 public class TransplantToPredictDto {
     private double donorAge;
     private String donorBloodABO;

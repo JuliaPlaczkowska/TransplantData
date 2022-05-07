@@ -3,6 +3,7 @@ package com.edu.transplantdataapi.controller;
 import com.edu.transplantdataapi.dto.RecipientDto;
 import com.edu.transplantdataapi.entity.transplantdata.Recipient;
 import com.edu.transplantdataapi.service.RecipientManager;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,12 +67,7 @@ public class RecipientApi {
     }
 
     private Recipient convertToEntity(RecipientDto recipientDto) {
-        return new Recipient(
-                recipientDto.getPatient(),
-                recipientDto.getBloodRh(),
-                recipientDto.getBodyMass(),
-                recipientDto.getDisease(),
-                recipientDto.getDiseaseGroup(),
-                recipientDto.getRiskGroup());
+        ModelMapper mapper = new ModelMapper();
+        return mapper.map(recipientDto, Recipient.class);
     }
 }

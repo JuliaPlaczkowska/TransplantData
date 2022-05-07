@@ -5,6 +5,7 @@ import com.edu.transplantdataapi.entity.user.Role;
 import com.edu.transplantdataapi.entity.user.User;
 import com.edu.transplantdataapi.service.UserManager;
 import lombok.Data;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -45,12 +46,8 @@ public class UserApi {
     }
 
     private User convertToEntity(UserDto userDto){
-        return new User(
-                userDto.getUsername(),
-                userDto.getEmail(),
-                userDto.getPassword(),
-                userDto.getRoles()
-        );
+        ModelMapper mapper = new ModelMapper();
+        return mapper.map(userDto, User.class);
     }
 }
 

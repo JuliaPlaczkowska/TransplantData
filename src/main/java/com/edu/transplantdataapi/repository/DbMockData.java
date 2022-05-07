@@ -84,7 +84,7 @@ public class DbMockData {
 
     }
 
-    private User addAdminAccount(){
+    private User addAdminAccount() {
 
         Role roleAdmin = new Role(ERole.ROLE_ADMIN);
         Role roleUser = new Role(ERole.ROLE_USER);
@@ -94,67 +94,68 @@ public class DbMockData {
         roleRepo.save(roleUser);
         roleRepo.save(roleDoctor);
 
-        User user = new User(
-                adminUsername,
-                adminEmail,
-                new BCryptPasswordEncoder().encode(adminPassword),
-                adminRoles);
+        User user = User.builder()
+                .username(adminUsername)
+                .email(adminEmail)
+                .password(new BCryptPasswordEncoder().encode(adminPassword))
+                .roles(adminRoles)
+                .build();
         userRepo.save(user);
-
         return user;
     }
 
     private void addSurvivalResult(String[] params, User user) {
 
-        Patient patientDonor = new Patient(
-                null,
-                Double.parseDouble(params[0]),
-                params[2],
-                params[3]
-        );
+        Patient patientDonor = Patient.builder()
+                .number(0)
+                .age(Double.parseDouble(params[0]))
+                .bloodABO(params[2])
+                .presenceOfCMV(params[3])
+                .build();
 
         patientRepository.save(patientDonor);
 
-        Donor donor = new Donor(
-                patientDonor,
-//                (params[23] == null)? "":params[23]
-                params[23]
-        );
+        Donor donor = Donor.builder()
+                .patient(patientDonor)
+                .stemCellSource(params[23])
+                .build();
 
         donorRepository.save(donor);
 
-        Patient patientRecipient = new Patient(
-                null,
-                Double.parseDouble(params[4]),
-                params[9],
-                params[10]
-        );
+        Patient patientRecipient = Patient.builder()
+                .number(0)
+                .age(Double.parseDouble(params[4]))
+                .bloodABO(params[9])
+                .presenceOfCMV(params[10])
+                .build();
 
         patientRepository.save(patientRecipient);
 
 
-        Recipient recipient = new Recipient(
-                patientRecipient,
-                params[11],
-                (params[8].equals("?")) ? 0 : Double.parseDouble(params[8]),
-                params[12],
-                params[13],
-                params[22]);
+        Recipient recipient = Recipient.builder()
+                .patient(patientRecipient)
+                .bloodRh(params[11])
+                .bodyMass((params[8].equals("?")) ? 0 : Double.parseDouble(params[8]))
+                .disease(params[12])
+                .diseaseGroup(params[13])
+                .riskGroup(params[22])
+                .build();
 
         recipientRepository.save(recipient);
 
-        Transplant transplant = new Transplant(
-                donor,
-                recipient,
-                Integer.parseInt(params[17].replace("/10", "")),
-                (params[18].equals("mismatched")),
-                (params[19].equals("?")) ? 1000 : Integer.parseInt(params[19]),
-                (params[20].equals("?")) ? 1000 : Integer.parseInt(params[20]),
-                params[21],
-                params[24].equals("yes"),
-                (params[25].equals("?")) ? 0 : Double.parseDouble(params[25]),
-                (params[26].equals("?")) ? 0 : Double.parseDouble(params[26]),
-                user);
+        Transplant transplant = Transplant.builder()
+                .donor(donor)
+                .recipient(recipient)
+                .matchHLA(Integer.parseInt(params[17].replace("/10", "")))
+                .mismatchHLA((params[18].equals("mismatched")))
+                .antigen((params[19].equals("?")) ? 1000 : Integer.parseInt(params[19]))
+                .allele((params[20].equals("?")) ? 1000 : Integer.parseInt(params[20]))
+                .group1HLA(params[21])
+                .postRelapse(params[24].equals("yes"))
+                .CD34perKg((params[25].equals("?")) ? 0 : Double.parseDouble(params[25]))
+                .CD3perKg((params[26].equals("?")) ? 0 : Double.parseDouble(params[26]))
+                .user(user)
+                .build();
 
         transplantRepository.save(transplant);
 

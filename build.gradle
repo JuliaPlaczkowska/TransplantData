@@ -4,14 +4,15 @@ plugins {
     id 'java'
 }
 
-targetCompatibility = JavaVersion.VERSION_14
+targetCompatibility = JavaVersion.VERSION_17
 group = 'com.edu'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = "14"
+sourceCompatibility = "17"
 
 repositories {
     mavenCentral()
 }
+
 
 dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -56,8 +57,6 @@ dependencies {
 
     // https://mvnrepository.com/artifact/nz.ac.waikato.cms.weka/weka-stable
     implementation 'nz.ac.waikato.cms.weka:weka-stable:3.8.0'
-
-
 }
 
 

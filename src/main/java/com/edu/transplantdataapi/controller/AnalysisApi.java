@@ -7,6 +7,7 @@ import com.edu.transplantdataapi.entity.transplantdata.SurvivalResult;
 import com.edu.transplantdataapi.entity.analysis.ChiSquare;
 import com.edu.transplantdataapi.service.SurvivalResultManager;
 import com.edu.transplantdataapi.service.analysis.ChiSquareManager;
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,27 +19,22 @@ import java.util.stream.StreamSupport;
 @RestController
 @RequestMapping
 @CrossOrigin
+@AllArgsConstructor
 public class AnalysisApi {
 
     private SurvivalResultManager survivalResultsManager;
     private ChiSquareManager chiSquareManager;
 
-    @Autowired
-    public AnalysisApi(SurvivalResultManager survivalResultManager, ChiSquareManager chiSquareManager) {
-        this.survivalResultsManager = survivalResultManager;
-        this.chiSquareManager = chiSquareManager;
-    }
-
     @GetMapping("api/survivalResult/histogram")
-    public HistogramDatasetDto getsurvivalResultsManagerForDataGrid(
-            @RequestParam String factor, String classFactor
+    public HistogramDatasetDto getSurvivalResultsForDataGrid(
+            @RequestParam String factor,
+            @RequestParam String classFactor
     ) {
 
-        List<SurvivalResult> survivalResultList = new ArrayList<>(
-                StreamSupport.stream(
-                        survivalResultsManager.findAll().spliterator(), false)
-                        .collect(Collectors.toList())
-        );
+        List<SurvivalResult> survivalResultList = StreamSupport
+                .stream(survivalResultsManager.findAll().spliterator(),
+                        false)
+                .collect(Collectors.toList());
 
         return new HistogramDatasetDto(
                 factor,
