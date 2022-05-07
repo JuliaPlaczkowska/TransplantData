@@ -1,11 +1,10 @@
 package com.edu.transplantdataapi.controller;
 
+import com.edu.transplantdataapi.dto.prediction.TransplantToPredictDto;
+import com.edu.transplantdataapi.service.TransplantManager;
 import com.edu.transplantdataapi.service.prediction.ClassificationTreeAlgorithmManager;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -16,6 +15,7 @@ import java.util.List;
 public class PredictionApi {
 
     private ClassificationTreeAlgorithmManager classificationTreeAlgorithmManager;
+    private TransplantManager transplantManager;
 
 
     @GetMapping("/tree")
@@ -29,8 +29,13 @@ public class PredictionApi {
     }
 
     @GetMapping("/predict")
-    public String predict() {
-        return classificationTreeAlgorithmManager.predict();
+    public String predict(@RequestBody TransplantToPredictDto transplant) {
+        return classificationTreeAlgorithmManager.predict(transplant);
+    }
+
+    @GetMapping("/transplants")
+    public List<TransplantToPredictDto> getTransplantList(){
+        return transplantManager.getAllAsTransplantToPredictDto();
     }
 
 //    private TransplantDto parseJsonTransplant(String transplant){

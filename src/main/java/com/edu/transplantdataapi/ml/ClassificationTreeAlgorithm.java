@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Random;
 import java.util.stream.Collectors;
 
-@Data
+
 @Slf4j
 public class ClassificationTreeAlgorithm {
 
@@ -30,13 +30,13 @@ public class ClassificationTreeAlgorithm {
     private Instances dataTest;
     private J48 tree = new J48();
 
-    public ClassificationTreeAlgorithm(String arrfTrain, String arrfTest) throws Exception {
-        dataTrain = arrfToInstances(arrfTrain);
-        dataTest = arrfToInstances(arrfTest);
+    public ClassificationTreeAlgorithm(String arffTrain, String arffTest) throws Exception {
+        dataTrain = arffToInstances(arffTrain);
+        dataTest = arffToInstances(arffTest);
     }
 
-    public Instances arrfToInstances(String arrf) throws Exception {
-        ConverterUtils.DataSource source1 = new ConverterUtils.DataSource(arrf);
+    public Instances arffToInstances(String arff) throws Exception {
+        ConverterUtils.DataSource source1 = new ConverterUtils.DataSource(arff);
         return source1.getDataSet();
     }
 

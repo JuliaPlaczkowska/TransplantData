@@ -1,10 +1,14 @@
 package com.edu.transplantdataapi.service;
 
+import com.edu.transplantdataapi.dto.prediction.TransplantToPredictDto;
 import com.edu.transplantdataapi.repository.TransplantRepo;
 import com.edu.transplantdataapi.entity.transplantdata.Transplant;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -13,6 +17,7 @@ import java.util.stream.StreamSupport;
 public class TransplantManager {
 
     private TransplantRepo transplantRepo;
+    private ModelMapper modelMapper = new ModelMapper();
 
     @Autowired
     public TransplantManager(TransplantRepo transplantRepo) {
@@ -47,5 +52,14 @@ public class TransplantManager {
         return transplantRepo.save(transplant);
     }
 
+    public List<TransplantToPredictDto> getAllAsTransplantToPredictDto(){
+        List<TransplantToPredictDto> result = new ArrayList<>();
+        findAll()
+                .forEach(
+                        transplant ->
+                                result.add(modelMapper.map(transplant, TransplantToPredictDto.class))
+                );
+        return result;
+    }
 }
 
