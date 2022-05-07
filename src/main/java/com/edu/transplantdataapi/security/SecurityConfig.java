@@ -2,10 +2,7 @@ package com.edu.transplantdataapi.security;
 
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -14,9 +11,6 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-
-import static org.springframework.http.HttpMethod.GET;
-import static org.springframework.http.HttpMethod.POST;
 
 @Configuration
 @EnableWebSecurity
@@ -32,7 +26,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
 
-
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
@@ -44,19 +37,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
         http.authorizeRequests()
-                .antMatchers( "/api/auth/**")
+                .antMatchers("/api/auth/**")
                 .permitAll();
 
         http.authorizeRequests()
-                .antMatchers( "/console/**")
+                .antMatchers("/console/**")
                 .permitAll();
 
         http.authorizeRequests()
-                .antMatchers( "/api/**")
+                .antMatchers("/api/**")
                 .hasAnyAuthority("ROLE_USER", "ROLE_ADMIN");
 
         http.authorizeRequests()
-                .antMatchers( "/api/admin/**")
+                .antMatchers("/api/admin/**")
                 .hasAnyAuthority("ROLE_ADMIN");
 
         http.authorizeRequests().anyRequest().authenticated();

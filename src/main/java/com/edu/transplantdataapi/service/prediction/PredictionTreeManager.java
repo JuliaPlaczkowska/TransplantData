@@ -29,26 +29,4 @@ public class PredictionTreeManager {
         return predictionTreeRepo.save(predictionTree);
     }
 
-    public J48 buildDecisionTree() throws Exception {
-
-        J48 result = new J48();
-
-        try {
-            ClassificationTreeAlgorithm weka =
-                    new ClassificationTreeAlgorithm(
-                            "src/main/resources/dataset/bone-marrow.arff"
-                    );
-            weka.selectFeatures();
-            weka.buildDecisionTree();
-
-            // weka.visualizeTree(tree);
-            result = weka.getTree();
-        } catch (Exception e) {
-
-            e.printStackTrace();
-        }
-        return result;
-    }
-
-
 }

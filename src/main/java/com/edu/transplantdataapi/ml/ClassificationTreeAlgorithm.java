@@ -1,39 +1,137 @@
 package com.edu.transplantdataapi.ml;
 
-import com.edu.transplantdataapi.datatransferobject.prediction.TransplantDto;
-
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;
 import weka.attributeSelection.AttributeSelection;
 import weka.attributeSelection.InfoGainAttributeEval;
 import weka.attributeSelection.Ranker;
-import weka.classifiers.Classifier;
 import weka.classifiers.Evaluation;
+import weka.classifiers.evaluation.output.prediction.CSV;
 import weka.classifiers.trees.J48;
-import weka.core.*;
+import weka.core.Instances;
+import weka.core.Utils;
 import weka.core.converters.ConverterUtils;
-import weka.experiment.InstanceQuery;
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.Remove;
 import weka.gui.treevisualizer.PlaceNode2;
 import weka.gui.treevisualizer.TreeVisualizer;
 
 import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Data
 @Slf4j
 public class ClassificationTreeAlgorithm {
 
-    private Instances data;
-    private J48 tree;
-
+    private Instances dataTrain;
+    private Instances dataTest;
+    private J48 tree = new J48();
+    ;
 
     public ClassificationTreeAlgorithm(String arrf) throws Exception {
-        ConverterUtils.DataSource source = new ConverterUtils.DataSource(arrf);
-        data = source.getDataSet();
-        log.info(data.numInstances() + " instances loaded!");
-        //log.info(data.toString());
+        dataTrain = arrfToInstances(arrf);
+    }
+
+    public ClassificationTreeAlgorithm(String arrfTrain, String arrfTest) throws Exception {
+        dataTrain = arrfToInstances(arrfTrain);
+        dataTest = arrfToInstances(arrfTest);
+    }
+
+    public Instances arrfToInstances(String arrf) throws Exception {
+        ConverterUtils.DataSource source1 = new ConverterUtils.DataSource(arrf);
+        return source1.getDataSet();
+    }
+
+    //wg 18.7.1 z WekaManual.pdf - Batch classifiers
+    public String buildDecisionTree1() throws Exception {
+        selectFeatures(dataTrain);
+
+        String[] options = new String[1];
+        options[0] = "-U"; // un-pruned tree option
+
+        tree.setOptions(options);
+        tree.confidenceFactorTipText();
+
+        tree.buildClassifier(dataTrain);
+
+        String treeAsString = tree.toString();
+        System.out.println(treeAsString);
+
+        return treeAsString;
+    }
+
+    //wg 18.7.2 z WekaManual.pdf - Train/test set
+    public List<String> buildDecisionTree2() throws Exception {
+        selectFeatures(dataTrain);
+        tree.buildClassifier(dataTrain);
+        Evaluation eval = new Evaluation(dataTrain);
+        selectFeatures(dataTest);
+        eval.evaluateModel(tree, dataTest);
+
+        List<String> results = evaluationSummary();
+        results.add(tree.toString());
+        return results;
+    }
+
+    //wg 18.7.2 z WekaManual.pdf - Collecting predictions
+    public List<String> evaluationSummary() throws Exception {
+
+        dataTrain.setClassIndex(dataTrain.numAttributes() - 1);
+
+        Evaluation eval = new Evaluation(dataTrain);
+        StringBuffer buffer = new StringBuffer();
+        eval.crossValidateModel(
+                tree,
+                dataTrain,
+                10,
+                new Random(1));
+
+        //	output collected predictions
+        String evaluationSummary = eval.toSummaryString();
+
+        return Arrays
+                .stream(evaluationSummary.split("\n"))
+                .collect(Collectors.toList());
+    }
+
+    //wg 18.7.3 z WekaManual.pdf - Classifying instances
+    public String buildDecisionTree4() throws Exception {
+
+        //	Instances train = ConverterUtils.DataSource.read(arrfTrain);
+        dataTrain.setClassIndex(dataTrain.numAttributes() - 1);
+
+        //	Instances test = ConverterUtils.DataSource.read(arrfTest);
+        dataTest.setClassIndex(dataTest.numAttributes() - 1);
+
+        //	train classifier
+        tree.buildClassifier(dataTrain);
+
+        //	output predictions
+        ArrayList<String> dane = new ArrayList();//do wykorzystania jako dane modelu
+        String l1 = "# - actual - predicted - distribution (0/1)" + "\n";
+        dane.add(l1);
+
+        for (int i = 0; i < dataTest.numInstances(); i++) {
+            double pred = tree.classifyInstance(dataTest.instance(i));
+            double[] dist = tree.distributionForInstance(dataTest.instance(i));
+
+            l1 = (i + 1) + " -	";
+
+            l1 = l1 + dataTest.instance(i).toString(dataTest.classIndex()) + " -      ";
+            l1 = l1 + dataTest.classAttribute().value((int) pred) + " -        ";
+
+            l1 = l1 + Utils.arrayToString(dist);
+
+            l1 = l1 + '\n';
+            dane.add(l1);
+        }
+
+        return dane.toString();
     }
 
     public void removeAttributes(int[] indexes) throws Exception {
@@ -48,13 +146,13 @@ public class ClassificationTreeAlgorithm {
         Remove remove = new Remove();
         String[] opts = new String[]{"-R", indexesSB.toString()};
         remove.setOptions(opts);
-        remove.setInputFormat(data);
-        data = Filter.useFilter(data, remove);
+        remove.setInputFormat(dataTrain);
+        dataTrain = Filter.useFilter(dataTrain, remove);
 
         //System.out.println(data.toString());
     }
 
-    public void selectFeatures() throws Exception {
+    public void selectFeatures(Instances data) throws Exception {
         InfoGainAttributeEval evaluator = new InfoGainAttributeEval();
         Ranker ranker = new Ranker();
         AttributeSelection attSelect = new AttributeSelection();
@@ -63,15 +161,6 @@ public class ClassificationTreeAlgorithm {
         attSelect.SelectAttributes(data);
     }
 
-    public String buildDecisionTree() throws Exception {
-        selectFeatures();
-        tree = new J48();
-        String[] options = new String[1];
-        options[0] = "-U"; // un-pruned tree option
-        tree.setOptions(options);
-        tree.buildClassifier(data);
-        return tree.toString();
-    }
 
     public void visualizeTree() throws Exception {
         TreeVisualizer tv = new TreeVisualizer(null, tree.graph(), new PlaceNode2());
@@ -83,5 +172,4 @@ public class ClassificationTreeAlgorithm {
         frame.setVisible(true);
         tv.fitToScreen();
     }
-
 }

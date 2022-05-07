@@ -59,7 +59,7 @@ public class DbMockData {
     public void fill() {
 
         Path path = Paths.get(
-                "src/main/resources/dataset/bone-marrow-uci-dataset.txt");
+                "src/main/resources/dataset/bone-marrow-uci-dataset.csv");
 
         User admin = addAdminAccount();
 
