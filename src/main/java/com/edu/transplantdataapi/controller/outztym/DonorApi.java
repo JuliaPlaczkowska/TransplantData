@@ -1,4 +1,4 @@
-package com.edu.transplantdataapi.controller;
+package com.edu.transplantdataapi.controller.outztym;
 
 import com.edu.transplantdataapi.dto.DonorDto;
 import com.edu.transplantdataapi.entity.transplantdata.Donor;

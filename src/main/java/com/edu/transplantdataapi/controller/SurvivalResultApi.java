@@ -1,49 +1,36 @@
 package com.edu.transplantdataapi.controller;
 
 import com.edu.transplantdataapi.dto.SurvivalResultsDataGridDto;
-import com.edu.transplantdataapi.entity.transplantdata.SurvivalResult;
 import com.edu.transplantdataapi.service.SurvivalResultManager;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import lombok.AllArgsConstructor;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.Optional;
+import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping
 @CrossOrigin
+@AllArgsConstructor
 public class SurvivalResultApi {
 
-    private SurvivalResultManager survivalResults;
-
-    @Autowired
-    public SurvivalResultApi(SurvivalResultManager survivalResultManager) {
-        this.survivalResults = survivalResultManager;
-    }
-
-    @GetMapping("api/survivalResult/all")
-    public Iterable<SurvivalResult> getAllSurvivalResults() {
-        return survivalResults.findAll();
-    }
+    private SurvivalResultManager survivalResultManager;
 
     @GetMapping("api/survivalResult/dataGrid")
-    public Iterable<SurvivalResultsDataGridDto> getSurvivalResultsForDataGrid() {
+    public List<SurvivalResultsDataGridDto> getSurvivalResultsForDataGrid() {
 
-        return StreamSupport.stream(
-                survivalResults.findAll().spliterator(), false)
+        return survivalResultManager.findAll().stream()
                 .map(SurvivalResultsDataGridDto::new)
                 .collect(Collectors.toList());
     }
 
 
-    @GetMapping("api/survivalResult")
-    public Optional<SurvivalResult> getSurvivalResultById(@RequestParam Long index) {
-        return survivalResults.findById(index);
-    }
-
-    @PostMapping("api/survivalResult")
-    public SurvivalResult addSurvivalResult(@RequestBody SurvivalResult survivalResult ){
-        return  survivalResults.save(survivalResult);
-    }
+//    @PostMapping("api/survivalResult")
+//    public SurvivalResult addSurvivalResult(@RequestBody SurvivalResult survivalResult ){
+//        return  survivalResultManager.save(survivalResult);
+//    }
 }

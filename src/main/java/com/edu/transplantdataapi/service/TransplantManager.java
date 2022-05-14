@@ -1,16 +1,15 @@
 package com.edu.transplantdataapi.service;
 
+import com.edu.transplantdataapi.dto.prediction.TransplantDto;
 import com.edu.transplantdataapi.dto.prediction.TransplantToPredictDto;
-import com.edu.transplantdataapi.repository.TransplantRepo;
 import com.edu.transplantdataapi.entity.transplantdata.Transplant;
+import com.edu.transplantdataapi.repository.TransplantRepo;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -21,8 +20,9 @@ public class TransplantManager {
     private TransplantRepo transplantRepo;
     private ModelMapper modelMapper;
 
-    public Optional<Transplant> findById(Long id) {
-        return transplantRepo.findById(id);
+    public TransplantDto findById(Long id) {
+        Transplant transplant = transplantRepo.findById(id).get();
+        return modelMapper.map(transplant, TransplantDto.class);
     }
 
     public Iterable<Transplant> findAll() {
@@ -54,7 +54,10 @@ public class TransplantManager {
         findAll()
                 .forEach(
                         transplant ->
-                                result.add(modelMapper.map(transplant, TransplantToPredictDto.class))
+                                result.add(
+                                        modelMapper
+                                                .map(transplant, TransplantToPredictDto.class)
+                                )
                 );
         return result;
     }

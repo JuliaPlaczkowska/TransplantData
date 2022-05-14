@@ -54,6 +54,14 @@ public class User implements UserDetails {
     @OneToMany(mappedBy = "author")
     private List<Analysis> analyses = new ArrayList<>();
 
+    public void addRole(Role role){
+        this.roles.add(role);
+    }
+
+    public void removeRole(Role role){
+        this.roles.remove(role);
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();

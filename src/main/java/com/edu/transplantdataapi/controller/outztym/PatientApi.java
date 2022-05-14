@@ -1,4 +1,4 @@
-package com.edu.transplantdataapi.controller;
+package com.edu.transplantdataapi.controller.outztym;
 
 import com.edu.transplantdataapi.entity.transplantdata.Patient;
 import com.edu.transplantdataapi.service.PatientManager;

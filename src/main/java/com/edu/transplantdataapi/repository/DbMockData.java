@@ -86,9 +86,9 @@ public class DbMockData {
 
     private User addAdminAccount() {
 
-        Role roleAdmin = new Role(ERole.ROLE_ADMIN);
-        Role roleUser = new Role(ERole.ROLE_USER);
-        Role roleDoctor = new Role(ERole.ROLE_DOCTOR);
+        Role roleAdmin = Role.builder().name(ERole.ROLE_ADMIN).build();
+        Role roleUser = Role.builder().name(ERole.ROLE_USER).build();
+        Role roleDoctor = Role.builder().name(ERole.ROLE_DOCTOR).build();
         Set<Role> adminRoles = new HashSet<>(Arrays.asList(roleAdmin, roleUser, roleDoctor));
         roleRepo.save(roleAdmin);
         roleRepo.save(roleUser);

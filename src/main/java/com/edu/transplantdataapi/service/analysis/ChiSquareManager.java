@@ -1,7 +1,9 @@
 package com.edu.transplantdataapi.service.analysis;
 
+import com.edu.transplantdataapi.dto.analysis.ChiSquareTestDto;
 import com.edu.transplantdataapi.dto.analysis.HistogramDatasetDto;
 import com.edu.transplantdataapi.entity.analysis.ChiSquare;
+import com.edu.transplantdataapi.entity.transplantdata.SurvivalResult;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
 import org.springframework.stereotype.Service;
 
@@ -11,10 +13,32 @@ import java.util.List;
 @Service
 public class ChiSquareManager {
 
-    public void generateObservedExpected(ChiSquare chiSquare){
+    public ChiSquareTestDto getChiSquareTestResult(
+            String factor,
+            String classFactor,
+            List<SurvivalResult> survivalResultList,
+            double significance
+    ) {
+        ChiSquare chiSquare = new ChiSquare(
+                factor,
+                classFactor,
+                survivalResultList,
+                significance);
+
+        generateObservedExpected(chiSquare);
+        calculatePValue(chiSquare);
+        calculateReject(chiSquare);
+
+        return new ChiSquareTestDto(
+                chiSquare.getPValue(),
+                chiSquare.isRejected()
+        );
+    }
+
+    public void generateObservedExpected(ChiSquare chiSquare) {
 
         HistogramDatasetDto histogramDatasetDto =
-                new HistogramDatasetDto(chiSquare.getFactor(), chiSquare.getClassFactor(),chiSquare.getDataset());
+                new HistogramDatasetDto(chiSquare.getFactor(), chiSquare.getClassFactor(), chiSquare.getDataset());
 
         int columns = histogramDatasetDto.getLabels().size();
         int rows = histogramDatasetDto.getDatasets().size();
@@ -34,7 +58,7 @@ public class ChiSquareManager {
 
         int[] sumRows = new int[rows];
         int[] sumCols = new int[columns];
-        double observedSum=0;
+        double observedSum = 0;
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
@@ -48,7 +72,7 @@ public class ChiSquareManager {
 
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < columns; j++) {
-                expected[i][j] = (sumRows[i]*sumCols[j])/observedSum;
+                expected[i][j] = (sumRows[i] * sumCols[j]) / observedSum;
             }
         }
 
@@ -66,7 +90,7 @@ public class ChiSquareManager {
         chiSquare.setExpected(expectedArrayList);
     }
 
-    public double calculatePValue(ChiSquare chiSquare){
+    public double calculatePValue(ChiSquare chiSquare) {
         double pValue = new ChiSquareTest()
                 .chiSquareTest(
                         listToTableDouble(chiSquare.getExpected()),
@@ -76,7 +100,7 @@ public class ChiSquareManager {
         return pValue;
     }
 
-    public boolean calculateReject(ChiSquare chiSquare){
+    public boolean calculateReject(ChiSquare chiSquare) {
         boolean reject = new ChiSquareTest()
                 .chiSquareTest(
                         listToTableDouble(chiSquare.getExpected()),
@@ -87,16 +111,16 @@ public class ChiSquareManager {
         return reject;
     }
 
-    private double[] listToTableDouble(List<Double> list){
+    private double[] listToTableDouble(List<Double> list) {
         double[] expectedArray = new double[list.size()];
-        for(int i = 0; i < list.size(); i++)
+        for (int i = 0; i < list.size(); i++)
             expectedArray[i] = list.get(i);
         return expectedArray;
     }
 
-    private long[] listToTableLong(List<Long> list){
+    private long[] listToTableLong(List<Long> list) {
         long[] expectedArray = new long[list.size()];
-        for(int i = 0; i < list.size(); i++)
+        for (int i = 0; i < list.size(); i++)
             expectedArray[i] = list.get(i);
         return expectedArray;
     }

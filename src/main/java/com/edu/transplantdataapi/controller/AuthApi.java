@@ -24,7 +24,6 @@ import java.util.Set;
 public class AuthApi {
 
     private UserManager users;
-    private RoleManager roles;
 
     @PostMapping("/signin")
     public void signIn() {
@@ -33,38 +32,17 @@ public class AuthApi {
     @PostMapping("/signup")
     public ResponseEntity<?> signUp(@RequestBody UserDto userDto) {
 
-            if (users.existsByUsername(userDto.getUsername())) {
-                return ResponseEntity
-                        .status(HttpStatus.BAD_REQUEST)
-                        .body("Error: Username is already taken!");
-            }
-
-
-            if (users.existsByEmail(userDto.getEmail())) {
-                return ResponseEntity
-                        .status(HttpStatus.BAD_REQUEST)
-                        .body("Error: Email is already in use!");
-            }
-
-        User user = convertToEntity(userDto);
-
-        Set<Role> rolesSet = new HashSet<>();
-
-        if (userDto.getRoles() == null) {
-            Role userRole = roles.findByName(ERole.ROLE_USER);
-            rolesSet.add(userRole);
+        if (users.existsByUsername(userDto.getUsername())) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Error: Username is already taken!");
         }
-
-        user.setRoles(rolesSet);
-
-        this.users.save(user);
-
+        if (users.existsByEmail(userDto.getEmail())) {
+            return ResponseEntity
+                    .status(HttpStatus.BAD_REQUEST)
+                    .body("Error: Email is already in use!");
+        }
+        users.save(userDto);
         return ResponseEntity.ok("User registered successfully!");
-    }
-
-
-    private User convertToEntity(UserDto userDto) {
-        ModelMapper mapper = new ModelMapper();
-        return mapper.map(userDto, User.class);
     }
 }

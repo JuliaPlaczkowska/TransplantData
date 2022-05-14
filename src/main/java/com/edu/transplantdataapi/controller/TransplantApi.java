@@ -27,10 +27,10 @@ public class TransplantApi {
         return transplants.findAll();
     }
 
-    @GetMapping("api/transplant")
-    public Optional<Transplant> getTransplantById(@RequestParam Long index) {
-        return transplants.findById(index);
-    }
+//    @GetMapping("api/transplant")
+//    public Optional<Transplant> getTransplantById(@RequestParam Long index) {
+//        return transplants.findById(index);
+//    }
 
     @GetMapping("api/transplant/user")
     public Iterable<TransplantDto> getTransplantByUsername(
