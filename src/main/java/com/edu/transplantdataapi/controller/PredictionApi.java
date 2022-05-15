@@ -17,7 +17,6 @@ public class PredictionApi {
     private ClassificationTreeAlgorithmManager classificationTreeAlgorithmManager;
     private TransplantManager transplantManager;
 
-
     @GetMapping("/tree")
     public List<String> generateClassificationTree() {
         return classificationTreeAlgorithmManager.tree();
@@ -29,59 +28,12 @@ public class PredictionApi {
     }
 
     @GetMapping("/predict")
-    public String predict(@RequestBody TransplantToPredictDto transplant) {
-        return classificationTreeAlgorithmManager.predict(transplant);
+    public String predict(@RequestBody TransplantToPredictDto transplantDto) {
+        return classificationTreeAlgorithmManager.predict(transplantDto);
     }
 
     @GetMapping("/transplants")
     public List<TransplantToPredictDto> getTransplantList(){
         return transplantManager.getAllAsTransplantToPredictDto();
     }
-
-//    private TransplantDto parseJsonTransplant(String transplant){
-//
-//        JSONObject transplantJSON = new JSONObject(transplant);
-//        JSONObject recipientJSON = transplantJSON.getJSONObject("recipient");
-//        JSONObject recipientPatientJSON = recipientJSON.getJSONObject("patient");
-//        JSONObject donorJSON = transplantJSON.getJSONObject("donor");
-//        JSONObject donorPatientJSON = donorJSON.getJSONObject("patient");
-//
-//        RecipientDto recipientDto = new RecipientDto(
-//                parseJsonPatient(recipientPatientJSON).convertToPatient(),
-//                recipientJSON.getString("bloodRh"),
-//                recipientJSON.getDouble("bodyMass"),
-//                recipientJSON.getString("disease"),
-//                recipientJSON.getString("diseaseGroup"),
-//                recipientJSON.getString("riskGroup")
-//        );
-//
-//        DonorDto donorDto = new DonorDto(
-//                parseJsonPatient(donorPatientJSON).convertToPatient(),
-//                //donorJSON.getString("stemCellSource")
-//                "TODO"
-//        );
-//
-//        return new TransplantDto(
-//                recipientDto,
-//                donorDto,
-//                transplantJSON.getInt("matchHLA"),
-//                transplantJSON.getBoolean("mismatchHLA"),
-//                transplantJSON.getInt("antigen"),
-//                transplantJSON.getInt("allele"),
-//                transplantJSON.getString("group1HLA"),
-//                transplantJSON.getBoolean("postRelapse"),
-//                transplantJSON.getDouble("cd34perKg"),
-//                transplantJSON.getDouble("cd3perKg")
-//        );
-//    }
-//
-//    private PatientDto parseJsonPatient(JSONObject patientJson){
-//        return new PatientDto(
-//                patientJson.getInt("number"),
-//                patientJson.getDouble("age"),
-//                patientJson.getString("bloodABO"),
-//                patientJson.getString("presenceOfCMV")
-//        );
-//    }
-
 }

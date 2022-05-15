@@ -1,6 +1,6 @@
 package com.edu.transplantdataapi.controller.outztym;
 
-import com.edu.transplantdataapi.dto.DonorDto;
+import com.edu.transplantdataapi.dto.patient.DonorDto;
 import com.edu.transplantdataapi.entity.transplantdata.Donor;
 import com.edu.transplantdataapi.service.DonorManager;
 import org.modelmapper.ModelMapper;

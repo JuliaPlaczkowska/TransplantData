@@ -1,4 +1,4 @@
-package com.edu.transplantdataapi.dto;
+package com.edu.transplantdataapi.dto.analysis;
 
 import com.edu.transplantdataapi.entity.transplantdata.Donor;
 import com.edu.transplantdataapi.entity.transplantdata.Recipient;

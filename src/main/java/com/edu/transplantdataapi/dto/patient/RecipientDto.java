@@ -1,10 +1,16 @@
-package com.edu.transplantdataapi.dto;
+package com.edu.transplantdataapi.dto.patient;
 
 import com.edu.transplantdataapi.entity.transplantdata.Patient;
 import com.edu.transplantdataapi.entity.transplantdata.Recipient;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class RecipientDto {
 
 
@@ -27,16 +33,5 @@ public class RecipientDto {
         this.disease = disease;
         this.diseaseGroup = diseaseGroup;
         this.riskGroup = riskGroup;
-    }
-
-    public RecipientDto(Recipient recipient) {
-
-        this.patient = new PatientDto(recipient.getPatient());
-        this.bloodRh = recipient.getBloodRh();
-        this.bodyMass = recipient.getBodyMass();
-        this.disease = recipient.getDisease();
-        this.diseaseGroup = recipient.getDiseaseGroup();
-        this.riskGroup = recipient.getRiskGroup();
-
     }
 }

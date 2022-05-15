@@ -1,6 +1,6 @@
 package com.edu.transplantdataapi.service;
 
-import com.edu.transplantdataapi.dto.UserDto;
+import com.edu.transplantdataapi.dto.user.UserDto;
 import com.edu.transplantdataapi.entity.user.Role;
 import com.edu.transplantdataapi.entity.user.User;
 import com.edu.transplantdataapi.enums.ERole;

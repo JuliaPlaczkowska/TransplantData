@@ -1,22 +1,21 @@
-package com.edu.transplantdataapi.dto;
+package com.edu.transplantdataapi.dto.patient;
 
 import com.edu.transplantdataapi.entity.transplantdata.Patient;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class PatientDto {
 
     private Integer number;
     private double age;
     private String bloodABO;
     private String presenceOfCMV;
-
-    public PatientDto(Integer number, double age, String bloodABO, String presenceOfCMV) {
-        this.number = number;
-        this.age = age;
-        this.bloodABO = bloodABO;
-        this.presenceOfCMV = presenceOfCMV;
-    }
 
     public PatientDto(Patient patient) {
         this.number = patient.getNumber();

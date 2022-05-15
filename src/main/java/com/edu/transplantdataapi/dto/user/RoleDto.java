@@ -1,4 +1,4 @@
-package com.edu.transplantdataapi.dto;
+package com.edu.transplantdataapi.dto.user;
 
 import lombok.*;
 

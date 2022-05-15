@@ -1,29 +1,42 @@
 package com.edu.transplantdataapi.service.analysis;
 
 import com.edu.transplantdataapi.dto.analysis.ChiSquareTestDto;
+import com.edu.transplantdataapi.dto.analysis.ChiSquareTestParameters;
 import com.edu.transplantdataapi.dto.analysis.HistogramDatasetDto;
 import com.edu.transplantdataapi.entity.analysis.ChiSquare;
 import com.edu.transplantdataapi.entity.transplantdata.SurvivalResult;
+import com.edu.transplantdataapi.repository.SurvivalResultRepo;
+import lombok.AllArgsConstructor;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class ChiSquareManager {
 
+    private SurvivalResultRepo survivalResultRepo;
+
     public ChiSquareTestDto getChiSquareTestResult(
-            String factor,
-            String classFactor,
-            List<SurvivalResult> survivalResultList,
-            double significance
+            ChiSquareTestParameters parameters
+    ) {
+        List<SurvivalResult> survivalResults = survivalResultRepo.findAll();
+        return calculateChiSquareTest(
+                parameters,
+                survivalResults);
+    }
+
+    private ChiSquareTestDto calculateChiSquareTest(
+            ChiSquareTestParameters parameters,
+            List<SurvivalResult> survivalResultList
     ) {
         ChiSquare chiSquare = new ChiSquare(
-                factor,
-                classFactor,
+                parameters.getFactor(),
+                parameters.getClassFactor(),
                 survivalResultList,
-                significance);
+                parameters.getSignificance());
 
         generateObservedExpected(chiSquare);
         calculatePValue(chiSquare);

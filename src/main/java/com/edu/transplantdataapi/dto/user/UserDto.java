@@ -1,4 +1,4 @@
-package com.edu.transplantdataapi.dto;
+package com.edu.transplantdataapi.dto.user;
 
 import com.edu.transplantdataapi.entity.user.Role;
 import com.edu.transplantdataapi.entity.user.User;

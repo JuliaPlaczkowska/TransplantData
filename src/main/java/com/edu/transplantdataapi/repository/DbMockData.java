@@ -156,22 +156,21 @@ public class DbMockData {
                 .CD3perKg((params[26].equals("?")) ? 0 : Double.parseDouble(params[26]))
                 .user(user)
                 .build();
-
         transplantRepository.save(transplant);
 
-        SurvivalResult survivalResult = new SurvivalResult(
-                transplant,
-                (params[28].equals("?")) ? 0 : (int) Double.parseDouble(params[28]),
-                (params[29].equals("?")) ? 0 : (int) Double.parseDouble(params[28]),
-                params[30].equals("yes"),
-                params[31].equals("yes"),
-                (params[32].equals("?")) ? 0 : Double.parseDouble(params[32]),
-                params[33].equals("yes"),
-                params[34].equals("yes"),
-                (params[35].equals("?")) ? 0 : Double.parseDouble(params[35]),
-                params[36].equals("1")
-
-        );
+        SurvivalResult survivalResult = SurvivalResult.builder()
+                .number(1L) //TODO
+                .transplant(transplant)
+                .ancRecovery((params[28].equals("?")) ? 0 : (int) Double.parseDouble(params[28]))
+                .pltRecovery((params[29].equals("?")) ? 0 : (int) Double.parseDouble(params[29]))
+                .acuteGvHD_II_III_IV(params[30].equals("yes"))
+                .acuteGvHD_III_IV(params[31].equals("yes"))
+                .time_to_acuteGvHD_III_IV((params[32].equals("?")) ? 0 : Double.parseDouble(params[32]))
+                .extensiveChronicGvHD(params[33].equals("yes"))
+                .relapse(params[34].equals("yes"))
+                .survivalTime((params[35].equals("?")) ? 0 : Double.parseDouble(params[35]))
+                .survivalStatus(params[36].equals("1"))
+                .build();
         survivalResultRepository.save(survivalResult);
 
 

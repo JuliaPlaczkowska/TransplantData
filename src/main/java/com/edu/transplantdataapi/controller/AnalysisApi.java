@@ -2,14 +2,12 @@ package com.edu.transplantdataapi.controller;
 
 
 import com.edu.transplantdataapi.dto.analysis.ChiSquareTestDto;
+import com.edu.transplantdataapi.dto.analysis.ChiSquareTestParameters;
 import com.edu.transplantdataapi.dto.analysis.HistogramDatasetDto;
-import com.edu.transplantdataapi.entity.transplantdata.SurvivalResult;
 import com.edu.transplantdataapi.service.SurvivalResultManager;
 import com.edu.transplantdataapi.service.analysis.ChiSquareManager;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping
@@ -31,19 +29,10 @@ public class AnalysisApi {
 
     @GetMapping("api/survivalResult/chisquaretest")
     public ChiSquareTestDto getChiSquareTestResult(
-            @RequestParam String factor,
-            @RequestParam String classFactor,
-            @RequestParam double significance
-    ) {
-
-        List<SurvivalResult> survivalResultList =
-                survivalResultsManager.findAll();
-
+            @RequestBody ChiSquareTestParameters parameters
+            ) {
         return chiSquareManager.getChiSquareTestResult(
-                factor,
-                classFactor,
-                survivalResultList,
-                significance);
+                parameters);
     }
 
 }
