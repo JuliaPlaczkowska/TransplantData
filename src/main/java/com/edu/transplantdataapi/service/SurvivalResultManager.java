@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Service
 @AllArgsConstructor
@@ -20,11 +19,8 @@ public class SurvivalResultManager {
     private SurvivalResultRepo survivalResultRepo;
     private ModelMapper modelMapper;
 
-    public List<SurvivalResult> findAll() {
-        return StreamSupport
-                .stream(survivalResultRepo.findAll().spliterator(),
-                        false)
-                .collect(Collectors.toList());
+    private List<SurvivalResult> findAll() {
+        return survivalResultRepo.findAll();
     }
 
     public List<SurvivalResultDto> findAllSurvivalResultDto() {

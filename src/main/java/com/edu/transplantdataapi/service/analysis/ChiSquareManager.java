@@ -48,7 +48,7 @@ public class ChiSquareManager {
         );
     }
 
-    public void generateObservedExpected(ChiSquare chiSquare) {
+    private void generateObservedExpected(ChiSquare chiSquare) {
 
         HistogramDatasetDto histogramDatasetDto =
                 new HistogramDatasetDto(chiSquare.getFactor(), chiSquare.getClassFactor(), chiSquare.getDataset());
@@ -103,7 +103,7 @@ public class ChiSquareManager {
         chiSquare.setExpected(expectedArrayList);
     }
 
-    public double calculatePValue(ChiSquare chiSquare) {
+    private double calculatePValue(ChiSquare chiSquare) {
         double pValue = new ChiSquareTest()
                 .chiSquareTest(
                         listToTableDouble(chiSquare.getExpected()),
@@ -113,7 +113,7 @@ public class ChiSquareManager {
         return pValue;
     }
 
-    public boolean calculateReject(ChiSquare chiSquare) {
+    private boolean calculateReject(ChiSquare chiSquare) {
         boolean reject = new ChiSquareTest()
                 .chiSquareTest(
                         listToTableDouble(chiSquare.getExpected()),

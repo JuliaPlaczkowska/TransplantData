@@ -23,7 +23,6 @@ public class AnalysisApi {
             @RequestParam String factor,
             @RequestParam String classFactor
     ) {
-
         return survivalResultsManager.getHistogramData(factor, classFactor);
     }
 
