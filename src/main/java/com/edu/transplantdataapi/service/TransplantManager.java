@@ -1,51 +1,58 @@
 package com.edu.transplantdataapi.service;
 
-import com.edu.transplantdataapi.repository.TransplantRepo;
+import com.edu.transplantdataapi.dto.prediction.TransplantDto;
+import com.edu.transplantdataapi.dto.prediction.TransplantToPredictDto;
 import com.edu.transplantdataapi.entity.transplantdata.Transplant;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.edu.transplantdataapi.repository.TransplantRepo;
+import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
+@AllArgsConstructor
 public class TransplantManager {
 
     private TransplantRepo transplantRepo;
+    private ModelMapper mapper;
 
-    @Autowired
-    public TransplantManager(TransplantRepo transplantRepo) {
-        this.transplantRepo = transplantRepo;
+    public TransplantDto save(TransplantDto transplantDto) {
+        //TODO validation
+        Transplant transplant = transplantRepo
+                .save(mapper.map(transplantDto, Transplant.class));
+        return mapper.map(transplant, TransplantDto.class);
     }
 
-    public Optional<Transplant> findById(Long id) {
-        return transplantRepo.findById(id);
-    }
-
-    public Iterable<Transplant> findAll() {
+    private Iterable<Transplant> findAll() {
         return transplantRepo.findAll();
     }
 
-
-    public Iterable<Transplant> findByUsername(String username) {
-
-        Iterable<Transplant> allTransplants = transplantRepo.findAll();
-
-        Iterable<Transplant> withoutResultByUser =
-                StreamSupport.stream(
-                        allTransplants.spliterator(), false)
-                        .filter(transplant ->
-                                transplant.getUser().getUsername().equals(username)
-                        )
-                .collect(Collectors.toList());
-
-        return transplantRepo.findAll();
+    public List<TransplantDto> getAllTransplantDto() {
+        List<TransplantDto> result = new ArrayList<>();
+        findAll()
+                .forEach(
+                        transplant ->
+                                result.add(
+                                        mapper
+                                                .map(transplant, TransplantDto.class)
+                                )
+                );
+        return result;
     }
 
-    public Transplant save(Transplant transplant) {
-        return transplantRepo.save(transplant);
+    public List<TransplantToPredictDto> getAllAsTransplantToPredictDto() {
+        List<TransplantToPredictDto> result = new ArrayList<>();
+        findAll()
+                .forEach(
+                        transplant ->
+                                result.add(
+                                        mapper
+                                                .map(transplant, TransplantToPredictDto.class)
+                                )
+                );
+        return result;
     }
-
 }
 

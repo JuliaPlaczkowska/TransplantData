@@ -1,4 +1,4 @@
-package com.edu.transplantdataapi.datatransferobject.analysis;
+package com.edu.transplantdataapi.dto.analysis;
 
 import com.edu.transplantdataapi.entity.transplantdata.SurvivalResult;
 import com.edu.transplantdataapi.enums.ClassFactor;
@@ -67,11 +67,11 @@ public class HistogramDatasetDto {
                             String.valueOf(
                                     switch (factor) {
                                         case matchHla -> sr.getTransplant().getMatchHLA();
-                                        case mismatchHla -> sr.getTransplant().getMismatchHLA();
+                                        case mismatchHla -> sr.getTransplant().isMismatchHLA();
                                         case antigen -> sr.getTransplant().getAntigen();
                                         case allele -> sr.getTransplant().getAllele();
                                         case groupHla -> sr.getTransplant().getGroup1HLA();
-                                        case postRelapse -> sr.getTransplant().getPostRelapse();
+                                        case postRelapse -> sr.getTransplant().isPostRelapse();
                                         case risk_group -> sr.getTransplant().getRecipient().getRiskGroup();
                                         case cd34perKg -> sr.getTransplant().getCD34perKg();
                                         case cd3perKg -> sr.getTransplant().getCD3perKg();

@@ -1,57 +1,72 @@
 package com.edu.transplantdataapi.service;
 
+import com.edu.transplantdataapi.dto.user.UserDto;
 import com.edu.transplantdataapi.entity.user.Role;
-import com.edu.transplantdataapi.repository.UserRepo;
 import com.edu.transplantdataapi.entity.user.User;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.edu.transplantdataapi.enums.ERole;
+import com.edu.transplantdataapi.exceptions.InvalidRoleNameException;
+import com.edu.transplantdataapi.exceptions.UserNotFoundException;
+import com.edu.transplantdataapi.repository.RoleRepo;
+import com.edu.transplantdataapi.repository.UserRepo;
+import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
+import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 
 @Service
-@Slf4j
+@Transactional
+@AllArgsConstructor
 public class UserManager implements UserDetailsService {
 
     private final UserRepo userRepo;
+    private final RoleRepo roleRepo;
     private final PasswordEncoder passwordEncoder;
+    private final ModelMapper mapper;
 
-    @Autowired
-    public UserManager(UserRepo userRepo, PasswordEncoder passwordEncoder) {
-        this.userRepo = userRepo;
-        this.passwordEncoder = passwordEncoder;
+
+    public UserDto addRole(String username, String roleName)
+            throws UserNotFoundException, InvalidRoleNameException {
+        User user = findUserByUsername(username);
+        Role role = findRoleByRoleName(roleName);
+        user.addRole(role);
+        return mapper.map(user, UserDto.class);
     }
 
-    public Optional<User> findById(Long id) {
-        return userRepo.findById(id);
+    public UserDto removeRole(String username, String roleName)
+            throws UserNotFoundException, InvalidRoleNameException {
+        User user = findUserByUsername(username);
+        Role role = findRoleByRoleName(roleName);
+        user.removeRole(role);
+        return mapper.map(user, UserDto.class);
     }
 
-    public void addRole(Long id, Role role) {
-        User user = null;
-        Optional<User> optional = userRepo.findById(id);
-        if (optional.isPresent()) {
-            user = optional.get();
-            Set<Role> roles = user.getRoles();
-            roles.add(role);
-            user.setRoles(roles);
+    private boolean validRoleName(String roleName) {
+        return roleName.equals(ERole.ROLE_ADMIN.toString())
+                || roleName.equals(ERole.ROLE_DOCTOR.toString())
+                || roleName.equals(ERole.ROLE_USER.toString());
+    }
+
+    public UserDto save(UserDto userDto) {
+        User user = mapper.map(userDto, User.class);
+        Set<Role> rolesSet = new HashSet<>();
+
+        if (userDto.getRoles() == null) {
+            Role userRole = roleRepo.findByName(ERole.ROLE_USER);
+            rolesSet.add(userRole);
         }
-    }
-
-    public Iterable<User> findAll() {
-        return userRepo.findAll();
-    }
-
-    public User save(User user) {
+        user.setRoles(rolesSet);
         String encodedPassword = passwordEncoder.encode(user.getPassword());
-        log.info("Encoded password: {}", encodedPassword);
         user.setPassword(encodedPassword);
 
-        return userRepo.save(user);
+        return mapper.map(userRepo.save(user), UserDto.class);
     }
 
     public void deleteById(Long id) {
@@ -79,5 +94,26 @@ public class UserManager implements UserDetailsService {
         return userRepo.existsByUsername(username);
     }
 
+    public User findUserByUsername(String username) throws UserNotFoundException {
+        User user;
+        Optional<User> optional =
+                Optional.ofNullable(userRepo.findByUsername(username));
+        if (optional.isPresent()) {
+            user = optional.get();
+            return user;
+        } else throw new UserNotFoundException(username);
+    }
 
+    public Role findRoleByRoleName(String roleName) throws InvalidRoleNameException {
+        Role role;
+        if (validRoleName(roleName)) {
+            role = roleRepo.findByName(ERole.valueOf(roleName));
+        } else throw new InvalidRoleNameException(roleName);
+        return role;
+    }
+
+    public UserDto findByUsername(String username) throws UserNotFoundException {
+        User user = findUserByUsername(username);
+        return mapper.map(user, UserDto.class);
+    }
 }

@@ -1,4 +1,4 @@
-package com.edu.transplantdataapi.datatransferobject.analysis;
+package com.edu.transplantdataapi.dto.analysis;
 
 import lombok.Data;
 

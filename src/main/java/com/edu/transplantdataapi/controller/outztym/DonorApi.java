@@ -1,8 +1,9 @@
-package com.edu.transplantdataapi.controller;
+package com.edu.transplantdataapi.controller.outztym;
 
-import com.edu.transplantdataapi.datatransferobject.DonorDto;
+import com.edu.transplantdataapi.dto.patient.DonorDto;
 import com.edu.transplantdataapi.entity.transplantdata.Donor;
 import com.edu.transplantdataapi.service.DonorManager;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -61,7 +62,8 @@ public class DonorApi {
         return new DonorDto(donor);
     }
 
-    private Donor convertToEntity(DonorDto DonorDto){
-        return new Donor(DonorDto.getPatient().convertToPatient(), DonorDto.getStemCellSource());
+    private Donor convertToEntity(DonorDto donorDto){
+        ModelMapper mapper = new ModelMapper();
+        return mapper.map(donorDto, Donor.class);
     }
 }

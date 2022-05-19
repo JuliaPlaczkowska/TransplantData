@@ -1,4 +1,4 @@
-package com.edu.transplantdataapi.datatransferobject;
+package com.edu.transplantdataapi.dto.analysis;
 
 import com.edu.transplantdataapi.entity.transplantdata.Donor;
 import com.edu.transplantdataapi.entity.transplantdata.Recipient;
@@ -66,11 +66,11 @@ public class SurvivalResultsDataGridDto {
 
         Transplant transplant = survivalResult.getTransplant();
         this.matchHLA = transplant.getMatchHLA();
-        this.mismatchHLA = transplant.getMismatchHLA();
+        this.mismatchHLA = transplant.isMismatchHLA();
         this.antigen = transplant.getAntigen();
         this.allele = transplant.getAllele();
         this.group1HLA = transplant.getGroup1HLA();
-        this.postRelapse = transplant.getPostRelapse();
+        this.postRelapse = transplant.isPostRelapse();
         this.CD34perKg = transplant.getCD34perKg();
         this.CD3perKg = transplant.getCD3perKg();
 
