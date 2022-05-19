@@ -10,6 +10,7 @@ import com.edu.transplantdataapi.exceptions.InvalidClassFactorNameException;
 import com.edu.transplantdataapi.exceptions.InvalidFactorNameException;
 import com.edu.transplantdataapi.repository.SurvivalResultRepo;
 import com.edu.transplantdataapi.service.analysis.HistogramManager;
+import com.edu.transplantdataapi.validation.FactorsValidator;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
@@ -45,8 +46,8 @@ public class SurvivalResultManager {
 
     public HistogramDatasetDto getHistogramData(String factorName,
                                                 String classFactorName) throws InvalidFactorNameException, InvalidClassFactorNameException {
-        Factor factor = validateFactorName(factorName);
-        ClassFactor classFactor = validateClassFactorName(classFactorName);
+        Factor factor = FactorsValidator.validateFactorName(factorName);
+        ClassFactor classFactor = FactorsValidator.validateClassFactorName(classFactorName);
         List<SurvivalResult> survivalResultList = findAll();
         return histogramManager.getHistogramData(factor, classFactor, survivalResultList);
     }
@@ -55,24 +56,6 @@ public class SurvivalResultManager {
         SurvivalResult survivalResult = modelMapper.map(survivalResultDto, SurvivalResult.class);
         SurvivalResult saved = survivalResultRepo.save(survivalResult);
         return modelMapper.map(saved, SurvivalResultDto.class);
-    }
-
-    private Factor validateFactorName(String factorName) throws InvalidFactorNameException {
-        try{
-            return Factor.valueOf(factorName);
-        }
-        catch (IllegalArgumentException e){
-            throw new InvalidFactorNameException(factorName);
-        }
-    }
-
-    private ClassFactor validateClassFactorName(String classFactorName) throws InvalidClassFactorNameException {
-        try{
-            return ClassFactor.valueOf(classFactorName);
-        }
-        catch (IllegalArgumentException e){
-            throw new InvalidClassFactorNameException(classFactorName);
-        }
     }
 }
 

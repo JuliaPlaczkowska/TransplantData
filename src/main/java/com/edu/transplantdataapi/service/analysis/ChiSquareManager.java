@@ -7,15 +7,18 @@ import com.edu.transplantdataapi.entity.analysis.ChiSquare;
 import com.edu.transplantdataapi.entity.transplantdata.SurvivalResult;
 import com.edu.transplantdataapi.enums.ClassFactor;
 import com.edu.transplantdataapi.enums.Factor;
+import com.edu.transplantdataapi.exceptions.InvalidClassFactorNameException;
+import com.edu.transplantdataapi.exceptions.InvalidFactorNameException;
+import com.edu.transplantdataapi.exceptions.InvalidSignificanceValue;
 import com.edu.transplantdataapi.repository.SurvivalResultRepo;
+import com.edu.transplantdataapi.validation.FactorsValidator;
+import com.edu.transplantdataapi.validation.SignificanceValidator;
 import lombok.AllArgsConstructor;
-import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -26,11 +29,18 @@ public class ChiSquareManager {
 
     public ChiSquareTestDto getChiSquareTestResult(
             ChiSquareTestParameters parameters
-    ) {
+    ) throws InvalidFactorNameException, InvalidClassFactorNameException, InvalidSignificanceValue {
+        validateParameters(parameters);
         List<SurvivalResult> survivalResults = survivalResultRepo.findAll();
         return calculateChiSquareTest(
                 parameters,
                 survivalResults);
+    }
+
+    private void validateParameters(ChiSquareTestParameters parameters) throws InvalidFactorNameException, InvalidSignificanceValue, InvalidClassFactorNameException {
+        FactorsValidator.validateFactorName(parameters.getFactor());
+        FactorsValidator.validateClassFactorName(parameters.getClassFactor());
+        SignificanceValidator.validateSignificance(parameters.getSignificance());
     }
 
     private ChiSquareTestDto calculateChiSquareTest(
