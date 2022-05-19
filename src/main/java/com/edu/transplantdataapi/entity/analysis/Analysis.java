@@ -8,6 +8,7 @@ import java.util.List;
 @Entity
 @Getter
 @Setter
+@Builder
 @AllArgsConstructor
 @NoArgsConstructor
 public class Analysis {
@@ -26,9 +27,4 @@ public class Analysis {
     joinColumns = @JoinColumn(name = "analysis_id"),
     inverseJoinColumns = @JoinColumn(name = "user_id"))
     private User author;
-
-    public Analysis(int number, List<AnalysisResult> results) {
-        this.number = number;
-        this.results = results;
-    }
 }

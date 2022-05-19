@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -110,38 +111,36 @@ public class ChiSquareManager {
         chiSquare.setExpected(expectedArrayList);
     }
 
-    private double calculatePValue(ChiSquare chiSquare) {
+    private void calculatePValue(ChiSquare chiSquare) {
         double pValue = new ChiSquareTest()
                 .chiSquareTest(
-                        listToTableDouble(chiSquare.getExpected()),
-                        listToTableLong(chiSquare.getObserved())
+                        listToDoubleArray(chiSquare.getExpected()),
+                        listToLongArray(chiSquare.getObserved())
                 );
         chiSquare.setPValue(pValue);
-        return pValue;
     }
 
-    private boolean calculateReject(ChiSquare chiSquare) {
+    private void calculateReject(ChiSquare chiSquare) {
         boolean reject = new ChiSquareTest()
                 .chiSquareTest(
-                        listToTableDouble(chiSquare.getExpected()),
-                        listToTableLong(chiSquare.getObserved()),
+                        listToDoubleArray(chiSquare.getExpected()),
+                        listToLongArray(chiSquare.getObserved()),
                         chiSquare.getSignificance()
                 );
         chiSquare.setRejected(reject);
-        return reject;
     }
 
-    private double[] listToTableDouble(List<Double> list) {
-        double[] expectedArray = new double[list.size()];
-        for (int i = 0; i < list.size(); i++)
-            expectedArray[i] = list.get(i);
-        return expectedArray;
+    private double[] listToDoubleArray(List<Double> list) {
+        return list
+                .stream()
+                .mapToDouble(d -> d)
+                .toArray();
     }
 
-    private long[] listToTableLong(List<Long> list) {
-        long[] expectedArray = new long[list.size()];
-        for (int i = 0; i < list.size(); i++)
-            expectedArray[i] = list.get(i);
-        return expectedArray;
+    private long[] listToLongArray(List<Long> list) {
+        return list
+                .stream()
+                .mapToLong(l -> l)
+                .toArray();
     }
 }
