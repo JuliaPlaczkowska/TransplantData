@@ -1,7 +1,7 @@
 package com.edu.transplantdataapi.controller;
 
 import com.edu.transplantdataapi.dto.prediction.TransplantDto;
-import com.edu.transplantdataapi.service.TransplantManager;
+import com.edu.transplantdataapi.service.transplantdata.TransplantManager;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

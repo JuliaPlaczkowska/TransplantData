@@ -5,8 +5,11 @@ import com.edu.transplantdataapi.dto.analysis.ChiSquareTestParameters;
 import com.edu.transplantdataapi.dto.analysis.HistogramDatasetDto;
 import com.edu.transplantdataapi.entity.analysis.ChiSquare;
 import com.edu.transplantdataapi.entity.transplantdata.SurvivalResult;
+import com.edu.transplantdataapi.enums.ClassFactor;
+import com.edu.transplantdataapi.enums.Factor;
 import com.edu.transplantdataapi.repository.SurvivalResultRepo;
 import lombok.AllArgsConstructor;
+import org.apache.commons.math3.exception.OutOfRangeException;
 import org.apache.commons.math3.stat.inference.ChiSquareTest;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +21,7 @@ import java.util.List;
 public class ChiSquareManager {
 
     private SurvivalResultRepo survivalResultRepo;
+    private HistogramManager histogramManager;
 
     public ChiSquareTestDto getChiSquareTestResult(
             ChiSquareTestParameters parameters
@@ -51,7 +55,10 @@ public class ChiSquareManager {
     private void generateObservedExpected(ChiSquare chiSquare) {
 
         HistogramDatasetDto histogramDatasetDto =
-                new HistogramDatasetDto(chiSquare.getFactor(), chiSquare.getClassFactor(), chiSquare.getDataset());
+                histogramManager.getHistogramData(
+                        Factor.valueOf(chiSquare.getFactor()),
+                        ClassFactor.valueOf(chiSquare.getClassFactor()),
+                        chiSquare.getDataset());
 
         int columns = histogramDatasetDto.getLabels().size();
         int rows = histogramDatasetDto.getDatasets().size();

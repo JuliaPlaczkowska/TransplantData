@@ -2,13 +2,11 @@ package com.edu.transplantdataapi.controller;
 
 import com.edu.transplantdataapi.dto.analysis.SurvivalResultsDataGridDto;
 import com.edu.transplantdataapi.dto.prediction.SurvivalResultDto;
-import com.edu.transplantdataapi.service.SurvivalResultManager;
+import com.edu.transplantdataapi.service.transplantdata.SurvivalResultManager;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping
