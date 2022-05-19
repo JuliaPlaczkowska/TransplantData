@@ -1,4 +1,4 @@
-package com.edu.transplantdataapi.service;
+package com.edu.transplantdataapi.service.transplantdata;
 
 import com.edu.transplantdataapi.repository.DonorRepo;
 import com.edu.transplantdataapi.entity.transplantdata.Donor;

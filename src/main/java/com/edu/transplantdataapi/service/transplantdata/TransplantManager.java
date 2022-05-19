@@ -1,4 +1,4 @@
-package com.edu.transplantdataapi.service;
+package com.edu.transplantdataapi.service.transplantdata;
 
 import com.edu.transplantdataapi.dto.prediction.TransplantDto;
 import com.edu.transplantdataapi.dto.prediction.TransplantToPredictDto;

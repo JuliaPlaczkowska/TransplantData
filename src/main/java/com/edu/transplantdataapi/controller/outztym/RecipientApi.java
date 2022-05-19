@@ -2,7 +2,7 @@ package com.edu.transplantdataapi.controller.outztym;
 
 import com.edu.transplantdataapi.dto.patient.RecipientDto;
 import com.edu.transplantdataapi.entity.transplantdata.Recipient;
-import com.edu.transplantdataapi.service.RecipientManager;
+import com.edu.transplantdataapi.service.transplantdata.RecipientManager;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

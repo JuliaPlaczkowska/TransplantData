@@ -1,7 +1,7 @@
 package com.edu.transplantdataapi.controller.outztym;
 
 import com.edu.transplantdataapi.entity.transplantdata.Patient;
-import com.edu.transplantdataapi.service.PatientManager;
+import com.edu.transplantdataapi.service.transplantdata.PatientManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
