@@ -4,6 +4,7 @@ import com.edu.transplantdataapi.dto.analysis.SurvivalResultsDataGridDto;
 import com.edu.transplantdataapi.dto.prediction.SurvivalResultDto;
 import com.edu.transplantdataapi.service.transplantdata.SurvivalResultManager;
 import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,18 +18,17 @@ public class SurvivalResultApi {
     private SurvivalResultManager survivalResultManager;
 
     @GetMapping("api/survivalResult/dataGrid")
-    public List<SurvivalResultsDataGridDto> getSurvivalResultsForDataGrid() {
-        return survivalResultManager.getSurvivalResultsForDataGrid();
+    public ResponseEntity<?> getSurvivalResultsForDataGrid() {
+        return ResponseEntity.ok(survivalResultManager.getSurvivalResultsForDataGrid());
     }
 
     @GetMapping("api/survivalResult/all")
-    public List<SurvivalResultDto> getSurvivalResultsDto() {
-//        return new ArrayList<>();
-        return survivalResultManager.findAllSurvivalResultDto();
+    public ResponseEntity<?> getSurvivalResultsDto() {
+        return ResponseEntity.ok(survivalResultManager.findAllSurvivalResultDto());
     }
 
     @PostMapping("api/survivalResult")
-    public SurvivalResultDto addSurvivalResult(@RequestBody SurvivalResultDto survivalResult ){
-        return  survivalResultManager.save(survivalResult);
+    public ResponseEntity<?> addSurvivalResult(@RequestBody SurvivalResultDto survivalResult ){
+        return  ResponseEntity.ok(survivalResultManager.save(survivalResult));
     }
 }
