@@ -4,12 +4,15 @@ import com.edu.transplantdataapi.dto.user.UserDto;
 import com.edu.transplantdataapi.entity.user.Role;
 import com.edu.transplantdataapi.entity.user.User;
 import com.edu.transplantdataapi.enums.ERole;
+import com.edu.transplantdataapi.exceptions.CredentialAlreadyTakenException;
 import com.edu.transplantdataapi.exceptions.InvalidRoleNameException;
 import com.edu.transplantdataapi.exceptions.UserNotFoundException;
 import com.edu.transplantdataapi.repository.RoleRepo;
 import com.edu.transplantdataapi.repository.UserRepo;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -32,29 +35,31 @@ public class UserManager implements UserDetailsService {
     private final ModelMapper mapper;
 
 
-    public UserDto addRole(String username, String roleName)
-            throws UserNotFoundException, InvalidRoleNameException {
+    public UserDto addRole(String username, String roleName) {
         User user = findUserByUsername(username);
         Role role = findRoleByRoleName(roleName);
         user.addRole(role);
         return mapper.map(user, UserDto.class);
     }
 
-    public UserDto removeRole(String username, String roleName)
-            throws UserNotFoundException, InvalidRoleNameException {
+    public UserDto removeRole(String username, String roleName) {
         User user = findUserByUsername(username);
         Role role = findRoleByRoleName(roleName);
         user.removeRole(role);
         return mapper.map(user, UserDto.class);
     }
 
-    private boolean validRoleName(String roleName) {
-        return roleName.equals(ERole.ROLE_ADMIN.toString())
-                || roleName.equals(ERole.ROLE_DOCTOR.toString())
-                || roleName.equals(ERole.ROLE_USER.toString());
+    public UserDto registerUser(UserDto userDto) {
+        if (existsByUsername(userDto.getUsername())) {
+            throw new CredentialAlreadyTakenException("username");
+        }
+        if (existsByEmail(userDto.getEmail())) {
+            throw new CredentialAlreadyTakenException("email");
+        }
+        return save(userDto);
     }
 
-    public UserDto save(UserDto userDto) {
+    private UserDto save(UserDto userDto) {
         User user = mapper.map(userDto, User.class);
         Set<Role> rolesSet = new HashSet<>();
 
@@ -69,12 +74,14 @@ public class UserManager implements UserDetailsService {
         return mapper.map(userRepo.save(user), UserDto.class);
     }
 
-    public void deleteById(Long id) {
-        userRepo.deleteById(id);
+    private boolean validRoleName(String roleName) {
+        return roleName.equals(ERole.ROLE_ADMIN.toString())
+                || roleName.equals(ERole.ROLE_DOCTOR.toString())
+                || roleName.equals(ERole.ROLE_USER.toString());
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
 
         User user = userRepo.findByUsername(username);
         if (user == null) {
@@ -86,15 +93,15 @@ public class UserManager implements UserDetailsService {
                 user.getAuthorities());
     }
 
-    public boolean existsByEmail(String email) {
+    private boolean existsByEmail(String email) {
         return userRepo.existsByEmail(email);
     }
 
-    public boolean existsByUsername(String username) {
+    private boolean existsByUsername(String username) {
         return userRepo.existsByUsername(username);
     }
 
-    public User findUserByUsername(String username) throws UserNotFoundException {
+    private User findUserByUsername(String username) {
         User user;
         Optional<User> optional =
                 Optional.ofNullable(userRepo.findByUsername(username));
@@ -104,7 +111,7 @@ public class UserManager implements UserDetailsService {
         } else throw new UserNotFoundException(username);
     }
 
-    public Role findRoleByRoleName(String roleName) throws InvalidRoleNameException {
+    private Role findRoleByRoleName(String roleName) {
         Role role;
         if (validRoleName(roleName)) {
             role = roleRepo.findByName(ERole.valueOf(roleName));
@@ -112,7 +119,7 @@ public class UserManager implements UserDetailsService {
         return role;
     }
 
-    public UserDto findByUsername(String username) throws UserNotFoundException {
+    public UserDto findByUsername(String username) {
         User user = findUserByUsername(username);
         return mapper.map(user, UserDto.class);
     }

@@ -22,18 +22,7 @@ public class AuthApi {
 
     @PostMapping("/signup")
     public ResponseEntity<?> signUp(@RequestBody UserDto userDto) {
-
-        if (users.existsByUsername(userDto.getUsername())) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body("Error: Username is already taken!");
-        }
-        if (users.existsByEmail(userDto.getEmail())) {
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body("Error: Email is already in use!");
-        }
-        users.save(userDto);
-        return ResponseEntity.ok("User registered successfully!");
+        UserDto user = users.registerUser(userDto);
+        return ResponseEntity.ok(user);
     }
 }
