@@ -25,13 +25,13 @@ public class AnalysisApi {
             @RequestParam String factor,
             @RequestParam String classFactor
     ) {
-        try {
+//        try {
             return ResponseEntity
                     .ok(survivalResultsManager
                             .getHistogramData(factor, classFactor));
-        } catch (InvalidFactorNameException | InvalidClassFactorNameException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+//        } catch (InvalidFactorNameException | InvalidClassFactorNameException e) {
+//            return ResponseEntity.badRequest().body(e.getMessage());
+//        }
     }
 
     @GetMapping("api/survivalResult/chisquaretest")
