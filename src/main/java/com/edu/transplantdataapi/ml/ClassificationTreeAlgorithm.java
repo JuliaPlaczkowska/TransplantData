@@ -39,7 +39,6 @@ public class ClassificationTreeAlgorithm {
         return source1.getDataSet();
     }
 
-    //wg 18.7.2 z WekaManual.pdf - Train/test set
     public List<String> getTree() throws Exception {
         selectFeatures(dataTrain);
         tree.buildClassifier(dataTrain);
@@ -52,13 +51,11 @@ public class ClassificationTreeAlgorithm {
         return results;
     }
 
-    //wg 18.7.2 z WekaManual.pdf - Collecting predictions
     public List<String> evaluationSummary() throws Exception {
 
         dataTrain.setClassIndex(dataTrain.numAttributes() - 1);
 
         Evaluation eval = new Evaluation(dataTrain);
-        StringBuffer buffer = new StringBuffer();
         eval.crossValidateModel(
                 tree,
                 dataTrain,
@@ -73,17 +70,13 @@ public class ClassificationTreeAlgorithm {
                 .collect(Collectors.toList());
     }
 
-    //wg 18.7.3 z WekaManual.pdf - Classifying instances
     public String predict() throws Exception {
 
         dataTrain.setClassIndex(dataTrain.numAttributes() - 1);
         dataTest.setClassIndex(dataTest.numAttributes() - 1);
-
-        //	train classifier
         tree.buildClassifier(dataTrain);
 
-        //	output predictions
-        ArrayList<String> dane = new ArrayList();//do wykorzystania jako dane modelu
+        ArrayList<String> dane = new ArrayList();
         String l1 = "# - actual - predicted - distribution (0/1)" + "\n";
         dane.add(l1);
 
@@ -120,8 +113,6 @@ public class ClassificationTreeAlgorithm {
         remove.setOptions(opts);
         remove.setInputFormat(dataTrain);
         dataTrain = Filter.useFilter(dataTrain, remove);
-
-        //System.out.println(data.toString());
     }
 
     public void selectFeatures(Instances data) throws Exception {
@@ -139,7 +130,7 @@ public class ClassificationTreeAlgorithm {
         System.setProperty("java.awt.headless", "true");
         JFrame frame = new JFrame("Tree Visualizer");
         frame.setSize(2000, 900);
-        frame.setDefaultCloseOperation(3);
+        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.getContentPane().add(tv);
         frame.setVisible(true);
         tv.fitToScreen();

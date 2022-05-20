@@ -1,5 +1,6 @@
 package com.edu.transplantdataapi.controller;
 
+import com.edu.transplantdataapi.exceptions.ClassificationTreeException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,14 +17,21 @@ public class RuntimeExceptionHandler
             = {RuntimeException.class})
     protected ResponseEntity<Object> handleConflict(
             RuntimeException e, WebRequest request) {
-
         String bodyOfResponse = e.getMessage();
         return handleExceptionInternal(
                 e,
                 bodyOfResponse,
                 new HttpHeaders(),
-                HttpStatus.BAD_REQUEST,
+                getHttpStatus(e),
                 request
         );
+    }
+
+    private HttpStatus getHttpStatus(RuntimeException e) {
+        HttpStatus status;
+        if (e instanceof ClassificationTreeException)
+            status = HttpStatus.INTERNAL_SERVER_ERROR;
+        else status = HttpStatus.BAD_REQUEST;
+        return status;
     }
 }

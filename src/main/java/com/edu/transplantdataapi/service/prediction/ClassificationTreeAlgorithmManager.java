@@ -1,21 +1,21 @@
 package com.edu.transplantdataapi.service.prediction;
 
 import com.edu.transplantdataapi.dto.prediction.TransplantToPredictDto;
+import com.edu.transplantdataapi.exceptions.ClassificationTreeException;
 import com.edu.transplantdataapi.ml.ClassificationTreeAlgorithm;
-import com.opencsv.CSVWriter;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+
+import static com.edu.transplantdataapi.utils.ArffUtils.TRANSPLANT_DATA_ARFF;
 
 @Service
 public class ClassificationTreeAlgorithmManager {
 
-    private ModelMapper modelMapper = new ModelMapper();
     private ClassificationTreeAlgorithm weka;
     private final String arffTrain =
             "src/main/resources/dataset/bone-marrow.arff";
@@ -26,37 +26,30 @@ public class ClassificationTreeAlgorithmManager {
 
     public List<String> tree() {
         List<String> result;
-
         try {
             weka =
                     new ClassificationTreeAlgorithm(arffTrain, arffTest);
             result = weka.getTree();
-
         } catch (Exception e) {
-            e.printStackTrace();
-            return new ArrayList<>();
+            throw new ClassificationTreeException();
         }
         return result;
     }
 
     public List<String> evaluationSummary() {
         List<String> result;
-
         try {
             weka =
                     new ClassificationTreeAlgorithm(arffTrain, arffTest);
             result = weka.evaluationSummary();
-
         } catch (Exception e) {
-            e.printStackTrace();
-            return List.of("Blad");
+            throw new ClassificationTreeException();
         }
         return result;
     }
 
     public String predict(TransplantToPredictDto transplant) {
         String result;
-
         try {
             writeTransplantToPredictDtoToArffFile(transplant);
             weka =
@@ -73,30 +66,7 @@ public class ClassificationTreeAlgorithmManager {
     private void writeTransplantToPredictDtoToArffFile(TransplantToPredictDto transplant)
             throws IOException {
         PrintWriter writer = new PrintWriter(arffToPredict, StandardCharsets.UTF_8);
-        writer.print("@relation 'bone-marrow\n" +
-                "\n" +
-                "@attribute donor_age numeric\n" +
-                "@attribute donor_ABO {0,A,AB,B}\n" +
-                "@attribute donor_CMV {absent,present}\n" +
-                "@attribute recipient_age numeric\n" +
-                "@attribute recipient_ABO {0,A,AB,B}\n" +
-                "@attribute recipient_CMV {absent,present}\n" +
-                "@attribute disease {ALL,AML,chronic,lymphoma,nonmalignant}\n" +
-                "@attribute disease_group {malignant,nonmalignant}\n" +
-                "@attribute HLA_match {10/10,7/10,8/10,9/10}\n" +
-                "@attribute HLA_mismatch {matched,mismatched}\n" +
-                "@attribute antigen {0,1,2,3}\n" +
-                "@attribute allel {0,1,2,3,4}\n" +
-                "@attribute HLA_group_1 {DRB1_cell,matched,mismatched,one_allel,one_antigen,three_diffs,two_diffs}\n" +
-                "@attribute risk_group {high,low}\n" +
-                "@attribute stem_cell_source {bone_marrow,peripheral_blood}\n" +
-                "@attribute tx_post_relapse {no,yes}\n" +
-                "@attribute CD34_x1e6_per_kg numeric\n" +
-                "@attribute CD3_x1e8_per_kg numeric\n" +
-                "@attribute survival_status {0,1}\n" +
-                "\n" +
-                "@data"+
-                "\n");
+        writer.print(TRANSPLANT_DATA_ARFF);
 
         String[] entries =
                 new String[]
@@ -121,7 +91,7 @@ public class ClassificationTreeAlgorithmManager {
                                 String.valueOf(transplant.getCD3perKg()),
                                 "1"
                         };
-        Arrays.stream(entries).forEach(element -> writer.print(element+","));
+        Arrays.stream(entries).forEach(element -> writer.print(element + ","));
         writer.close();
     }
 }
