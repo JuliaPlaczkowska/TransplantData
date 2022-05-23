@@ -1,10 +1,10 @@
 package com.edu.transplantdataapi.repository;
 
 
-import com.edu.transplantdataapi.entity.Patient;
-import org.springframework.data.repository.CrudRepository;
+import com.edu.transplantdataapi.entity.transplantdata.Patient;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface PatientRepo extends CrudRepository<Patient, Long> {
+public interface PatientRepo extends JpaRepository<Patient, Long> {
 }

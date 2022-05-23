@@ -1,61 +1,38 @@
 package com.edu.transplantdataapi.controller;
 
-import com.edu.transplantdataapi.datatransferobject.analysis.HistogramDatasetDto;
-import com.edu.transplantdataapi.datatransferobject.prediction.PredictionResultDto;
-import com.edu.transplantdataapi.datatransferobject.prediction.PredictionTreeDto;
-import com.edu.transplantdataapi.datatransferobject.prediction.TransplantDto;
-import com.edu.transplantdataapi.datatransferobject.prediction.TransplantPredictionDto;
-import com.edu.transplantdataapi.entity.SurvivalResult;
-import com.edu.transplantdataapi.entity.prediction.PredictionTree;
-import com.edu.transplantdataapi.service.SurvivalResultManager;
-import com.edu.transplantdataapi.service.prediction.PredictionManager;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.edu.transplantdataapi.dto.prediction.TransplantToPredictDto;
+import com.edu.transplantdataapi.service.prediction.ClassificationTreeAlgorithmManager;
+import com.edu.transplantdataapi.service.transplantdata.TransplantManager;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @RestController
 @RequestMapping("/api/prediction")
 @CrossOrigin
+@AllArgsConstructor
 public class PredictionApi {
 
-    private PredictionManager predictions;
-    private SurvivalResultManager survivalResults;
-
-    @Autowired
-    public PredictionApi(PredictionManager predictions, SurvivalResultManager survivalResults) {
-        this.predictions = predictions;
-        this.survivalResults = survivalResults;
-    }
+    private ClassificationTreeAlgorithmManager classificationTreeAlgorithmManager;
+    private TransplantManager transplantManager;
 
     @GetMapping("/tree")
-    public PredictionTreeDto getPredictionTree(
-            //@RequestParam String classFactor
-    ) throws Exception {
+    public ResponseEntity<?> generateClassificationTree() {
+        return ResponseEntity.ok(classificationTreeAlgorithmManager.tree());
+    }
 
-        PredictionTree predictionTree = new PredictionTree();
-
-        PredictionTreeDto predictionTreeDto = new PredictionTreeDto();
-        predictionTreeDto.setTree(predictionTree.getTree().toString());
-
-        return predictionTreeDto;
+    @GetMapping("/summary")
+    public ResponseEntity<?> getEvaluationSummary() {
+        return ResponseEntity.ok(classificationTreeAlgorithmManager.evaluationSummary());
     }
 
     @GetMapping("/predict")
-    public PredictionResultDto predict(
-            TransplantPredictionDto transplantPredictionDto
-    ) throws Exception {
+    public ResponseEntity<?> predict(@RequestBody TransplantToPredictDto transplantDto) {
+        return ResponseEntity.ok(classificationTreeAlgorithmManager.predict(transplantDto));
+    }
 
-        PredictionTree predictionTree = new PredictionTree();
-
-        PredictionResultDto predictionResultDto = new PredictionResultDto();
-        predictionResultDto.setClassifiedAs(
-                predictionTree.predict(transplantPredictionDto)
-        );
-
-        return predictionResultDto;
+    @GetMapping("/transplants")
+    public ResponseEntity<?> getTransplantList() {
+        return ResponseEntity.ok(transplantManager.getAllAsTransplantToPredictDto());
     }
 }

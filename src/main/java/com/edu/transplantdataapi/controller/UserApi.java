@@ -1,13 +1,15 @@
 package com.edu.transplantdataapi.controller;
 
-import com.edu.transplantdataapi.datatransferobject.UserDto;
-import com.edu.transplantdataapi.entity.Role;
-import com.edu.transplantdataapi.entity.User;
+import com.edu.transplantdataapi.dto.user.RoleToUserForm;
+import com.edu.transplantdataapi.dto.user.UserDto;
+import com.edu.transplantdataapi.exceptions.InvalidRoleNameException;
+import com.edu.transplantdataapi.exceptions.UserNotFoundException;
 import com.edu.transplantdataapi.service.UserManager;
-import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+@AllArgsConstructor
 @RestController
 @RequestMapping
 @CrossOrigin
@@ -15,47 +17,14 @@ public class UserApi {
 
     private final UserManager users;
 
-    @Autowired
-    public UserApi(UserManager userManager) {
-        this.users = userManager;
-    }
-
-
-    @PostMapping("api/user")
-    public UserDto addUser(@RequestBody UserDto userDto ){
-        User user =  this.users.save(convertToEntity(userDto));
-        return convertToDto(user);
-    }
-
     @PostMapping("api/admin/user/addRole")
-    public UserDto addRole(@RequestBody RoleToUserForm form){
-        User user =  this.users.findById(form.getId()).get();
-        this.users.addRole(form.getId(), form.getRole());
-        return convertToDto(user);
+    public ResponseEntity<?> addRole(@RequestBody RoleToUserForm form) {
+            return ResponseEntity.ok(users.addRole(form.getUsername(), form.getRole()));
     }
 
-
-    private UserDto convertToDto(User user) {
-        return new UserDto(
-                user.getUsername(),
-                user.getEmail(),
-                user.getPassword(),
-                user.getRoles()
-        );
-    }
-
-    private User convertToEntity(UserDto userDto){
-        return new User(
-                userDto.getUsername(),
-                userDto.getEmail(),
-                userDto.getPassword(),
-                userDto.getRoles()
-        );
+    @PostMapping("api/admin/user/removeRole")
+    public ResponseEntity<?> removeRole(@RequestBody RoleToUserForm form) {
+            return ResponseEntity.ok(users.removeRole(form.getUsername(), form.getRole()));
     }
 }
 
-@Data
-class RoleToUserForm{
-    private Long id; //user id
-    private Role role;
-}

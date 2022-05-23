@@ -1,13 +1,17 @@
 package com.edu.transplantdataapi.entity.analysis;
 
-import com.edu.transplantdataapi.entity.SurvivalResult;
+import com.edu.transplantdataapi.entity.transplantdata.SurvivalResult;
+import com.edu.transplantdataapi.entity.user.User;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
 
 @Entity
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class AnalysisResult {
 
     @Id
@@ -17,55 +21,18 @@ public class AnalysisResult {
     private String factor;
     private String classFactor;
 
-    @OneToMany(mappedBy = "analysisResult", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "analysisResult", cascade = CascadeType.ALL)
     private List<SurvivalResult> dataset;
 
     @ManyToOne
-    private Analysis analysis;
+    @JoinColumn(name = "author_id")
+    private User author;
 
-    public AnalysisResult() {
-    }
-
-    public AnalysisResult(String factor, String classFactor, List<SurvivalResult> dataset) {
+    public AnalysisResult(String factor,
+                          String classFactor,
+                          List<SurvivalResult> dataset) {
         this.factor = factor;
         this.classFactor = classFactor;
-        this.dataset = dataset;
-    }
-
-    public List<Double> boxedDoubleToList(double[] boxed){
-        return DoubleStream.of(boxed).boxed().collect(Collectors.toList());
-
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getFactor() {
-        return factor;
-    }
-
-    public void setFactor(String factor) {
-        this.factor = factor;
-    }
-
-    public String getClassFactor() {
-        return classFactor;
-    }
-
-    public void setClassFactor(String classFactor) {
-        this.classFactor = classFactor;
-    }
-
-    public List<SurvivalResult> getDataset() {
-        return dataset;
-    }
-
-    public void setDataset(List<SurvivalResult> dataset) {
         this.dataset = dataset;
     }
 }
