@@ -23,16 +23,6 @@ public class Prediction {
 
     @OneToOne
     private Transplant transplant;
-
     private String classificationResult;
     private double accuracy;
-
-
-    public Prediction(PredictionTree predictionTree, Transplant transplant, String classificationResult, double accuracy) {
-        this.predictionTree = predictionTree;
-        this.transplant = transplant;
-        this.classificationResult = classificationResult;
-        this.accuracy = accuracy;
-    }
-
 }

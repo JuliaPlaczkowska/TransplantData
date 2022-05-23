@@ -17,7 +17,8 @@ public class Donor {
     @Basic(optional = false)
     private Long id;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "patient_id")
     private Patient patient;
 
     private String stemCellSource;

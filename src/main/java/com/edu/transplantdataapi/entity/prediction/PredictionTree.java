@@ -1,5 +1,7 @@
 package com.edu.transplantdataapi.entity.prediction;
 
+import com.edu.transplantdataapi.enums.ClassFactor;
+import com.edu.transplantdataapi.enums.Factor;
 import lombok.*;
 import weka.classifiers.trees.J48;
 
@@ -14,14 +16,14 @@ import java.util.List;
 @Builder
 public class PredictionTree {
 
-    //może do bazy zapisywać tylko wybrane rzeczy
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Enumerated(EnumType.STRING)
     @ElementCollection
-    private List<String> factors;
-    private String classFactor;
+    private List<Factor> factors;
+    @Enumerated(EnumType.STRING)
+    private ClassFactor classFactor;
     private J48 tree;
 
 }

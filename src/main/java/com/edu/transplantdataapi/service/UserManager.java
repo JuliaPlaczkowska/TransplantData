@@ -11,8 +11,6 @@ import com.edu.transplantdataapi.repository.RoleRepo;
 import com.edu.transplantdataapi.repository.UserRepo;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -82,15 +80,14 @@ public class UserManager implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) {
-
-        User user = userRepo.findByUsername(username);
-        if (user == null) {
-            throw new UsernameNotFoundException("User not found in the database");
-        }
-        return new org.springframework.security.core.userdetails.User(
-                user.getUsername(),
-                user.getPassword(),
-                user.getAuthorities());
+        Optional<User> optionalUser = userRepo.findByUsername(username);
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            return new org.springframework.security.core.userdetails.User(
+                    user.getUsername(),
+                    user.getPassword(),
+                    user.getAuthorities());
+        } else throw new UsernameNotFoundException("User not found in the database");
     }
 
     private boolean existsByEmail(String email) {
@@ -103,8 +100,7 @@ public class UserManager implements UserDetailsService {
 
     private User findUserByUsername(String username) {
         User user;
-        Optional<User> optional =
-                Optional.ofNullable(userRepo.findByUsername(username));
+        Optional<User> optional = userRepo.findByUsername(username);
         if (optional.isPresent()) {
             user = optional.get();
             return user;

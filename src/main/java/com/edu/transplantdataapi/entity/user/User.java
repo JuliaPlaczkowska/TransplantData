@@ -1,6 +1,7 @@
 package com.edu.transplantdataapi.entity.user;
 
-import com.edu.transplantdataapi.entity.analysis.Analysis;
+import com.edu.transplantdataapi.entity.analysis.AnalysisResult;
+import com.edu.transplantdataapi.entity.transplantdata.Transplant;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -52,7 +53,11 @@ public class User implements UserDetails {
 
     @Builder.Default
     @OneToMany(mappedBy = "author")
-    private List<Analysis> analyses = new ArrayList<>();
+    private List<AnalysisResult> analyses = new ArrayList<>();
+
+    @Builder.Default
+    @OneToMany(mappedBy = "user")
+    private List<Transplant> transplants = new ArrayList<>();
 
     public void addRole(Role role){
         this.roles.add(role);
@@ -71,16 +76,6 @@ public class User implements UserDetails {
                 }
         );
         return authorities;
-    }
-
-    @Override
-    public String getPassword() {
-        return password;
-    }
-
-    @Override
-    public String getUsername() {
-        return username;
     }
 
     @Override

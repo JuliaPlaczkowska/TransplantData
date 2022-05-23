@@ -1,20 +1,20 @@
 package com.edu.transplantdataapi.dto.user;
 
-import com.edu.transplantdataapi.entity.user.Role;
-import com.edu.transplantdataapi.entity.user.User;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Set;
 
 
-@Builder
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
+@Builder
 public class UserDto {
     private String username;
     private String email;
     private String password;
-    private Set<Role> roles;
+    private Set<RoleDto> roles;
 }

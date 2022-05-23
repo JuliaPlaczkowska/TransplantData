@@ -1,12 +1,11 @@
 package com.edu.transplantdataapi.entity.analysis;
 
 import com.edu.transplantdataapi.entity.transplantdata.SurvivalResult;
+import com.edu.transplantdataapi.entity.user.User;
 import lombok.*;
 
 import javax.persistence.*;
 import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
 
 @Entity
 @Getter
@@ -22,13 +21,16 @@ public class AnalysisResult {
     private String factor;
     private String classFactor;
 
-    @OneToMany(mappedBy = "analysisResult", cascade = CascadeType.ALL)
+    @ManyToMany(mappedBy = "analysisResult", cascade = CascadeType.ALL)
     private List<SurvivalResult> dataset;
 
     @ManyToOne
-    private Analysis analysis;
+    @JoinColumn(name = "author_id")
+    private User author;
 
-    public AnalysisResult(String factor, String classFactor, List<SurvivalResult> dataset) {
+    public AnalysisResult(String factor,
+                          String classFactor,
+                          List<SurvivalResult> dataset) {
         this.factor = factor;
         this.classFactor = classFactor;
         this.dataset = dataset;

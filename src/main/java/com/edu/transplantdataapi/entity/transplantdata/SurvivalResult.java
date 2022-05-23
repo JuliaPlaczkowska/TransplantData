@@ -5,6 +5,7 @@ import com.edu.transplantdataapi.entity.prediction.Prediction;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @Setter
@@ -18,15 +19,15 @@ public class SurvivalResult {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private Long number;
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "transplant_id")
     private Transplant transplant;
-
-    @ManyToOne
-    private AnalysisResult analysisResult;
-
-    @ManyToOne
-    private Prediction prediction;
-
+    @ManyToMany
+    @JoinTable(
+            name = "survival_result_analysis_result",
+            joinColumns = @JoinColumn(name = "survival_result_id"),
+            inverseJoinColumns = @JoinColumn(name = "analysis_result_id"))
+    private List<AnalysisResult> analysisResult;
     private int ancRecovery;
     private int pltRecovery;
     private boolean acuteGvHD_II_III_IV;

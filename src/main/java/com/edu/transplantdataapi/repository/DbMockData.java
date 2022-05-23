@@ -4,7 +4,7 @@ import com.edu.transplantdataapi.entity.transplantdata.*;
 import com.edu.transplantdataapi.entity.user.Role;
 import com.edu.transplantdataapi.entity.user.User;
 import com.edu.transplantdataapi.enums.ERole;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -20,72 +20,37 @@ import java.util.Set;
 
 
 @Component
+@AllArgsConstructor
 public class DbMockData {
 
-    private final String adminEmail = "admin@admin.com";
-    private final String adminUsername = "admin";
-    private final String adminPassword = "admin123";
+    private static final String ADMIN_EMAIL = "admin@admin.com";
+    private static final String ADMIN_USERNAME = "admin";
+    private static final String ADMIN_PASSWORD = "admin123";
+    private static final String DATASET_CSV_PATH = "src/main/resources/dataset/bone-marrow-uci-dataset.csv";
 
 
-    private final AccountRepo accountRepo;
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
-    private final PatientRepo patientRepository;
-    private final DonorRepo donorRepository;
-    private final RecipientRepo recipientRepository;
-    private final TransplantRepo transplantRepository;
     private final SurvivalResultRepo survivalResultRepository;
-
-    @Autowired
-    public DbMockData(
-            AccountRepo accountRepo,
-            UserRepo userRepo, RoleRepo roleRepo,
-            PatientRepo patientRepository,
-            DonorRepo donorRepository,
-            RecipientRepo recipientRepository,
-            TransplantRepo transplantRepository,
-            SurvivalResultRepo survivalResultRepository) {
-        this.accountRepo = accountRepo;
-        this.userRepo = userRepo;
-        this.roleRepo = roleRepo;
-        this.patientRepository = patientRepository;
-        this.donorRepository = donorRepository;
-        this.recipientRepository = recipientRepository;
-        this.transplantRepository = transplantRepository;
-        this.survivalResultRepository = survivalResultRepository;
-    }
 
     @EventListener(ApplicationReadyEvent.class)
     public void fill() {
-
-        Path path = Paths.get(
-                "src/main/resources/dataset/bone-marrow-uci-dataset.csv");
-
-        User admin = addAdminAccount();
-
+        Path path = Paths.get(DATASET_CSV_PATH);
+        User admin = addAdminUser();
         try {
-
             BufferedReader reader = Files.newBufferedReader(path);
             String line;
-
             while (reader.ready()) {
-
                 line = reader.readLine();
-
                 String[] params = line.split(",");
-
                 addSurvivalResult(params, admin);
-
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-
     }
 
-    private User addAdminAccount() {
-
+    private User addAdminUser() {
         Role roleAdmin = Role.builder().name(ERole.ROLE_ADMIN).build();
         Role roleUser = Role.builder().name(ERole.ROLE_USER).build();
         Role roleDoctor = Role.builder().name(ERole.ROLE_DOCTOR).build();
@@ -95,13 +60,12 @@ public class DbMockData {
         roleRepo.save(roleDoctor);
 
         User user = User.builder()
-                .username(adminUsername)
-                .email(adminEmail)
-                .password(new BCryptPasswordEncoder().encode(adminPassword))
+                .username(ADMIN_USERNAME)
+                .email(ADMIN_EMAIL)
+                .password(new BCryptPasswordEncoder().encode(ADMIN_PASSWORD))
                 .roles(adminRoles)
                 .build();
-        userRepo.save(user);
-        return user;
+        return userRepo.save(user);
     }
 
     private void addSurvivalResult(String[] params, User user) {
@@ -113,37 +77,30 @@ public class DbMockData {
                 .presenceOfCMV(params[3])
                 .build();
 
-        patientRepository.save(patientDonor);
-
         Donor donor = Donor.builder()
                 .patient(patientDonor)
                 .stemCellSource(params[23])
                 .build();
 
-        donorRepository.save(donor);
-
         Patient patientRecipient = Patient.builder()
                 .number(0)
                 .age(Double.parseDouble(params[4]))
                 .bloodABO(params[9])
-                .presenceOfCMV(params[10])
+                .presenceOfCMV(params[11])
                 .build();
-
-        patientRepository.save(patientRecipient);
 
 
         Recipient recipient = Recipient.builder()
                 .patient(patientRecipient)
-                .bloodRh(params[11])
+                .bloodRh(params[10])
                 .bodyMass((params[8].equals("?")) ? 0 : Double.parseDouble(params[8]))
                 .disease(params[12])
                 .diseaseGroup(params[13])
                 .riskGroup(params[22])
                 .build();
 
-        recipientRepository.save(recipient);
-
         Transplant transplant = Transplant.builder()
+                .number(null)
                 .donor(donor)
                 .recipient(recipient)
                 .matchHLA(Integer.parseInt(params[17].replace("/10", "")))
@@ -156,7 +113,6 @@ public class DbMockData {
                 .CD3perKg((params[26].equals("?")) ? 0 : Double.parseDouble(params[26]))
                 .user(user)
                 .build();
-        transplantRepository.save(transplant);
 
         SurvivalResult survivalResult = SurvivalResult.builder()
                 .number(1L) //TODO

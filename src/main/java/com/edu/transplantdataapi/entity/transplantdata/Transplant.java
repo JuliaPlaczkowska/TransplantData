@@ -18,10 +18,12 @@ public class Transplant {
     private Long id;
     private Long number;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "donor_id")
     private Donor donor;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "recipient_id")
     private Recipient recipient;
 
     private int matchHLA;
@@ -33,6 +35,10 @@ public class Transplant {
     private double CD34perKg;
     private double CD3perKg;
 
+    @OneToOne(mappedBy = "transplant")
+    private SurvivalResult survivalResult;
+
     @ManyToOne
+    @JoinColumn(name = "author_id")
     private User user;
 }

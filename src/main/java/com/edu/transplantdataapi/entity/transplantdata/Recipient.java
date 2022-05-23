@@ -16,7 +16,8 @@ public class Recipient{
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @OneToOne
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "patient_id")
     private Patient patient;
 
     private String bloodRh;

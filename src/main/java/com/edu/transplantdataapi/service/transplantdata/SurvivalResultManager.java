@@ -9,6 +9,7 @@ import com.edu.transplantdataapi.enums.Factor;
 import com.edu.transplantdataapi.exceptions.InvalidClassFactorNameException;
 import com.edu.transplantdataapi.exceptions.InvalidFactorNameException;
 import com.edu.transplantdataapi.repository.SurvivalResultRepo;
+import com.edu.transplantdataapi.service.AuthenticationManager;
 import com.edu.transplantdataapi.service.analysis.HistogramManager;
 import com.edu.transplantdataapi.validation.FactorsValidator;
 import lombok.AllArgsConstructor;
@@ -24,6 +25,7 @@ public class SurvivalResultManager {
 
     private SurvivalResultRepo survivalResultRepo;
     private HistogramManager histogramManager;
+    private AuthenticationManager authenticationManager;
     private ModelMapper modelMapper;
 
     private List<SurvivalResult> findAll() {
@@ -54,6 +56,7 @@ public class SurvivalResultManager {
 
     public SurvivalResultDto save(SurvivalResultDto survivalResultDto) {
         SurvivalResult survivalResult = modelMapper.map(survivalResultDto, SurvivalResult.class);
+        survivalResult.getTransplant().setUser(authenticationManager.getCurrentUser());
         SurvivalResult saved = survivalResultRepo.save(survivalResult);
         return modelMapper.map(saved, SurvivalResultDto.class);
     }
