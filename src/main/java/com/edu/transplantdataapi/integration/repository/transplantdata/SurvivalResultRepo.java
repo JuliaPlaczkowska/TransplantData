@@ -1,4 +1,4 @@
-package com.edu.transplantdataapi.integration.repository;
+package com.edu.transplantdataapi.integration.repository.transplantdata;
 
 import com.edu.transplantdataapi.entities.transplantdata.SurvivalResult;
 import org.springframework.data.jpa.repository.JpaRepository;

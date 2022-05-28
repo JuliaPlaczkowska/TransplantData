@@ -1,6 +1,6 @@
 package com.edu.transplantdataapi.business.service.transplantdata;
 
-import com.edu.transplantdataapi.integration.repository.DonorRepo;
+import com.edu.transplantdataapi.integration.repository.transplantdata.DonorRepo;
 import com.edu.transplantdataapi.entities.transplantdata.Donor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

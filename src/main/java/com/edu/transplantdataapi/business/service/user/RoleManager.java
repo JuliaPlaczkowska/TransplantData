@@ -2,7 +2,7 @@ package com.edu.transplantdataapi.business.service.user;
 
 import com.edu.transplantdataapi.entities.user.Role;
 import com.edu.transplantdataapi.entities.enums.ERole;
-import com.edu.transplantdataapi.integration.repository.RoleRepo;
+import com.edu.transplantdataapi.integration.repository.user.RoleRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;

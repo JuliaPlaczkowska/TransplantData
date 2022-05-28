@@ -4,9 +4,9 @@ import com.edu.transplantdataapi.entities.transplantdata.*;
 import com.edu.transplantdataapi.entities.user.Role;
 import com.edu.transplantdataapi.entities.user.User;
 import com.edu.transplantdataapi.entities.enums.ERole;
-import com.edu.transplantdataapi.integration.repository.RoleRepo;
-import com.edu.transplantdataapi.integration.repository.SurvivalResultRepo;
-import com.edu.transplantdataapi.integration.repository.UserRepo;
+import com.edu.transplantdataapi.integration.repository.user.RoleRepo;
+import com.edu.transplantdataapi.integration.repository.transplantdata.SurvivalResultRepo;
+import com.edu.transplantdataapi.integration.repository.user.UserRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.event.EventListener;
@@ -114,7 +114,7 @@ public class DbMockData {
                 .postRelapse(params[24].equals("yes"))
                 .CD34perKg((params[25].equals("?")) ? 0 : Double.parseDouble(params[25]))
                 .CD3perKg((params[26].equals("?")) ? 0 : Double.parseDouble(params[26]))
-                .user(user)
+                .author(user)
                 .build();
 
         SurvivalResult survivalResult = SurvivalResult.builder()

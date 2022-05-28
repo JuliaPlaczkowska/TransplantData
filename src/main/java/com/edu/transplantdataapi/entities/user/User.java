@@ -56,7 +56,7 @@ public class User implements UserDetails {
     private List<AnalysisResult> analyses = new ArrayList<>();
 
     @Builder.Default
-    @OneToMany(mappedBy = "user")
+    @OneToMany(mappedBy = "author")
     private List<Transplant> transplants = new ArrayList<>();
 
     public void addRole(Role role){

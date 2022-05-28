@@ -1,4 +1,4 @@
-package com.edu.transplantdataapi.integration.repository;
+package com.edu.transplantdataapi.integration.repository.user;
 
 import com.edu.transplantdataapi.entities.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;

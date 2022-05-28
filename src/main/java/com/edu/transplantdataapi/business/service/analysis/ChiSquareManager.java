@@ -7,7 +7,7 @@ import com.edu.transplantdataapi.entities.analysis.ChiSquare;
 import com.edu.transplantdataapi.entities.transplantdata.SurvivalResult;
 import com.edu.transplantdataapi.entities.enums.ClassFactor;
 import com.edu.transplantdataapi.entities.enums.Factor;
-import com.edu.transplantdataapi.integration.repository.SurvivalResultRepo;
+import com.edu.transplantdataapi.integration.repository.transplantdata.SurvivalResultRepo;
 import com.edu.transplantdataapi.business.validation.FactorsValidator;
 import com.edu.transplantdataapi.business.validation.SignificanceValidator;
 import lombok.AllArgsConstructor;

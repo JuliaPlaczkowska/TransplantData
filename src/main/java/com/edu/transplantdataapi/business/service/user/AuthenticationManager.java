@@ -2,7 +2,7 @@ package com.edu.transplantdataapi.business.service.user;
 
 import com.edu.transplantdataapi.entities.user.User;
 import com.edu.transplantdataapi.exceptions.UserNotFoundException;
-import com.edu.transplantdataapi.integration.repository.UserRepo;
+import com.edu.transplantdataapi.integration.repository.user.UserRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

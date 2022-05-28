@@ -38,7 +38,7 @@ public class Transplant {
     @OneToOne(mappedBy = "transplant")
     private SurvivalResult survivalResult;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "author_id")
-    private User user;
+    private User author;
 }

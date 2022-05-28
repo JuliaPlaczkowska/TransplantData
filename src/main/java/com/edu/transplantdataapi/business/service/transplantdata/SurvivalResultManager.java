@@ -8,7 +8,7 @@ import com.edu.transplantdataapi.entities.enums.ClassFactor;
 import com.edu.transplantdataapi.entities.enums.Factor;
 import com.edu.transplantdataapi.exceptions.InvalidClassFactorNameException;
 import com.edu.transplantdataapi.exceptions.InvalidFactorNameException;
-import com.edu.transplantdataapi.integration.repository.SurvivalResultRepo;
+import com.edu.transplantdataapi.integration.repository.transplantdata.SurvivalResultRepo;
 import com.edu.transplantdataapi.business.service.user.AuthenticationManager;
 import com.edu.transplantdataapi.business.service.analysis.HistogramManager;
 import com.edu.transplantdataapi.business.validation.FactorsValidator;
@@ -56,7 +56,7 @@ public class SurvivalResultManager {
 
     public SurvivalResultDto save(SurvivalResultDto survivalResultDto) {
         SurvivalResult survivalResult = modelMapper.map(survivalResultDto, SurvivalResult.class);
-        survivalResult.getTransplant().setUser(authenticationManager.getCurrentUser());
+        survivalResult.getTransplant().setAuthor(authenticationManager.getCurrentUser());
         SurvivalResult saved = survivalResultRepo.save(survivalResult);
         return modelMapper.map(saved, SurvivalResultDto.class);
     }

@@ -24,5 +24,5 @@ public class Prediction {
     @OneToOne
     private Transplant transplant;
     private String classificationResult;
-    private double accuracy;
+    private String distribution;
 }

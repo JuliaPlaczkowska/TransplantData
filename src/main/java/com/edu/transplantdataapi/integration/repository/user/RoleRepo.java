@@ -1,4 +1,4 @@
-package com.edu.transplantdataapi.integration.repository;
+package com.edu.transplantdataapi.integration.repository.user;
 
 import com.edu.transplantdataapi.entities.user.Role;
 import com.edu.transplantdataapi.entities.enums.ERole;

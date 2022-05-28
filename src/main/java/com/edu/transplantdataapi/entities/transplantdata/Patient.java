@@ -21,4 +21,10 @@ public class Patient {
     private double age;
     private String bloodABO;
     private String presenceOfCMV;
+
+    @OneToOne(mappedBy = "patient")
+    private Donor donor;
+
+    @OneToOne(mappedBy = "patient")
+    private Recipient recipient;
 }
