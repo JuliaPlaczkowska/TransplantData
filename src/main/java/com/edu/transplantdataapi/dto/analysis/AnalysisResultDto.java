@@ -1,7 +1,7 @@
 package com.edu.transplantdataapi.dto.analysis;
 
 import com.edu.transplantdataapi.dto.user.UserDto;
-import com.edu.transplantdataapi.entity.transplantdata.SurvivalResult;
+import com.edu.transplantdataapi.entities.transplantdata.SurvivalResult;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

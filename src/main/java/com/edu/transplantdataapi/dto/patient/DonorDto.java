@@ -1,7 +1,6 @@
 package com.edu.transplantdataapi.dto.patient;
 
-import com.edu.transplantdataapi.entity.transplantdata.Donor;
-import com.edu.transplantdataapi.entity.transplantdata.Patient;
+import com.edu.transplantdataapi.entities.transplantdata.Donor;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

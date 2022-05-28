@@ -1,9 +1,9 @@
 package com.edu.transplantdataapi.dto.analysis;
 
-import com.edu.transplantdataapi.entity.transplantdata.Donor;
-import com.edu.transplantdataapi.entity.transplantdata.Recipient;
-import com.edu.transplantdataapi.entity.transplantdata.SurvivalResult;
-import com.edu.transplantdataapi.entity.transplantdata.Transplant;
+import com.edu.transplantdataapi.entities.transplantdata.Donor;
+import com.edu.transplantdataapi.entities.transplantdata.Recipient;
+import com.edu.transplantdataapi.entities.transplantdata.SurvivalResult;
+import com.edu.transplantdataapi.entities.transplantdata.Transplant;
 import lombok.Data;
 @Data
 public class SurvivalResultsDataGridDto {

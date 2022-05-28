@@ -24,5 +24,5 @@ public class TransplantDto {
     private boolean postRelapse;
     private double CD34perKg;
     private double CD3perKg;
-    private UserDto user;
+    private UserDto author;
 }
