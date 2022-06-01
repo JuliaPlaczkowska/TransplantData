@@ -14,17 +14,17 @@ public class SurvivalResultApi {
 
     private SurvivalResultManager survivalResultManager;
 
-    @GetMapping("api/survivalResult/dataGrid")
+    @GetMapping("api/survival-result/dataGrid")
     public ResponseEntity<?> getSurvivalResultsForDataGrid() {
         return ResponseEntity.ok(survivalResultManager.getSurvivalResultsForDataGrid());
     }
 
-    @GetMapping("api/survivalResult/all")
+    @GetMapping("api/survival-result/all")
     public ResponseEntity<?> getSurvivalResultsDto() {
         return ResponseEntity.ok(survivalResultManager.findAllSurvivalResultDto());
     }
 
-    @PostMapping("api/survivalResult")
+    @PostMapping("api/survival-result")
     public ResponseEntity<?> addSurvivalResult(@RequestBody SurvivalResultDto survivalResult ){
         return  ResponseEntity.ok(survivalResultManager.save(survivalResult));
     }

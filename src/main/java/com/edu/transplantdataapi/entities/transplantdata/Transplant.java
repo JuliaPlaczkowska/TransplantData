@@ -1,5 +1,7 @@
 package com.edu.transplantdataapi.entities.transplantdata;
 
+import com.edu.transplantdataapi.entities.transplantdata.patient.Donor;
+import com.edu.transplantdataapi.entities.transplantdata.patient.Recipient;
 import com.edu.transplantdataapi.entities.user.User;
 import lombok.*;
 

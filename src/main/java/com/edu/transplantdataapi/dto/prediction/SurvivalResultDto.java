@@ -1,5 +1,6 @@
 package com.edu.transplantdataapi.dto.prediction;
 
+import com.edu.transplantdataapi.dto.transplantdata.TransplantDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

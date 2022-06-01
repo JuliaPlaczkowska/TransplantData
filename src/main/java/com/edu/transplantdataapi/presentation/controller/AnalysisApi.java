@@ -16,7 +16,7 @@ public class AnalysisApi {
     private SurvivalResultManager survivalResultsManager;
     private ChiSquareManager chiSquareManager;
 
-    @GetMapping("api/survivalResult/histogram")
+    @GetMapping("api/survival-result/histogram")
     public ResponseEntity<?> getHistogramData(
             @RequestParam String factor,
             @RequestParam String classFactor
@@ -26,7 +26,7 @@ public class AnalysisApi {
                         .getHistogramData(factor, classFactor));
     }
 
-    @GetMapping("api/survivalResult/chisquaretest")
+    @PostMapping("api/survival-result/chi-square")
     public ResponseEntity<?> getChiSquareTestResult(
             @RequestBody ChiSquareTestParameters parameters
     ) {

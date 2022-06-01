@@ -1,11 +1,15 @@
 package com.edu.transplantdataapi.integration;
 
-import com.edu.transplantdataapi.entities.transplantdata.*;
+import com.edu.transplantdataapi.entities.enums.ERole;
+import com.edu.transplantdataapi.entities.transplantdata.SurvivalResult;
+import com.edu.transplantdataapi.entities.transplantdata.Transplant;
+import com.edu.transplantdataapi.entities.transplantdata.patient.Donor;
+import com.edu.transplantdataapi.entities.transplantdata.patient.Patient;
+import com.edu.transplantdataapi.entities.transplantdata.patient.Recipient;
 import com.edu.transplantdataapi.entities.user.Role;
 import com.edu.transplantdataapi.entities.user.User;
-import com.edu.transplantdataapi.entities.enums.ERole;
-import com.edu.transplantdataapi.integration.repository.user.RoleRepo;
 import com.edu.transplantdataapi.integration.repository.transplantdata.SurvivalResultRepo;
+import com.edu.transplantdataapi.integration.repository.user.RoleRepo;
 import com.edu.transplantdataapi.integration.repository.user.UserRepo;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
@@ -31,6 +35,9 @@ public class DbMockData {
     private static final String ADMIN_PASSWORD = "admin123";
     private static final String DATASET_CSV_PATH = "src/main/resources/dataset/bone-marrow-uci-dataset.csv";
 
+    static long patientNumber = 22000000000l;
+    static long transplantNumber = 1l;
+    static long survivalResultNumber = 1l;
 
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
@@ -72,9 +79,8 @@ public class DbMockData {
     }
 
     private void addSurvivalResult(String[] params, User user) {
-
         Patient patientDonor = Patient.builder()
-                .number(0)
+                .number(patientNumber++)
                 .age(Double.parseDouble(params[0]))
                 .bloodABO(params[2])
                 .presenceOfCMV(params[3])
@@ -86,7 +92,7 @@ public class DbMockData {
                 .build();
 
         Patient patientRecipient = Patient.builder()
-                .number(0)
+                .number(patientNumber++)
                 .age(Double.parseDouble(params[4]))
                 .bloodABO(params[9])
                 .presenceOfCMV(params[11])
@@ -103,7 +109,7 @@ public class DbMockData {
                 .build();
 
         Transplant transplant = Transplant.builder()
-                .number(null)
+                .number(transplantNumber++)
                 .donor(donor)
                 .recipient(recipient)
                 .matchHLA(Integer.parseInt(params[17].replace("/10", "")))
@@ -118,7 +124,7 @@ public class DbMockData {
                 .build();
 
         SurvivalResult survivalResult = SurvivalResult.builder()
-                .number(1L) //TODO
+                .number(survivalResultNumber++)
                 .transplant(transplant)
                 .ancRecovery((params[28].equals("?")) ? 0 : (int) Double.parseDouble(params[28]))
                 .pltRecovery((params[29].equals("?")) ? 0 : (int) Double.parseDouble(params[29]))
@@ -129,6 +135,7 @@ public class DbMockData {
                 .relapse(params[34].equals("yes"))
                 .survivalTime((params[35].equals("?")) ? 0 : Double.parseDouble(params[35]))
                 .survivalStatus(params[36].equals("1"))
+                .confirmed(true)
                 .build();
         survivalResultRepository.save(survivalResult);
 

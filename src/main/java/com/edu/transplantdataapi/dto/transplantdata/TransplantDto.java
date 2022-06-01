@@ -1,7 +1,7 @@
-package com.edu.transplantdataapi.dto.prediction;
+package com.edu.transplantdataapi.dto.transplantdata;
 
-import com.edu.transplantdataapi.dto.patient.DonorDto;
-import com.edu.transplantdataapi.dto.patient.RecipientDto;
+import com.edu.transplantdataapi.dto.transplantdata.patient.DonorDto;
+import com.edu.transplantdataapi.dto.transplantdata.patient.RecipientDto;
 import com.edu.transplantdataapi.dto.user.UserDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -13,7 +13,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class TransplantDto {
-
     private RecipientDto recipient;
     private DonorDto donor;
     private int matchHLA;

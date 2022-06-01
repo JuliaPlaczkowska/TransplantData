@@ -1,4 +1,4 @@
-package com.edu.transplantdataapi.entities.transplantdata;
+package com.edu.transplantdataapi.entities.transplantdata.patient;
 
 import lombok.*;
 

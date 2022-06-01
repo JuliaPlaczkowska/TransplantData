@@ -1,8 +1,9 @@
 package com.edu.transplantdataapi.business.service.prediction;
 
-import com.edu.transplantdataapi.dto.prediction.TransplantToPredictDto;
-import com.edu.transplantdataapi.exceptions.ClassificationTreeException;
 import com.edu.transplantdataapi.business.ml.ClassificationTreeAlgorithm;
+import com.edu.transplantdataapi.dto.prediction.PredictionResultDto;
+import com.edu.transplantdataapi.dto.transplantdata.TransplantDto;
+import com.edu.transplantdataapi.exceptions.ClassificationTreeException;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -48,8 +49,8 @@ public class ClassificationTreeAlgorithmManager {
         return result;
     }
 
-    public String predict(TransplantToPredictDto transplant) {
-        String result;
+    public PredictionResultDto predict(TransplantDto transplant) {
+        PredictionResultDto result;
         try {
             writeTransplantToPredictDtoToArffFile(transplant);
             weka =
@@ -58,40 +59,45 @@ public class ClassificationTreeAlgorithmManager {
 
         } catch (Exception e) {
             e.printStackTrace();
-            return "Blad";
+            throw new RuntimeException(
+                    "Błąd podczas generowania drzewa klasyfikacyjnego. Sprawdź poprawność wprowadznych danych.");
         }
         return result;
     }
 
-    private void writeTransplantToPredictDtoToArffFile(TransplantToPredictDto transplant)
+    private void writeTransplantToPredictDtoToArffFile(TransplantDto transplant)
             throws IOException {
         PrintWriter writer = new PrintWriter(arffToPredict, StandardCharsets.UTF_8);
         writer.print(TRANSPLANT_DATA_ARFF);
 
-        String[] entries =
-                new String[]
-                        {
-                                String.valueOf(transplant.getDonorAge()),
-                                transplant.getDonorBloodABO(),
-                                transplant.getDonorPresenceOfCMV(),
-                                String.valueOf(transplant.getRecipientAge()),
-                                transplant.getRecipientBloodABO(),
-                                transplant.getRecipientPresenceOfCMV(),
-                                transplant.getDisease(),
-                                transplant.getDiseaseGroup(),
-                                transplant.getMatchHLA(),
-                                transplant.getMismatchHLA(),
-                                String.valueOf(transplant.getAntigen()),
-                                String.valueOf(transplant.getAllele()),
-                                transplant.getGroup1HLA(),
-                                transplant.getRiskGroup(),
-                                transplant.getStemCellSource(),
-                                transplant.getPostRelapse(),
-                                String.valueOf(transplant.getCD34perKg()),
-                                String.valueOf(transplant.getCD3perKg()),
-                                "1"
-                        };
+        String[] entries = transplantDtoToArffEntries(transplant);
+
         Arrays.stream(entries).forEach(element -> writer.print(element + ","));
         writer.close();
+    }
+
+    private String[] transplantDtoToArffEntries(TransplantDto transplant) {
+        return new String[]
+                {
+                        String.valueOf(transplant.getDonor().getPatient().getAge()),
+                        transplant.getDonor().getPatient().getBloodABO(),
+                        transplant.getDonor().getPatient().getPresenceOfCMV(),
+                        String.valueOf(transplant.getRecipient().getPatient().getAge()),
+                        transplant.getRecipient().getPatient().getBloodABO(),
+                        transplant.getRecipient().getPatient().getPresenceOfCMV(),
+                        transplant.getRecipient().getDisease(),
+                        transplant.getRecipient().getDiseaseGroup(),
+                        transplant.getMatchHLA() + "/10",
+                        transplant.isMismatchHLA() ? "matched" : "mismatched",
+                        String.valueOf(transplant.getAntigen()),
+                        String.valueOf(transplant.getAllele()),
+                        transplant.getGroup1HLA(),
+                        transplant.getRecipient().getRiskGroup(),
+                        transplant.getDonor().getStemCellSource(),
+                        transplant.isPostRelapse() ? "yes" : "no",
+                        String.valueOf(transplant.getCD34perKg()),
+                        String.valueOf(transplant.getCD3perKg()),
+                        "1"
+                };
     }
 }

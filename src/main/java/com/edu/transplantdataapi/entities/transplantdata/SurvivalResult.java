@@ -36,4 +36,5 @@ public class SurvivalResult {
     private boolean relapse;
     private double survivalTime;
     private boolean survivalStatus;
+    private boolean confirmed;
 }

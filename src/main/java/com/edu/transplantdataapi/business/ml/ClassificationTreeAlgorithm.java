@@ -1,11 +1,13 @@
 package com.edu.transplantdataapi.business.ml;
 
+import com.edu.transplantdataapi.dto.prediction.PredictionResultDto;
 import lombok.extern.slf4j.Slf4j;
 import weka.attributeSelection.AttributeSelection;
 import weka.attributeSelection.InfoGainAttributeEval;
 import weka.attributeSelection.Ranker;
 import weka.classifiers.Evaluation;
 import weka.classifiers.trees.J48;
+import weka.core.Instance;
 import weka.core.Instances;
 import weka.core.Utils;
 import weka.core.converters.ConverterUtils;
@@ -47,7 +49,9 @@ public class ClassificationTreeAlgorithm {
         eval.evaluateModel(tree, dataTest);
 
         List<String> results = evaluationSummary();
-        results.add(tree.toString());
+        String stringTree = tree.toString();
+        String[] treeLines = stringTree.split("\n");
+        results.addAll(Arrays.asList(treeLines));
         return results;
     }
 
@@ -70,33 +74,47 @@ public class ClassificationTreeAlgorithm {
                 .collect(Collectors.toList());
     }
 
-    public String predict() throws Exception {
+//    public String predict() throws Exception {
+//
+//        dataTrain.setClassIndex(dataTrain.numAttributes() - 1);
+//        dataTest.setClassIndex(dataTest.numAttributes() - 1);
+//        tree.buildClassifier(dataTrain);
+//
+//        ArrayList<String> dane = new ArrayList();
+//        String l1 = "# - actual - predicted - distribution (0/1)" + "\n";
+//        dane.add(l1);
+//
+//        for (int i = 0; i < dataTest.numInstances(); i++) {
+//            double pred = tree.classifyInstance(dataTest.instance(i));
+//            double[] dist = tree.distributionForInstance(dataTest.instance(i));
+//
+//            l1 = (i + 1) + " -	";
+//
+//            l1 = l1 + dataTest.instance(i).toString(dataTest.classIndex()) + " -      ";
+//            l1 = l1 + dataTest.classAttribute().value((int) pred) + " -        ";
+//
+//            l1 = l1 + Utils.arrayToString(dist);
+//
+//            l1 = l1 + '\n';
+//            dane.add(l1);
+//        }
+//        return dane.toString();
+//    }
+
+    public PredictionResultDto predict() throws Exception {
 
         dataTrain.setClassIndex(dataTrain.numAttributes() - 1);
         dataTest.setClassIndex(dataTest.numAttributes() - 1);
         tree.buildClassifier(dataTrain);
 
-        ArrayList<String> dane = new ArrayList();
-        String l1 = "# - actual - predicted - distribution (0/1)" + "\n";
-        dane.add(l1);
+        PredictionResultDto result = new PredictionResultDto();
+        Instance instance = dataTest.instance(0);
 
-        for (int i = 0; i < dataTest.numInstances(); i++) {
-            double pred = tree.classifyInstance(dataTest.instance(i));
-            double[] dist = tree.distributionForInstance(dataTest.instance(i));
-
-            l1 = (i + 1) + " -	";
-
-            l1 = l1 + dataTest.instance(i).toString(dataTest.classIndex()) + " -      ";
-            l1 = l1 + dataTest.classAttribute().value((int) pred) + " -        ";
-
-            l1 = l1 + Utils.arrayToString(dist);
-
-            l1 = l1 + '\n';
-            dane.add(l1);
-        }
-
-
-        return dane.toString();
+        double pred = tree.classifyInstance(instance);
+        double[] dist = tree.distributionForInstance(instance);
+        result.setClassifiedAs(dataTest.classAttribute().value((int) pred));
+        result.setDistribution(Utils.arrayToString(dist));
+        return result;
     }
 
     public void removeAttributes(int[] indexes) throws Exception {

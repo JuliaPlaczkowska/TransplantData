@@ -1,4 +1,4 @@
-package com.edu.transplantdataapi.entities.transplantdata;
+package com.edu.transplantdataapi.entities.transplantdata.patient;
 
 
 import lombok.*;
@@ -17,7 +17,7 @@ public class Patient {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Basic(optional = false)
     private Long id;
-    private Integer number;
+    private long number;
     private double age;
     private String bloodABO;
     private String presenceOfCMV;

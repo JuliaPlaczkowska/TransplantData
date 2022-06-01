@@ -1,7 +1,6 @@
 package com.edu.transplantdataapi.business.service.transplantdata;
 
-import com.edu.transplantdataapi.dto.prediction.TransplantDto;
-import com.edu.transplantdataapi.dto.prediction.TransplantToPredictDto;
+import com.edu.transplantdataapi.dto.transplantdata.TransplantDto;
 import com.edu.transplantdataapi.entities.transplantdata.Transplant;
 import com.edu.transplantdataapi.integration.repository.transplantdata.TransplantRepo;
 import lombok.AllArgsConstructor;
@@ -19,7 +18,6 @@ public class TransplantManager {
     private ModelMapper mapper;
 
     public TransplantDto save(TransplantDto transplantDto) {
-        //TODO validation
         Transplant transplant = transplantRepo
                 .save(mapper.map(transplantDto, Transplant.class));
         return mapper.map(transplant, TransplantDto.class);
@@ -37,19 +35,6 @@ public class TransplantManager {
                                 result.add(
                                         mapper
                                                 .map(transplant, TransplantDto.class)
-                                )
-                );
-        return result;
-    }
-
-    public List<TransplantToPredictDto> getAllAsTransplantToPredictDto() {
-        List<TransplantToPredictDto> result = new ArrayList<>();
-        findAll()
-                .forEach(
-                        transplant ->
-                                result.add(
-                                        mapper
-                                                .map(transplant, TransplantToPredictDto.class)
                                 )
                 );
         return result;

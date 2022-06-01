@@ -1,6 +1,6 @@
 package com.edu.transplantdataapi.presentation.controller;
 
-import com.edu.transplantdataapi.dto.prediction.TransplantDto;
+import com.edu.transplantdataapi.dto.transplantdata.TransplantDto;
 import com.edu.transplantdataapi.business.service.transplantdata.TransplantManager;
 import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;

@@ -4,7 +4,6 @@ import lombok.Data;
 
 @Data
 public class PredictionResultDto {
-
     private String classifiedAs;
-
+    private String distribution;
 }
