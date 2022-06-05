@@ -1,5 +1,6 @@
-package com.edu.transplantdataapi.exceptions;
+package com.edu.transplantdataapi.presentation.handlers;
 
+import com.edu.transplantdataapi.exceptions.ClassificationTreeException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

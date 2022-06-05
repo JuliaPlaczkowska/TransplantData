@@ -13,11 +13,7 @@ import weka.core.Utils;
 import weka.core.converters.ConverterUtils;
 import weka.filters.Filter;
 import weka.filters.unsupervised.attribute.Remove;
-import weka.gui.treevisualizer.PlaceNode2;
-import weka.gui.treevisualizer.TreeVisualizer;
 
-import javax.swing.*;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -74,33 +70,6 @@ public class ClassificationTreeAlgorithm {
                 .collect(Collectors.toList());
     }
 
-//    public String predict() throws Exception {
-//
-//        dataTrain.setClassIndex(dataTrain.numAttributes() - 1);
-//        dataTest.setClassIndex(dataTest.numAttributes() - 1);
-//        tree.buildClassifier(dataTrain);
-//
-//        ArrayList<String> dane = new ArrayList();
-//        String l1 = "# - actual - predicted - distribution (0/1)" + "\n";
-//        dane.add(l1);
-//
-//        for (int i = 0; i < dataTest.numInstances(); i++) {
-//            double pred = tree.classifyInstance(dataTest.instance(i));
-//            double[] dist = tree.distributionForInstance(dataTest.instance(i));
-//
-//            l1 = (i + 1) + " -	";
-//
-//            l1 = l1 + dataTest.instance(i).toString(dataTest.classIndex()) + " -      ";
-//            l1 = l1 + dataTest.classAttribute().value((int) pred) + " -        ";
-//
-//            l1 = l1 + Utils.arrayToString(dist);
-//
-//            l1 = l1 + '\n';
-//            dane.add(l1);
-//        }
-//        return dane.toString();
-//    }
-
     public PredictionResultDto predict() throws Exception {
 
         dataTrain.setClassIndex(dataTrain.numAttributes() - 1);
@@ -140,17 +109,5 @@ public class ClassificationTreeAlgorithm {
         attSelect.setEvaluator(evaluator);
         attSelect.setSearch(ranker);
         attSelect.SelectAttributes(data);
-    }
-
-
-    public void visualizeTree() throws Exception {
-        TreeVisualizer tv = new TreeVisualizer(null, tree.graph(), new PlaceNode2());
-        System.setProperty("java.awt.headless", "true");
-        JFrame frame = new JFrame("Tree Visualizer");
-        frame.setSize(2000, 900);
-        frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
-        frame.getContentPane().add(tv);
-        frame.setVisible(true);
-        tv.fitToScreen();
     }
 }

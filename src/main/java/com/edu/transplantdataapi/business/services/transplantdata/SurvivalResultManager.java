@@ -4,7 +4,7 @@ import com.edu.transplantdataapi.business.services.analysis.HistogramManager;
 import com.edu.transplantdataapi.business.services.user.AuthenticationManager;
 import com.edu.transplantdataapi.business.validation.FactorsValidator;
 import com.edu.transplantdataapi.dto.analysis.HistogramDatasetDto;
-import com.edu.transplantdataapi.dto.prediction.SurvivalResultDto;
+import com.edu.transplantdataapi.dto.transplantdata.SurvivalResultDto;
 import com.edu.transplantdataapi.entities.enums.ClassFactor;
 import com.edu.transplantdataapi.entities.enums.Factor;
 import com.edu.transplantdataapi.entities.transplantdata.SurvivalResult;
