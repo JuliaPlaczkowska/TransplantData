@@ -5,7 +5,7 @@ import lombok.Data;
 import java.util.ArrayList;
 
 @Data
-public class HistogramDatasets {
+public class HistogramDatasetsDto {
     private String label;
     private ArrayList<Double> data;
 }

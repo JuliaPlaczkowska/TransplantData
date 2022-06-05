@@ -14,11 +14,6 @@ public class SurvivalResultApi {
 
     private SurvivalResultManager survivalResultManager;
 
-    @GetMapping("api/survival-result/dataGrid")
-    public ResponseEntity<?> getSurvivalResultsForDataGrid() {
-        return ResponseEntity.ok(survivalResultManager.getSurvivalResultsForDataGrid());
-    }
-
     @GetMapping("api/survival-result/all")
     public ResponseEntity<?> getSurvivalResultsDto() {
         return ResponseEntity.ok(survivalResultManager.findAllSurvivalResultDto());

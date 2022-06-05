@@ -11,6 +11,6 @@ import java.util.List;
 public class HistogramDatasetDto {
     private String title;
     private List<String> labels;
-    private ArrayList<HistogramDatasets> datasets;
+    private ArrayList<HistogramDatasetsDto> datasets;
 }
 

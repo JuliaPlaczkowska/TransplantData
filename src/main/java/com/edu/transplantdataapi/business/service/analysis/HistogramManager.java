@@ -1,7 +1,7 @@
 package com.edu.transplantdataapi.business.service.analysis;
 
 import com.edu.transplantdataapi.dto.analysis.HistogramDatasetDto;
-import com.edu.transplantdataapi.dto.analysis.HistogramDatasets;
+import com.edu.transplantdataapi.dto.analysis.HistogramDatasetsDto;
 import com.edu.transplantdataapi.entities.transplantdata.SurvivalResult;
 import com.edu.transplantdataapi.entities.enums.ClassFactor;
 import com.edu.transplantdataapi.entities.enums.Factor;
@@ -46,7 +46,7 @@ public class HistogramManager {
         };
     }
 
-    private ArrayList<HistogramDatasets> generateDatasets(
+    private ArrayList<HistogramDatasetsDto> generateDatasets(
             List<SurvivalResult> survivalResultList,
             Factor factor,
             ClassFactor classFactor,
@@ -74,15 +74,15 @@ public class HistogramManager {
             );
         }
 
-        ArrayList<HistogramDatasets> hdList = new ArrayList<HistogramDatasets>();
+        ArrayList<HistogramDatasetsDto> hdList = new ArrayList<>();
 
         switch (classFactor) {
             case ancRecovery -> {
 
-                HistogramDatasets hd1 = generateHistogramDatasets("<10");
-                HistogramDatasets hd2 = generateHistogramDatasets("10+");
-                HistogramDatasets hd3 = generateHistogramDatasets("15+");
-                HistogramDatasets hd4 = generateHistogramDatasets("20+");
+                HistogramDatasetsDto hd1 = generateHistogramDatasets("<10");
+                HistogramDatasetsDto hd2 = generateHistogramDatasets("10+");
+                HistogramDatasetsDto hd3 = generateHistogramDatasets("15+");
+                HistogramDatasetsDto hd4 = generateHistogramDatasets("20+");
 
                 for (List<SurvivalResult> list : byFactorList) {
 
@@ -111,9 +111,9 @@ public class HistogramManager {
 
             }
             case pltRecovery -> {
-                HistogramDatasets hd1 = generateHistogramDatasets("<50");
-                HistogramDatasets hd2 = generateHistogramDatasets("50+");
-                HistogramDatasets hd3 = generateHistogramDatasets("100+");
+                HistogramDatasetsDto hd1 = generateHistogramDatasets("<50");
+                HistogramDatasetsDto hd2 = generateHistogramDatasets("50+");
+                HistogramDatasetsDto hd3 = generateHistogramDatasets("100+");
 
                 for (List<SurvivalResult> list : byFactorList) {
 
@@ -136,10 +136,10 @@ public class HistogramManager {
                 hdList.add(hd3);
             }
             case acuteGvHD_II_III_IV -> {
-                HistogramDatasets hd1 = new HistogramDatasets();
+                HistogramDatasetsDto hd1 = new HistogramDatasetsDto();
                 hd1.setLabel("no");
                 hd1.setData(new ArrayList<>());
-                HistogramDatasets hd2 = new HistogramDatasets();
+                HistogramDatasetsDto hd2 = new HistogramDatasetsDto();
                 hd2.setLabel("yes");
                 hd2.setData(new ArrayList<>());
 
@@ -159,8 +159,8 @@ public class HistogramManager {
                 hdList.add(hd2);
             }
             case acuteGvHD_III_IV -> {
-                HistogramDatasets hd1 = generateHistogramDatasets("no");
-                HistogramDatasets hd2 = generateHistogramDatasets("yes");
+                HistogramDatasetsDto hd1 = generateHistogramDatasets("no");
+                HistogramDatasetsDto hd2 = generateHistogramDatasets("yes");
 
                 for (List<SurvivalResult> list : byFactorList) {
 
@@ -178,9 +178,9 @@ public class HistogramManager {
                 hdList.add(hd2);
             }
             case time_to_acuteGvHD -> {
-                HistogramDatasets hd1 = generateHistogramDatasets("<20");
-                HistogramDatasets hd2 = generateHistogramDatasets("20+");
-                HistogramDatasets hd3 = generateHistogramDatasets("100+");
+                HistogramDatasetsDto hd1 = generateHistogramDatasets("<20");
+                HistogramDatasetsDto hd2 = generateHistogramDatasets("20+");
+                HistogramDatasetsDto hd3 = generateHistogramDatasets("100+");
 
                 ArrayList<List<SurvivalResult>> updatedByFactorList = new ArrayList<>();
 
@@ -214,8 +214,8 @@ public class HistogramManager {
                 hdList.add(hd3);
             }
             case extensiveChronicGvHD -> {
-                HistogramDatasets hd1 = generateHistogramDatasets("no");
-                HistogramDatasets hd2 = generateHistogramDatasets("yes");
+                HistogramDatasetsDto hd1 = generateHistogramDatasets("no");
+                HistogramDatasetsDto hd2 = generateHistogramDatasets("yes");
 
                 for (List<SurvivalResult> list : byFactorList) {
 
@@ -233,8 +233,8 @@ public class HistogramManager {
                 hdList.add(hd2);
             }
             case relapse -> {
-                HistogramDatasets hd1 = generateHistogramDatasets("no");
-                HistogramDatasets hd2 = generateHistogramDatasets("yes");
+                HistogramDatasetsDto hd1 = generateHistogramDatasets("no");
+                HistogramDatasetsDto hd2 = generateHistogramDatasets("yes");
 
                 for (List<SurvivalResult> list : byFactorList) {
 
@@ -252,10 +252,10 @@ public class HistogramManager {
                 hdList.add(hd2);
             }
             case survivalTime -> {
-                HistogramDatasets hd1 = generateHistogramDatasets("<50");
-                HistogramDatasets hd2 = generateHistogramDatasets("50+");
-                HistogramDatasets hd3 = generateHistogramDatasets("100+");
-                HistogramDatasets hd4 = generateHistogramDatasets("1000+");
+                HistogramDatasetsDto hd1 = generateHistogramDatasets("<50");
+                HistogramDatasetsDto hd2 = generateHistogramDatasets("50+");
+                HistogramDatasetsDto hd3 = generateHistogramDatasets("100+");
+                HistogramDatasetsDto hd4 = generateHistogramDatasets("1000+");
 
                 ArrayList<List<SurvivalResult>> updatedByFactorList = new ArrayList<>();
 
@@ -292,8 +292,8 @@ public class HistogramManager {
                 hdList.add(hd4);
             }
             case survivalStatus -> {
-                HistogramDatasets hd1 = generateHistogramDatasets("dead");
-                HistogramDatasets hd2 = generateHistogramDatasets("alive");
+                HistogramDatasetsDto hd1 = generateHistogramDatasets("dead");
+                HistogramDatasetsDto hd2 = generateHistogramDatasets("alive");
 
                 for (List<SurvivalResult> list : byFactorList) {
                     hd1.getData().add((double) list.stream()
@@ -311,15 +311,15 @@ public class HistogramManager {
             }
         }
         for (int i = 0; i < byFactorList.size(); i++) {
-            for (HistogramDatasets hd : hdList) {
+            for (HistogramDatasetsDto hd : hdList) {
                 hd.getData().set(i, hd.getData().get(i) / byFactorList.get(i).size() * 100);
             }
         }
         return hdList;
     }
 
-    private HistogramDatasets generateHistogramDatasets(String label) {
-        HistogramDatasets datasets = new HistogramDatasets();
+    private HistogramDatasetsDto generateHistogramDatasets(String label) {
+        HistogramDatasetsDto datasets = new HistogramDatasetsDto();
         datasets.setLabel(label);
         datasets.setData(new ArrayList<>());
         return datasets;

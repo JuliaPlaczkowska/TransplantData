@@ -34,10 +34,11 @@ public class DbMockData {
     private static final String ADMIN_USERNAME = "admin";
     private static final String ADMIN_PASSWORD = "admin123";
     private static final String DATASET_CSV_PATH = "src/main/resources/dataset/bone-marrow-uci-dataset.csv";
+    public static final String MISSING_VALUE = "?";
 
-    static long patientNumber = 22000000000l;
-    static long transplantNumber = 1l;
-    static long survivalResultNumber = 1l;
+    static long patientNumber = 22000000000L;
+    static long transplantNumber = 1L;
+    static long survivalResultNumber = 1L;
 
     private final UserRepo userRepo;
     private final RoleRepo roleRepo;
@@ -102,7 +103,7 @@ public class DbMockData {
         Recipient recipient = Recipient.builder()
                 .patient(patientRecipient)
                 .bloodRh(params[10])
-                .bodyMass((params[8].equals("?")) ? 0 : Double.parseDouble(params[8]))
+                .bodyMass((params[8].equals(MISSING_VALUE)) ? 0 : Double.parseDouble(params[8]))
                 .disease(params[12])
                 .diseaseGroup(params[13])
                 .riskGroup(params[22])
@@ -114,31 +115,29 @@ public class DbMockData {
                 .recipient(recipient)
                 .matchHLA(Integer.parseInt(params[17].replace("/10", "")))
                 .mismatchHLA((params[18].equals("mismatched")))
-                .antigen((params[19].equals("?")) ? 1000 : Integer.parseInt(params[19]))
-                .allele((params[20].equals("?")) ? 1000 : Integer.parseInt(params[20]))
+                .antigen((params[19].equals(MISSING_VALUE)) ? 1000 : Integer.parseInt(params[19]))
+                .allele((params[20].equals(MISSING_VALUE)) ? 1000 : Integer.parseInt(params[20]))
                 .group1HLA(params[21])
                 .postRelapse(params[24].equals("yes"))
-                .CD34perKg((params[25].equals("?")) ? 0 : Double.parseDouble(params[25]))
-                .CD3perKg((params[26].equals("?")) ? 0 : Double.parseDouble(params[26]))
+                .CD34perKg((params[25].equals(MISSING_VALUE)) ? 0 : Double.parseDouble(params[25]))
+                .CD3perKg((params[26].equals(MISSING_VALUE)) ? 0 : Double.parseDouble(params[26]))
                 .author(user)
                 .build();
 
         SurvivalResult survivalResult = SurvivalResult.builder()
                 .number(survivalResultNumber++)
                 .transplant(transplant)
-                .ancRecovery((params[28].equals("?")) ? 0 : (int) Double.parseDouble(params[28]))
-                .pltRecovery((params[29].equals("?")) ? 0 : (int) Double.parseDouble(params[29]))
+                .ancRecovery((params[28].equals(MISSING_VALUE)) ? 0 : (int) Double.parseDouble(params[28]))
+                .pltRecovery((params[29].equals(MISSING_VALUE)) ? 0 : (int) Double.parseDouble(params[29]))
                 .acuteGvHD_II_III_IV(params[30].equals("yes"))
                 .acuteGvHD_III_IV(params[31].equals("yes"))
-                .time_to_acuteGvHD_III_IV((params[32].equals("?")) ? 0 : Double.parseDouble(params[32]))
+                .time_to_acuteGvHD_III_IV((params[32].equals(MISSING_VALUE)) ? 0 : Double.parseDouble(params[32]))
                 .extensiveChronicGvHD(params[33].equals("yes"))
                 .relapse(params[34].equals("yes"))
-                .survivalTime((params[35].equals("?")) ? 0 : Double.parseDouble(params[35]))
+                .survivalTime((params[35].equals(MISSING_VALUE)) ? 0 : Double.parseDouble(params[35]))
                 .survivalStatus(params[36].equals("1"))
                 .confirmed(true)
                 .build();
         survivalResultRepository.save(survivalResult);
-
-
     }
 }
