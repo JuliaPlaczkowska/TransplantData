@@ -21,4 +21,4 @@
 @attribute survival_status {0,1}
 
 @data
-22.830137,A,present,9.6,A,present,ALL,malignant,10/10,mismatched,0,0,matched,high,peripheral_blood,no,7.2,5.38,1,
+12.0,A,present,12.0,A,present,ALL,malignant,10/10,mismatched,0,2,two_diffs,low,peripheral_blood,no,1.0,1.0,1,

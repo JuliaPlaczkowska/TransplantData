@@ -44,11 +44,7 @@ public class ClassificationTreeAlgorithm {
         selectFeatures(dataTest);
         eval.evaluateModel(tree, dataTest);
 
-        List<String> results = evaluationSummary();
-        String stringTree = tree.toString();
-        String[] treeLines = stringTree.split("\n");
-        results.addAll(Arrays.asList(treeLines));
-        return results;
+        return getTreeAsList();
     }
 
     public List<String> evaluationSummary() throws Exception {
@@ -81,25 +77,18 @@ public class ClassificationTreeAlgorithm {
 
         double pred = tree.classifyInstance(instance);
         double[] dist = tree.distributionForInstance(instance);
+        result.setTree(getTreeAsList());
         result.setClassifiedAs(dataTest.classAttribute().value((int) pred));
         result.setDistribution(Utils.arrayToString(dist));
         return result;
     }
 
-    public void removeAttributes(int[] indexes) throws Exception {
-
-        StringBuilder indexesSB = new StringBuilder();
-
-        for (int index :
-                indexes) {
-            indexesSB.append(index).append(",");
-        }
-
-        Remove remove = new Remove();
-        String[] opts = new String[]{"-R", indexesSB.toString()};
-        remove.setOptions(opts);
-        remove.setInputFormat(dataTrain);
-        dataTrain = Filter.useFilter(dataTrain, remove);
+    private List<String> getTreeAsList() throws Exception {
+        List<String> results = evaluationSummary();
+        String stringTree = tree.toString();
+        String[] treeLines = stringTree.split("\n");
+        results.addAll(Arrays.asList(treeLines));
+        return results;
     }
 
     public void selectFeatures(Instances data) throws Exception {

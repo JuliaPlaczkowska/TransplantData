@@ -117,11 +117,6 @@
 30.594521,0,absent,16.5,A,present,chronic,malignant,8/10,mismatched,3,1,two_diffs,low,peripheral_blood,no,6.36,2.45,1
 35.764384,0,absent,7.7,A,absent,ALL,malignant,9/10,matched,2,1,one_antigen,low,peripheral_blood,no,9.38,5.07,0
 42.049315,A,absent,18.7,0,absent,AML,malignant,8/10,mismatched,2,2,three_diffs,high,peripheral_blood,yes,5.37,3.32,1
-39.249315,0,absent,5.6,A,present,nonmalignant,nonmalignant,10/10,matched,0,0,matched,low,peripheral_blood,no,18.59,6.35,1
-38.827397,A,absent,7.7,B,present,ALL,malignant,8/10,mismatched,2,2,two_diffs,high,bone_marrow,no,1.28,0.2,0
-22.528767,0,absent,9,A,absent,chronic,malignant,9/10,matched,2,1,one_antigen,low,peripheral_blood,no,11.26,2.97,0
-28.268493,0,present,5.4,A,?,chronic,malignant,9/10,matched,1,2,one_allel,high,peripheral_blood,no,15.51,13.27,0
-28.723288,A,present,7.3,B,absent,chronic,malignant,8/10,mismatched,2,2,two_diffs,low,peripheral_blood,no,20,8.03,0
 37.254795,0,present,17.8,0,absent,chronic,malignant,8/10,mismatched,3,1,two_diffs,high,peripheral_blood,no,7,4.72,1
 35.79726,0,absent,8.1,B,absent,nonmalignant,nonmalignant,9/10,matched,2,1,one_antigen,low,peripheral_blood,no,17.3,2.22,0
 26.663014,0,absent,7.1,B,absent,ALL,malignant,9/10,matched,2,1,one_antigen,low,peripheral_blood,no,14.74,6.02,1

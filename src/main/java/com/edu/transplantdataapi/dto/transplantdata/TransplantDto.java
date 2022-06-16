@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Builder
 public class TransplantDto {
+    private Long number;
     private RecipientDto recipient;
     private DonorDto donor;
     private int matchHLA;

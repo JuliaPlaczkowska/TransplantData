@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PatientDto {
-    private long number;
+    private Long number;
     private double age;
     private String bloodABO;
     private String presenceOfCMV;
